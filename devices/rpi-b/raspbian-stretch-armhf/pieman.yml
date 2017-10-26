@@ -1,0 +1,25 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+raspbian-stretch-armhf:
+  repos:
+  - http://archive.raspbian.org/raspbian
+  - http://archive.raspberrypi.org/debian
+  boot:
+  - cmdline.txt
+  - config.txt
+  # For RPi B Plus and RPi Zero
+  - /boot/bcm2708-rpi-b-plus.dtb
+  - /boot/bcm2709-rpi-2-b.dtb
+  - /boot/bcm2710-rpi-3-b.dtb
+  - /boot/overlays
+  - /boot/kernel.img
+  - /boot/kernel7.img
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  kernel:
+    package: raspberrypi-kernel

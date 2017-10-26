@@ -1,0 +1,23 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+ubuntu-xenial-armhf:
+  repos:
+  - http://ports.ubuntu.com/ubuntu-ports/
+  boot:
+  - cmdline.txt
+  - config.txt
+  - /boot/vmlinuz-4.4.0-*-raspi2:kernel7.img
+  - /lib/firmware/4.4.0-*-raspi2/device-tree/bcm2709-rpi-2-b.dtb
+  - /lib/firmware/4.4.0-*-raspi2/device-tree/bcm2710-rpi-3-b.dtb
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  params:
+  # The kernel package is available in the universe archive area.
+  - ENABLE_UNIVERSE
+  kernel:
+    package: linux-image-raspi2
