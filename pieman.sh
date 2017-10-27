@@ -74,8 +74,6 @@ IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
 KEYRING=/tmp/atomatically-generated-keyring.gpg
 
-SAVE=false
-
 SOURCE_DIR=devices/${DEVICE}/${OS}
 
 YML_FILE=${SOURCE_DIR}/pieman.yml
@@ -85,21 +83,6 @@ YML_FILE=${SOURCE_DIR}/pieman.yml
 IFS='-' read -ra PIECES <<< ${OS}
 
 . ./functions.sh
-
-if [ $# -gt 0 ]; then
-    command=${1}
-    if [[ ${command} -eq "save" ]]; then
-        if [ -t 1 ]; then
-            fatal "Cannot save to a terminal. Use redirect."
-            exit 1
-        else
-            SAVE=true
-        fi
-    else
-        fatal "Unknown command ${command}."
-        exit 1
-    fi
-fi
 
 check_dependencies
 
@@ -139,7 +122,16 @@ parted -s ${IMAGE} -- mkpart primary ext2 58MiB -1s
 # parts[0] and parts[1] will store devices names for boot and rootfs
 # partitions, respectively.
 parts=()
-kpartx_output="`kpartx -a -p ${PROJECT_NAME}p -v ${IMAGE}`"
+
+# Check if the script is running in a Docker container.
+if [ -f /.dockerenv ]; then
+    # kpartx cannot be run in sync mode in a Docker container.
+    kpartx_output="`kpartx -a -p ${PROJECT_NAME}p -v ${IMAGE}`"
+    dmsetup --noudevsync mknodes
+else
+    kpartx_output="`kpartx -a -p ${PROJECT_NAME}p -s -v ${IMAGE}`"
+fi
+
 while read p; do
     parts+=(`echo ${p} | awk '{print $3}'`)
 done <<< "${kpartx_output}"
@@ -177,8 +169,3 @@ rsync -a ${R}/ ${MOUNT_POINT}
 
 info "cleaning up"
 cleanup
-
-if ${SAVE}; then
-    gzip ${IMAGE}
-    dd if=${IMAGE}.gz bs=4M
-fi
