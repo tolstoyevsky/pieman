@@ -18,7 +18,7 @@ import os
 import sys
 from optparse import OptionParser
 
-from utils import attrs
+from pieman import attrs
 
 
 def fail(message):

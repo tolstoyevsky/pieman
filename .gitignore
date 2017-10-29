@@ -1,4 +1,7 @@
 .idea
 build
+debootstrap
+dist
+pieman.egg-info
 __pycache__
 

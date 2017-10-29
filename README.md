@@ -6,25 +6,87 @@ Pieman is a script for creating custom OS images for single-board computers such
 
 ## Getting Started
 
-To install Pieman use Docker. The documentation on how to install the script from source code is on its way.
+### Dependencies
+
+* debootstrap
+* dpkg
+* GNU Parted
+* GnuPG
+* kpartx
+* mkpasswd
+* Python 3
+* PyYAML
+* rsync
+* Setuptools
+* uuidgen
+* User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
+* wget
+
+### Supported platforms
+
+Theoretically, Pieman can be run on any GNU/Linux, however, it was very carefully tested only on:
+* Debian 9 «Stretch»
+* Fedora 26
+* Ubuntu 16.04 «Xenial Xerus»
+
+### Installation
+
+First, clone the Pieman git repo:
 
 ```
-docker pull cusdeb/pieman
+$ git clone https://github.com/tolstoyevsky/pieman.git
 ```
 
-To create an image based on Raspbian Stretch for Raspberry Pi 3 run
+Then, go into the newly created directory and clone the debootstrap git repo there. Pieman requires debootstrap `1.0.91 `or higher.
 
 ```
-docker run pieman > raspbian_rpi3.img
+$ cd pieman
+$ git clone https://anonscm.debian.org/git/d-i/debootstrap.git
+$ cd debootstrap
+$ git checkout 1.0.91
+```
+
+If your distribution has debootstrap 1.0.91 or higher (for example, Ubuntu 17.10), you can skip this step and install it via a package manager.
+
+Next, install the rest of the Pieman dependencies.
+
+On Debian or Ubuntu:
+
+```
+$ sudo apt-get install gnupg kpartx parted python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
+```
+
+On Fedora:
+
+```
+$ sudo dnf install dpkg expect gpg kpartx parted python3-PyYAML python3-setuptools qemu-user-static rsync wget
+```
+
+Finally, return to the project directory and run
+
+```
+$ sudo python3 setup.py install
+```
+
+to install the required utilities and modules written in Python.
+
+### First launch
+
+Go to the project directory and execute the following command to create an image based on Raspbian Stretch for Raspberry Pi 3:
+
+```
+$ sudo ./pieman.sh
 ```
 
 To create an image based on Ubuntu Xenial for Raspberry Pi 2 with [htop](https://packages.debian.org/stretch/htop) and [mc](https://packages.debian.org/stretch/mc) pre-installed run
 
 ```
-docker run -e DEVICE=rpi-2-b INCLUDES=htop,mc OS=debian-stretch-armhf > ubuntu_rpi2.img
+$ sudo env DEVICE=rpi-2-b OS=ubuntu-xenial-armhf INCLUDES=htop,mc ./pieman.sh
 ```
 
-You can find details on `DEVICE`, `INCLUDES`, `OS` and other environment variables (called parameters) which help customizing images in the Documentation section.
+The built images will be located in `build/<project name>`.
+
+You can also find details on `DEVICE`, `INCLUDES`, `OS` and other environment variables (called parameters) which help customizing images in the Documentation section.
 
 ## Documentation
 
