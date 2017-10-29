@@ -50,6 +50,8 @@ PASSWORD=${PASSWORD:="secret"}
 
 PROJECT_NAME=${PROJECT_NAME:=`uuidgen`}
 
+PIEMAN_BIN=${PIEMAN_BIN:='bin'}
+
 PYTHON=${PYTHON:=`which python3`}
 
 set +x
@@ -104,6 +106,8 @@ check_dependencies
 check_required_directories
 
 check_required_files
+
+choose_debootstrap
 
 choose_user_mode_emulation_binary
 

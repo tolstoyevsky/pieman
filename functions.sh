@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+DEBOOTSTRAP_VER="1.0.91"
+
 # Checks if the specified variable is set.
 # Globals:
 #     None
@@ -111,32 +113,103 @@ purge_packages() {
 # Returns:
 #     None
 check_dependencies() {
+    if [ -z `which dpkg` ]; then
+        # Do not mention Debian or Ubuntu since dpkg is a part of
+        # the base system there.
+        fatal "there is no dpkg. Run dnf install dpkg on Fedora to fix it."
+        exit 1
+    fi
+
     if [ ! -e /usr/bin/qemu-arm-static ]; then
-        fatal "there is no /usr/bin/qemu-arm-static. Run apt-get install qemu-user-static on Debian/Ubuntu to fix it."
+        fatal "there is no /usr/bin/qemu-arm-static." \
+              "Run apt-get install qemu-user-static on Debian/Ubuntu or" \
+              "dnf install qemu-user-static on Fedora."
         exit 1
     fi
 
     if [ ! -e /usr/bin/qemu-aarch64-static ]; then
-        fatal "there is no /usr/bin/qemu-aarch64-static. Run apt-get install qemu-user-static on Debian/Ubuntu to fix it."
+        fatal "there is no /usr/bin/qemu-aarch64-static."
+              "Run apt-get install qemu-user-static on Debian/Ubuntu or" \
+              "dnf install qemu-user-static on Fedora."
         exit 1
     fi
 
-    for dep in debootstrap gpg kpartx parted python3 rsync wget; do
+    for dep in gpg kpartx parted python3 rsync wget; do
         if [ -z `which ${dep}` ]; then
-            fatal "there is no ${dep}. Run apt-get install ${dep} on Debian/Ubuntu to fix it."
+            fatal "there is no ${dep}." \
+                  "Run apt-get install ${dep} on Debian/Ubuntu or" \
+                  "dnf install ${dep} on Fedora."
             exit 1
         fi
     done
 
     if [ -z `which mkpasswd` ]; then
-        fatal "there is no mkpasswd. Run apt-get install whois on Debian/Ubuntu to fix it."
+        fatal "there is no mkpasswd." \
+              "Run apt-get install whois on Debian/Ubuntu or" \
+              "dnf install expect on Fedora."
         exit 1
     fi
 
     if [ -z `which uuidgen` ]; then
-        fatal "there is no uuidgen. Run apt-get install uuid-runtime on Debian/Ubuntu to fix it."
+        # Do not mention Fedora since uuidgen belongs to the util-linux package
+        # which is a key component of the system.
+        fatal "there is no uuidgen." \
+              "Run apt-get install uuid-runtime on Debian/Ubuntu to fix it."
         exit 1
     fi
+
+    if ! ${PYTHON} -c "import yaml"; then
+        fatal "there is no yaml python package." \
+              "Run apt-get install python3-yaml on Debian/Ubuntu or" \
+              "dnf install python3-PyYAML on Fedora"
+        exit 1
+    fi
+}
+
+# Looks for debootstrap installed locally. If it does not exist, tries to find
+# debootstrap installed globally. When the function succeeds, it assigns the
+# corresponding executable name to DEBOOTSTRAP_EXEC and the full path of the
+# executable to DEBOOTSTRAP_DIR (only in case of a local debootstrap).
+# Otherwise, the function exits with the exit code 1.
+# Globals:
+#     DEBOOTSTRAP_DIR
+#     DEBOOTSTRAP_EXEC
+# Arguments:
+#     None
+# Returns:
+#     None
+choose_debootstrap() {
+    local ver=""
+
+    if [ -f debootstrap/debootstrap ]; then
+        DEBOOTSTRAP_EXEC="env DEBOOTSTRAP_DIR=`pwd`/debootstrap ./debootstrap/debootstrap"
+
+        # After cloning the debootstrap git repo the program is a fully
+        # functional, but does not have a correct version number. However, the
+        # version can be found in the source package changelog.
+        ver=`sed 's/.*(\(.*\)).*/\1/; q' debootstrap/debian/changelog`
+    elif [ ! -z `which debootstrap` ]; then
+        DEBOOTSTRAP_EXEC=`which debootstrap`
+        ver=`${DEBOOTSTRAP_EXEC} --version | awk '{print $2}' || /bin/true`
+    else
+        fatal "there is no debootstrap." \
+              "It's recommended to install the latest version of the program" \
+              "using its git repo:" \
+              "https://anonscm.debian.org/git/d-i/debootstrap.git"
+        exit 1
+    fi
+
+    if [ -z ${ver} ]; then
+        fatal "your debootstrap seems to be broken. Could not get its version."
+        exit 1
+    fi
+
+    if dpkg --compare-versions ${ver} lt ${DEBOOTSTRAP_VER}; then
+        fatal "debootstrap ${DEBOOTSTRAP_VER} or higher is required."
+        exit 1
+    fi
+
+    info "using ${DEBOOTSTRAP_EXEC}"
 }
 
 # Chooses the corresponding user mode emulation binary and assigns its full
@@ -259,6 +332,7 @@ chroot_exec_sh() {
 # Runs the first stage of building a chroot environment. Then it installs
 # a user mode emulation binary to the chroot.
 # Globals:
+#     DEBOOTSTRAP_EXEC
 #     OS
 #     PIECES
 #     KEYRING
@@ -270,7 +344,7 @@ run_first_stage() {
     arch=${PIECES[2]}
     codename=${PIECES[1]}
     primary_repo=`get_attr ${OS} repos | head -n1`
-    debootstrap --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${codename} ${R} ${primary_repo} 1>&2-
+    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${codename} ${R} ${primary_repo} 1>&2-
 
     install_user_mode_emulation_binary
 }
@@ -306,7 +380,7 @@ reset=$(tput sgr0)
 # Returns:
 #     None
 fatal() {
-    >&2 echo "${text_in_red_color}Fatal${reset}: ${1}"
+    >&2 echo "${text_in_red_color}Fatal${reset}: ${*}"
 }
 
 # Prints the specified message with the level info.
@@ -317,7 +391,7 @@ fatal() {
 # Returns:
 #     None
 info() {
-    >&2 echo "${text_in_yellow_color}Info${reset}: ${1}"
+    >&2 echo "${text_in_yellow_color}Info${reset}: ${*}"
 }
 
 # Prints the specified message with the level success.
@@ -328,7 +402,7 @@ info() {
 # Returns:
 #     None
 success() {
-    >&2 echo "${text_in_green_color}Success${reset}: ${1}"
+    >&2 echo "${text_in_green_color}Success${reset}: ${*}"
 }
 
 #
@@ -489,7 +563,7 @@ umount_required_filesystems() {
 # Returns:
 #     Image attribute value
 get_attr() {
-    output="`${PYTHON} utils/image_attrs.py --file=${YML_FILE} $* 2>&1`"
+    output="`${PYTHON} ${PIEMAN_BIN}/image_attrs.py --file=${YML_FILE} $* 2>&1`"
     if [ $? -ne 0 ]; then
         fatal "while getting the specified attribute from ${YML_FILE} occurred the following error: ${output}."
         exit 1
@@ -508,7 +582,7 @@ get_attr() {
 # Returns:
 #     Image attribute value
 get_attr_or_nothing() {
-    ${PYTHON} utils/image_attrs.py --file=${YML_FILE} $* 2> /dev/null || /bin/true
+    ${PYTHON} ${PIEMAN_BIN}/image_attrs.py --file=${YML_FILE} $* 2> /dev/null || /bin/true
 }
 
 #
