@@ -246,6 +246,7 @@ choose_user_mode_emulation_binary() {
 # Globals:
 #     IMAGE
 #     KEYRING
+#     LOOP_DEV
 #     MOUNT_POINT
 #     PROJECT_NAME
 # Arguments:
@@ -261,9 +262,7 @@ cleanup() {
 
     umount_required_filesystems
 
-    if [ -f ${IMAGE} ]; then
-        kpartx -d -p ${PROJECT_NAME}p -v ${IMAGE}
-    fi
+    losetup -d ${LOOP_DEV}
 
     set +x
 }

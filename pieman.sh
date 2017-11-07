@@ -119,51 +119,38 @@ parted ${IMAGE} mkpart p fat32 4MiB 54MiB
 
 parted -s ${IMAGE} -- mkpart primary ext2 58MiB -1s
 
-# parts[0] and parts[1] will store devices names for boot and rootfs
-# partitions, respectively.
-parts=()
+LOOP_DEV=`losetup --partscan --show --find ${IMAGE}`
+boot_partition="${LOOP_DEV}p1"
+root_partition="${LOOP_DEV}p2"
 
-# Check if the script is running in a Docker container.
-if [ -f /.dockerenv ]; then
-    # kpartx cannot be run in sync mode in a Docker container.
-    kpartx_output="`kpartx -a -p ${PROJECT_NAME}p -v ${IMAGE}`"
-    dmsetup --noudevsync mknodes
-else
-    kpartx_output="`kpartx -a -p ${PROJECT_NAME}p -s -v ${IMAGE}`"
-fi
-
-while read p; do
-    parts+=(`echo ${p} | awk '{print $3}'`)
-done <<< "${kpartx_output}"
-
-# It may take a while until devices appear in /dev/mapper.
+# It may take a while until devices appear in /dev.
 max_retries=30
 for i in `eval echo {1..${max_retries}}`; do
-    if [ -z `ls /dev/mapper/${parts[0]} 2> /dev/null` ]; then
+    if [ -z `ls ${boot_partition} 2> /dev/null` ]; then
         sleep 1
     else
         break
     fi
 done
 
-if [ -z `ls /dev/mapper/${parts[0]} 2> /dev/null` ]; then
-    fatal "/dev/mapper/${parts[0]} does not exist"
+if [ -z `ls ${boot_partition} 2> /dev/null` ]; then
+    fatal "${boot_partition} does not exist"
     exit 1
 fi
 
 info "formatting boot partition"
-mkfs.vfat /dev/mapper/${parts[0]} 1>&2-
+mkfs.vfat ${boot_partition} 1>&2-
 
 info "formatting rootfs partition"
-mkfs.ext4 /dev/mapper/${parts[1]} 1>&2-
+mkfs.ext4 ${root_partition} 1>&2-
 
-mount /dev/mapper/${parts[0]} ${MOUNT_POINT}
+mount ${boot_partition} ${MOUNT_POINT}
 
 rsync -a ${BOOT}/ ${MOUNT_POINT}
 
 umount ${MOUNT_POINT}
 
-mount /dev/mapper/${parts[1]} ${MOUNT_POINT}
+mount ${root_partition} ${MOUNT_POINT}
 
 rsync -a ${R}/ ${MOUNT_POINT}
 
