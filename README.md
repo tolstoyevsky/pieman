@@ -64,7 +64,7 @@ or using `curl`
 $ curl -o docker-pieman.sh https://raw.githubusercontent.com/tolstoyevsky/pieman/master/docker-pieman.sh
 ```
 
-Note, that the script requires bash 4 and higher, so macOS users should upgrade their bash if they haven't done it yet.
+Note, that the script requires bash 4 or higher, so macOS users should upgrade their bash if they haven't done it yet.
 
 ##### Usage
 
@@ -152,7 +152,7 @@ The built images will be located in `build/<project name>`. By the way, you can 
 
 |                                                                                             | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 17.10 «Artful Aardvark» |
 |---------------------------------------------------------------------------------------------|:---------------------:|:---------------------------:|:------------------------------:|
-| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/) | 32bit                 |                             |                                |
+| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) | 32bit                 |                             |                                |
 | Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit                 | 32bit                       |                                |
 | Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit                 |                             | 64bit                          |
 | Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                | 32bit                 |                             |                                |
@@ -226,7 +226,7 @@ Allows specifying the root password. It's **HIGHLY RECOMMENDED** to change the d
 
 #### Pieman-specific
 
-##### PYTHON="`which python3`"
+##### PYTHON="$(which python3)"
 
 Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities. 
 
