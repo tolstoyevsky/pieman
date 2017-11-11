@@ -226,3 +226,13 @@ See [AUTHORS](AUTHORS.md).
 Pieman is available under the [GNU General Public License version 3](LICENSE).
 
 Pieman borrows some pieces of code from rpi23-gen-image which are available under the [GNU General Public License version 2](https://gnu.org/licenses/old-licenses/gpl-2.0.txt).
+
+## Contribute
+
+If you want to contribute to Pieman, we encourage you to do so by sending a [pull request](https://github.com/tolstoyevsky/pieman/pulls).
+
+In case you encounter any issues, please feel free to raise a [ticket](https://github.com/tolstoyevsky/pieman/issues)!
+
+If you like Pieman and want to support it, then please star the project or watch it on GitHub.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2AUE2GFWPX88S)
