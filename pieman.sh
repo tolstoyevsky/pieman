@@ -46,7 +46,14 @@ INCLUDES=${INCLUDES:=""}
 
 OS=${OS:="raspbian-stretch-armhf"}
 
+# Do not show the root password.
+set +x
 PASSWORD=${PASSWORD:="secret"}
+# The line 'set +x' pollutes the output, so it's better to remove it.
+tput cuu 1
+# Emulate the 'set -x' output.
+>&2 echo "+ PASSWORD=*****"
+set -x
 
 PROJECT_NAME=${PROJECT_NAME:=`uuidgen`}
 
