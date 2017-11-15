@@ -84,6 +84,12 @@ IFS='-' read -ra PIECES <<< ${OS}
 
 . ./functions.sh
 
+check_mutually_exclusive_params \
+    ENABLE_GOOGLE_DNS \
+    ENABLE_BASIC_YANDEX_DNS \
+    ENABLE_FAMILY_YANDEX_DNS \
+    ENABLE_CUSTOM_DNS
+
 check_dependencies
 
 check_required_directories

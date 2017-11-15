@@ -166,6 +166,28 @@ check_dependencies() {
     fi
 }
 
+# Checks if two or more mutually exclusive parameters are set.
+# Globals:
+#     None
+# Arguments:
+#     Path to the directory
+# Returns:
+#     None
+check_mutually_exclusive_params() {
+    for a in $*; do
+        for b in $*; do
+            if [[ ${a} == ${b} ]]; then
+                continue
+            fi
+
+            if [ ! -z "${!a}" ] && [ ! -z "${!b}" ]; then
+                fatal "${a} and ${b} conflict with each other."
+                exit 1
+            fi
+        done
+    done
+}
+
 # Looks for debootstrap installed locally. If it does not exist, tries to find
 # debootstrap installed globally. When the function succeeds, it assigns the
 # corresponding executable name to DEBOOTSTRAP_EXEC and the full path of the

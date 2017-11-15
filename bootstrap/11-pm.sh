@@ -48,8 +48,20 @@ update_indexes
 
 run_scripts ${SOURCE_DIR}/post-update-indexes
 
-# Install the packages recommended by the maintainer of the image and specified
-# by the user.
+dns_params=(
+    ENABLE_GOOGLE_DNS
+    ENABLE_BASIC_YANDEX_DNS
+    ENABLE_FAMILY_YANDEX_DNS
+    ENABLE_CUSTOM_DNS
+)
+for param in ${dns_params[@]}; do
+    if [ ! -z "${!param}" ]; then
+        add_package_to_includes resolvconf
+    fi
+done
+
+# Install the packages recommended by the maintainer of the image, specified by
+# the user and required by some parameters.
 
 includes="`get_attr_or_nothing ${OS} includes`"
 if [ ! -z ${includes} ]; then

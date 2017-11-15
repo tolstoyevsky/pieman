@@ -200,6 +200,47 @@ Allows specifying the projects location. By default, the directory named `build`
 
 ---
 
+#### Networking
+
+##### ENABLE_GOOGLE_DNS=false
+
+Enables the most common DNS server provided by Google.
+
+The DNS IP addresses (IPv4) are the following:
+
+* `8.8.8.8`
+* `8.8.4.4`
+
+Note, that the parameter conflicts with `ENABLE_BASIC_YANDEX_DNS`, `ENABLE_FAMILY_YANDEX_DNS` and `ENABLE_CUSTOM_DNS`.
+
+##### ENABLE_BASIC_YANDEX_DNS=false
+
+Enables a quick and reliable DNS server provided by Yandex.
+
+The DNS IP addresses (IPv4) are the following:
+
+* `77.88.8.8`
+* `77.88.8.1`
+
+Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_FAMILY_YANDEX_DNS` and `ENABLE_CUSTOM_DNS`.
+
+##### ENABLE_FAMILY_YANDEX_DNS=false
+
+Enables the DNS server provided by Yandex with protection from "adult" content.
+
+* `77.88.8.7`
+* `77.88.8.3`
+
+Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDEX_DNS`, and `ENABLE_CUSTOM_DNS`.
+
+##### ENABLE_CUSTOM_DNS=""
+
+Enables a custom DNS server specified via this parameter.
+
+Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDEX_DNS`, and `ENABLE_FAMILY_YANDEX_DNS`.
+
+---
+
 #### Package manager
 
 ##### ENABLE_NONFREE=false
