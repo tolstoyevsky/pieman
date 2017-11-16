@@ -166,7 +166,10 @@ check_dependencies() {
     fi
 }
 
-# Checks if two or more mutually exclusive parameters are set.
+# Checks if two or more mutually exclusive parameters are set true or does not
+# contain an empty string.
+# The function has the following side effect: it assigns an empty string to the
+# parameters which are set to false.
 # Globals:
 #     None
 # Arguments:
@@ -174,6 +177,14 @@ check_dependencies() {
 # Returns:
 #     None
 check_mutually_exclusive_params() {
+    for param in $*; do
+        # false is considered as non-empty string, so use empty string
+        # explicitly.
+        if [[ ${!param} == false ]]; then
+            declare $param=""
+        fi
+    done
+
     for a in $*; do
         for b in $*; do
             if [[ ${a} == ${b} ]]; then
