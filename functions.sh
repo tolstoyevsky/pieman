@@ -170,7 +170,7 @@ check_dependencies() {
 # Globals:
 #     None
 # Arguments:
-#     Path to the directory
+#     Parameters
 # Returns:
 #     None
 check_mutually_exclusive_params() {
