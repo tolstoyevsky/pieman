@@ -50,6 +50,8 @@ ENABLE_NONFREE=${ENABLE_NONFREE:=false}
 
 ENABLE_UNIVERSE=${ENABLE_UNIVERSE:=false}
 
+HOST_NAME=${HOST_NAME:="pieman_${DEVICE}"}
+
 INCLUDES=${INCLUDES:=""}
 
 OS=${OS:="raspbian-stretch-armhf"}

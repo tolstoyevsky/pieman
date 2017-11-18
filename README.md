@@ -239,6 +239,10 @@ Enables a custom DNS server specified via this parameter.
 
 Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDEX_DNS`, and `ENABLE_FAMILY_YANDEX_DNS`.
 
+##### HOST_NAME="pieman_${DEVICE}"
+
+Specifies the hostname of a device.
+
 ---
 
 #### Package manager
