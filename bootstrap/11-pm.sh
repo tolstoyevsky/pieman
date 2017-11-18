@@ -17,6 +17,10 @@ for var in ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
     check_if_variable_is_set ${var}
 done
 
+# /etc/rc.firstboot dependencies
+add_package_to_includes parted
+add_package_to_includes ifupdown
+
 # If /etc/apt/sources.list exists, remove the content.
 echo "" > ${ETC}/apt/sources.list
 
