@@ -18,6 +18,7 @@ check_if_variable_is_set ETC
 info "Preparing ${ETC}/rc.firstboot"
 
 touch ${ETC}/rc.firstboot
+chmod +x ${ETC}/rc.firstboot
 
 for script in files/firstboot/*.sh; do
     cat ${script} >> ${ETC}/rc.firstboot
