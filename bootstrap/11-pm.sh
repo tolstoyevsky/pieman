@@ -13,9 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-for var in ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
+for var in CREATE_ONLY_CHROOT ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
     check_if_variable_is_set ${var}
 done
+
+# apt-key dependency
+add_package_to_includes gnupg2
 
 # /etc/rc.firstboot dependencies
 add_package_to_includes parted
@@ -91,3 +94,10 @@ info "upgrading chroot environment"
 upgrade
 
 run_scripts ${SOURCE_DIR}/post-upgrade
+
+if ${CREATE_ONLY_CHROOT}; then
+    clean
+
+    info "exiting since CREATE_ONLY_CHROOT is set to true"
+    exit 0
+fi
