@@ -24,7 +24,7 @@ DEBOOTSTRAP_VER="1.0.91"
 #     None
 check_if_variable_is_set() {
     var_name=$1
-    if [ -z "${!var_name}" ]; then
+    if [ -z "${!var_name+x}" ]; then
         >&2 echo "${var_name} is not specified"
         exit 1
     fi
