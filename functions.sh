@@ -565,6 +565,10 @@ mount_required_filesystems() {
     if [ -d "${R}/dev/pts" ] ; then
         mount --bind /dev/pts "${R}/dev/pts"
     fi
+
+    # To prevent the following error message:
+    # Couldn't create temporary file /tmp/apt.conf.xxxxxx for passing config to apt-key
+    mount --bind /tmp "${R}/tmp"
 }
 
 # Unmounts the required filesystems.
@@ -578,6 +582,7 @@ umount_required_filesystems() {
     umount -l "${R}/proc"    2> /dev/null || /bin/true
     umount -l "${R}/sys"     2> /dev/null || /bin/true
     umount    "${R}/dev/pts" 2> /dev/null || /bin/true
+    umount    "${R}/tmp"     2> /dev/null || /bin/true
 }
 
 #

@@ -198,6 +198,10 @@ Each image is built in in the context of some project. The parameter allows spec
 
 Allows specifying the projects location. By default, the directory named `build` is created in the current directory.
 
+##### CREATE_ONLY_CHROOT=false
+
+Makes Pieman restrict itself to creating only a chroot environment based on the operating system specified via `OS`. The chroot environment can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
+
 ---
 
 #### Networking
