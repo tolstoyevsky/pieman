@@ -25,8 +25,9 @@ DEBOOTSTRAP_VER="1.0.91"
 check_if_variable_is_set() {
     var_name=$1
     if [ -z "${!var_name+x}" ]; then
-        >&2 echo "${var_name} is not specified"
-        exit 1
+        false
+    else
+        true
     fi
 }
 
@@ -34,7 +35,10 @@ check_if_variable_is_set() {
 # following variables are undefined, so it's necessary to check the variables
 # before running the script.
 for var in BUILD_DIR IMAGE KEYRING MOUNT_POINT PIECES PROJECT_NAME PYTHON R SOURCE_DIR USR_BIN YML_FILE; do
-    check_if_variable_is_set ${var}
+    if ! check_if_variable_is_set ${var}; then
+        >&2 echo "${var_name} is not specified"
+        exit 1
+    fi
 done
 
 #
@@ -295,7 +299,9 @@ cleanup() {
 
     umount_required_filesystems
 
-    losetup -d ${LOOP_DEV}
+    if check_if_variable_is_set LOOP_DEV; then
+        losetup -d ${LOOP_DEV}
+    fi
 
     set +x
 }
