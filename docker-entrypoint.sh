@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd /root/pieman && env ./pieman.sh
 
 # Cannot build images in a volume because it causes the following problem on
