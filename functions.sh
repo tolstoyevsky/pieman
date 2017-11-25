@@ -77,8 +77,7 @@ update_indexes() {
 # Returns:
 #     None
 upgrade() {
-    # TODO: find a way to get rid of --allow-unauthenticated
-    chroot_exec apt-get -y --allow-unauthenticated dist-upgrade
+    chroot_exec apt-get -y dist-upgrade
 }
 
 # Installs the specified packages in the chroot environment.
@@ -89,8 +88,7 @@ upgrade() {
 # Returns:
 #     None
 install_packages() {
-    # TODO: find a way to get rid of --allow-unauthenticated
-    chroot_exec apt-get -y --allow-unauthenticated install $*
+    chroot_exec apt-get -y install $*
 }
 
 # Removes the specified packages with their configuration files from the chroot
