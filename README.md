@@ -251,6 +251,10 @@ Specifies the hostname of a device.
 
 #### Package manager
 
+##### ALLOW_UNAUTHENTICATED=false
+
+Allows installing packages without checking their signatures.
+
 ##### ENABLE_NONFREE=false
 
 This is a Debian-specific parameter. It enables the [non-free and contrib](https://wiki.debian.org/SourcesList#Component) sections in `/etc/apt/sources.list`. By default, only the main section is used. Sections are also called components or areas.

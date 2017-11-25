@@ -34,7 +34,7 @@ check_if_variable_is_set() {
 # It's quite dangerous to run some of the functions from the script if the
 # following variables are undefined, so it's necessary to check the variables
 # before running the script.
-for var in BUILD_DIR IMAGE KEYRING MOUNT_POINT PIECES PROJECT_NAME PYTHON R SOURCE_DIR USR_BIN YML_FILE; do
+for var in BUILD_DIR IMAGE KEYRING MOUNT_POINT PIECES PM_OPTIONS PROJECT_NAME PYTHON R SOURCE_DIR USR_BIN YML_FILE; do
     if ! check_if_variable_is_set ${var}; then
         >&2 echo "${var_name} is not specified"
         exit 1
@@ -77,7 +77,7 @@ update_indexes() {
 # Returns:
 #     None
 upgrade() {
-    chroot_exec apt-get -y dist-upgrade
+    chroot_exec apt-get -y ${PM_OPTIONS} dist-upgrade
 }
 
 # Installs the specified packages in the chroot environment.
@@ -88,7 +88,7 @@ upgrade() {
 # Returns:
 #     None
 install_packages() {
-    chroot_exec apt-get -y install $*
+    chroot_exec apt-get -y ${PM_OPTIONS} install $*
 }
 
 # Removes the specified packages with their configuration files from the chroot
@@ -642,6 +642,21 @@ add_package_to_includes() {
     package=${1}
     if [ -z `echo ${INCLUDES} | grep ",${package}"` ]; then
         INCLUDES="${INCLUDES},${package}"
+    fi
+}
+
+# Adds the specified options to the PM_OPTIONS environment variable which is
+# a space-separated list.
+# Globals:
+#     PM_OPTIONS
+# Arguments:
+#     option
+# Returns:
+#     None
+add_option_to_pm_options() {
+    option=${1}
+    if [ -z `echo ${PM_OPTIONS} | grep " ${option}"` ]; then
+        PM_OPTIONS="${PM_OPTIONS} ${option}"
     fi
 }
 

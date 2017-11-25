@@ -32,6 +32,8 @@ set -x
 # User defined params
 #
 
+ALLOW_UNAUTHENTICATED=${ALLOW_UNAUTHENTICATED:=false}
+
 BASE_DIR=${BASE_DIR:=""}
 
 BUILD_DIR=${BUILD_DIR:="build"}
@@ -92,6 +94,8 @@ USR_BIN=${R}/usr/bin
 IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
 KEYRING=/tmp/atomatically-generated-keyring.gpg
+
+PM_OPTIONS=""
 
 SOURCE_DIR=devices/${DEVICE}/${OS}
 
