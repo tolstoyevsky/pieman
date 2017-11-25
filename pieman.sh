@@ -75,6 +75,8 @@ PIEMAN_BIN=${PIEMAN_BIN:='bin'}
 
 PYTHON=${PYTHON:=`which python3`}
 
+TIME_ZONE=${TIME_ZONE:="Etc/UTC"}
+
 set +x
 
 #
