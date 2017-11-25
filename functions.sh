@@ -349,7 +349,7 @@ set_traps() {
 # Returns:
 #     None
 chroot_exec() {
-    chroot ${R} $* 1>&2-
+    chroot ${R} $* 1>&2
 }
 
 # Executes the specified command in the chroot environment using shell.
@@ -360,7 +360,7 @@ chroot_exec() {
 # Returns:
 #     None
 chroot_exec_sh() {
-    chroot ${R} sh -c "${*}" 1>&2-
+    chroot ${R} sh -c "${*}" 1>&2
 }
 
 #
@@ -382,7 +382,7 @@ run_first_stage() {
     arch=${PIECES[2]}
     codename=${PIECES[1]}
     primary_repo=`get_attr ${OS} repos | head -n1`
-    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${codename} ${R} ${primary_repo} 1>&2-
+    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${codename} ${R} ${primary_repo} 1>&2
 
     install_user_mode_emulation_binary
 }
