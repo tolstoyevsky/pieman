@@ -71,7 +71,7 @@ done
 # the user and required by some parameters.
 
 includes="`get_attr_or_nothing ${OS} includes`"
-if [ ! -z ${includes} ]; then
+if [ ! -z "${includes}" ]; then
     for i in ${includes}; do
         add_package_to_includes ${i}
     done
