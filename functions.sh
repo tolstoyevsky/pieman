@@ -136,15 +136,6 @@ check_dependencies() {
         exit 1
     fi
 
-    for dep in gpg kpartx parted python3 rsync wget; do
-        if [ -z `which ${dep}` ]; then
-            fatal "there is no ${dep}." \
-                  "Run apt-get install ${dep} on Debian/Ubuntu or" \
-                  "dnf install ${dep} on Fedora."
-            exit 1
-        fi
-    done
-
     if [ -z `which mkpasswd` ]; then
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
