@@ -269,6 +269,10 @@ Allows installing packages without checking their signatures.
 
 This is a Debian-specific parameter. It enables the [non-free and contrib](https://wiki.debian.org/SourcesList#Component) sections in `/etc/apt/sources.list`. By default, only the main section is used. Sections are also called components or areas.
 
+##### ENABLE_UNATTENDED_INSTALLATION=false
+
+Allows installing packages without prompting the user to answer any questions.
+
 ##### ENABLE_UNIVERSE=false
 
 This is an Ubuntu-specific parameter. It enables the [universe](https://help.ubuntu.com/community/Repositories/Ubuntu#The_Four_Main_Repositories) section in `/etc/apt/sources.list`. By default, only the main section is used.

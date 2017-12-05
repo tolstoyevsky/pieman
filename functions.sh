@@ -88,7 +88,11 @@ upgrade() {
 # Returns:
 #     None
 install_packages() {
-    chroot_exec apt-get -y ${PM_OPTIONS} install $*
+    if ${ENABLE_UNATTENDED_INSTALLATION}; then
+        DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ${PM_OPTIONS} install $*
+    else
+        chroot_exec apt-get -y ${PM_OPTIONS} install $*
+    fi
 }
 
 # Removes the specified packages with their configuration files from the chroot
