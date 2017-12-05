@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     dosfstools \
     git \
     gnupg \
-    kpartx \
     parted \
     python3-setuptools \
     python3-yaml \
@@ -20,7 +19,6 @@ RUN apt-get update && apt-get install -y \
     uuid-runtime \
     wget \
     whois \
- && touch .dockerenv \
  && mkdir /result \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
