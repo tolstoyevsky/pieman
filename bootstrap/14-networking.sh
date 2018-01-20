@@ -56,3 +56,5 @@ sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hostname"
 
 install_readonly files/etc/hosts.template ${ETC}/hosts
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
+
+install_readonly files/network/interfaces ${ETC}/network/interfaces
