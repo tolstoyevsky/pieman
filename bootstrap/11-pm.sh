@@ -28,6 +28,12 @@ add_package_to_includes gnupg2
 add_package_to_includes parted
 add_package_to_includes ifupdown
 
+# Networking
+add_package_to_includes netbase
+add_package_to_includes net-tools
+add_package_to_includes isc-dhcp-client
+add_package_to_includes inetutils-ping
+
 # If /etc/apt/sources.list exists, remove the content.
 echo "" > ${ETC}/apt/sources.list
 
