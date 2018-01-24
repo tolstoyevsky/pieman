@@ -204,6 +204,10 @@ Allows specifying the projects location. By default, the directory named `build`
 
 Makes Pieman restrict itself to creating only a chroot environment based on the operating system specified via `OS`. The chroot environment can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
 
+##### CUSTOM_FILES=""
+
+Allows specifying the directory which will be recursively copied to the chroot environment.
+
 ##### TIME_ZONE="Etc/UTC"
 
 Specifies the time zone of the system.

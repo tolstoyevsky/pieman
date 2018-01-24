@@ -529,6 +529,34 @@ install_readonly() {
     install -o root -g root -m 644 $*
 }
 
+# Recursively copies the file structure from the passed directory to the chroot
+# environment.
+# Globals:
+#     CUSTOM_FILES
+# Arguments:
+#     Path to the directory
+# Returns:
+#     None
+install_recur() {
+    for i in "$1"/*
+    do
+        local full_path=${i}
+        local relative_path=${i#$CUSTOM_FILES}
+        local mode=`stat -c %a ${full_path}`
+
+        if [ -d "${full_path}" ]; then
+            chroot_exec mkdir -p ${relative_path}
+            chroot_exec chmod ${mode} ${relative_path}
+
+            install_recur ${full_path}
+        elif [ -e "${full_path}" ]; then
+            install -o root -g root -m ${mode} ${full_path} ${R}{$relative_path}
+        else
+            info "${full_path} is empty"
+        fi
+    done
+}
+
 # Installs the corresponding user mode emulation binary to the chroot
 # environment.
 # Globals:
