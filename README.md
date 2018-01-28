@@ -277,9 +277,21 @@ A comma-separated list of the packages to be installed on the system specified v
 
 #### Users
 
+##### ENABLE_USER=true
+
+Creates a non-root user `USER_NAME` with the password `USER_PASSWORD`.
+
 ##### PASSWORD="secret"
 
 Allows specifying the root password. It's **HIGHLY RECOMMENDED** to change the default root password.
+
+##### USER_NAME="cusdeb"
+
+Allows specifying a non-root user name. It's ignored if `ENABLE_USER` is set to `false`.
+
+##### USER_PASSWORD="secret"
+
+Allows specifying a non-root user password. It's ignored if `ENABLE_USER` is set to `false`. It's **HIGHLY RECOMMENDED** to change the default user password.
 
 ---
 

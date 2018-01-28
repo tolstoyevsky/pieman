@@ -54,6 +54,8 @@ ENABLE_NONFREE=${ENABLE_NONFREE:=false}
 
 ENABLE_UNIVERSE=${ENABLE_UNIVERSE:=false}
 
+ENABLE_USER=${ENABLE_USER:=true}
+
 HOST_NAME=${HOST_NAME:="pieman_${DEVICE}"}
 
 INCLUDES=${INCLUDES:=""}
@@ -76,6 +78,15 @@ PIEMAN_BIN=${PIEMAN_BIN:='bin'}
 PYTHON=${PYTHON:=`which python3`}
 
 TIME_ZONE=${TIME_ZONE:="Etc/UTC"}
+
+USER_NAME=${USER_NAME:="cusdeb"}
+
+# Do not show the user password.
+set +x
+USER_PASSWORD=${USER_PASSWORD:="secret"}
+tput cuu 1
+>&2 echo "+ USER_PASSWORD=*****"
+set -x
 
 set +x
 
