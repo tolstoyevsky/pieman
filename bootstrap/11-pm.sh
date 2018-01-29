@@ -21,6 +21,10 @@ if ${ALLOW_UNAUTHENTICATED}; then
     add_option_to_pm_options --allow-unauthenticated
 fi
 
+if ${ENABLE_SUDO}; then
+    add_package_to_includes sudo
+fi
+
 # apt-key dependency
 add_package_to_includes gnupg2
 
