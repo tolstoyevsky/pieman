@@ -277,6 +277,10 @@ A comma-separated list of the packages to be installed on the system specified v
 
 #### Users
 
+##### ENABLE_SUDO=true
+
+Installs `sudo`. If `ENABLE_USER` is set to `true`, Pieman adds the user `USER_NAME` to `/etc/sudoers`.
+
 ##### ENABLE_USER=true
 
 Creates a non-root user `USER_NAME` with the password `USER_PASSWORD`.
@@ -284,6 +288,12 @@ Creates a non-root user `USER_NAME` with the password `USER_PASSWORD`.
 ##### PASSWORD="secret"
 
 Allows specifying the root password. It's **HIGHLY RECOMMENDED** to change the default root password.
+
+##### SUDO_REQUIRE_PASSWORD=true
+
+Tells `sudo` whether it should prompt for the password.
+
+It's necessary to disable the password prompts if you want to manage your device via, for example, [SSH Button](https://play.google.com/store/apps/details?id=com.pd7l.sshbutton).
 
 ##### USER_NAME="cusdeb"
 

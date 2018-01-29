@@ -22,6 +22,18 @@ if ${ENABLE_USER}; then
     encrypted_password=`mkpasswd -m sha-512 "${USER_PASSWORD}"`
 
     chroot_exec usermod -p "${encrypted_password}" ${USER_NAME}
+
+    if ${ENABLE_SUDO}; then
+        info "add regular user ${USER_NAME} to /etc/sudoers"
+
+        if ${SUDO_REQUIRE_PASSWORD}; then
+            permission="ALL=(ALL:ALL) ALL"
+        else
+            permission="ALL=(ALL) NOPASSWD: ALL"
+        fi
+
+        sed -i "/root\tALL=(ALL:ALL) ALL/a ${USER_NAME}\t${permission}" ${ETC}/sudoers
+    fi
 fi
 
 encrypted_password=`mkpasswd -m sha-512 "${PASSWORD}"`
