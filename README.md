@@ -152,17 +152,18 @@ The built images will be located in `build/<project name>`. By the way, you can 
 
 ## Documentation
 
-|                                                                                             | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 17.10 «Artful Aardvark» |
-|---------------------------------------------------------------------------------------------|:---------------------:|:---------------------------:|:------------------------------:|
-| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) | 32bit                 |                             |                                |
-| Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit                 | 32bit                       | 32bit                          |
-| Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit                 |                             | 32bit, 64bit                   |
-| Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                | 32bit                 |                             |                                |
+|                                                                                             | Devuan 1 «Jessie»     | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 17.10 «Artful Aardvark» |
+|---------------------------------------------------------------------------------------------|:---------------------:|:---------------------:|:---------------------------:|:------------------------------:|
+| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) |                       | 32bit                 |                             |                                |
+| Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit                 | 32bit                 | 32bit                       | 32bit                          |
+| Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit                 | 32bit                 |                             | 32bit, 64bit                   |
+| Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                |                       | 32bit                 |                             |                                |
 
 The operating system of the target image is specified via the `OS` environment variable. The next table maps full names of the supported operating systems to their short name intended for using as values of `OS`.
 
 | Full name                               | Short name             |
 |-----------------------------------------|------------------------|
+| Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf |
 | Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)           | raspbian-stretch-armhf |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)    | ubuntu-xenial-armhf    |
 | Ubuntu 17.10 «[Artful Aardvark](https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes)» (32-bit) | ubuntu-artful-armhf    |
