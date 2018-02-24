@@ -161,9 +161,9 @@ dd if=/dev/zero of=${IMAGE} bs=1024 seek=$[ 1024 * 1024 * 7 ] count=1
 
 parted ${IMAGE} mktable msdos
 
-parted ${IMAGE} mkpart p fat32 4MiB 54MiB
+parted ${IMAGE} mkpart p fat32 4MiB 104MiB
 
-parted -s ${IMAGE} -- mkpart primary ext2 58MiB -1s
+parted -s ${IMAGE} -- mkpart primary ext2 108MiB -1s
 
 LOOP_DEV=`losetup --partscan --show --find ${IMAGE}`
 boot_partition="${LOOP_DEV}p1"
