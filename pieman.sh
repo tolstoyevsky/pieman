@@ -157,7 +157,7 @@ run_scripts "bootstrap"
 umount_required_filesystems
 
 info "creating image"
-dd if=/dev/zero of=${IMAGE} bs=1024 seek=$[ 1024 * 1024 * 7 ] count=1
+dd if=/dev/zero of=${IMAGE} bs=1024 seek=$[ `du -s ${R}/ | cut -f1` + 150 * 1024 ] count=1
 
 parted ${IMAGE} mktable msdos
 
