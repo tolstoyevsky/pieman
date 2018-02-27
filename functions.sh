@@ -107,6 +107,31 @@ purge_packages() {
 # Base functions
 #
 
+# Adds the specified item to a list. The variable name, which represents the
+# list, and delimiter must be passed as the second and third parameters to the
+# function respectively.
+# Globals:
+#     None
+# Arguments:
+#     Item
+#     Environment variable name
+#     Delimiter
+# Returns:
+#     None
+add_item_to_list() {
+    local item="${1}"
+    local var_name=${2}
+    local delimiter="${3}"
+    if [ -z `echo ${!var_name} | grep "${delimiter}${item}"` ]; then
+        local result=""
+        if [ "${delimiter}" == " " ]; then
+            eval ${var_name}="\"${!var_name}${delimiter}${item}\""
+        else
+            eval ${var_name}="${!var_name}${delimiter}${item}"
+        fi
+    fi
+}
+
 # Checks if all required dependencies are installed on the system.
 # Globals:
 #     None
@@ -359,6 +384,7 @@ chroot_exec_sh() {
 # Runs the first stage of building a chroot environment. Then it installs
 # a user mode emulation binary to the chroot.
 # Globals:
+#     BASE_PACKAGES
 #     DEBOOTSTRAP_EXEC
 #     OS
 #     PIECES
@@ -368,10 +394,16 @@ chroot_exec_sh() {
 # Returns:
 #     None
 run_first_stage() {
+    local additional_opts=""
+
+    if [ ! -z ${BASE_PACKAGES} ]; then
+        additional_opts="--include=${BASE_PACKAGES}"
+    fi
+
     arch=${PIECES[2]}
     codename=${PIECES[1]}
     primary_repo=`get_attr ${OS} repos | head -n1`
-    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${codename} ${R} ${primary_repo} 1>&2
+    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${additional_opts} ${codename} ${R} ${primary_repo} 1>&2
 
     install_user_mode_emulation_binary
 }
@@ -621,6 +653,18 @@ get_attr_or_nothing() {
 # Unsorted functions
 #
 
+# Adds the specified package name to the BASE_PACKAGES environment variable
+# which is a comma-separated list.
+# Globals:
+#     BASE_PACKAGES
+# Arguments:
+#     Package name
+# Returns:
+#     None
+add_package_to_base_packages() {
+    add_item_to_list ${1} BASE_PACKAGES ","
+}
+
 # Adds the specified package name to the INCLUDES environment variable which is
 # a comma-separated list.
 # Globals:
@@ -630,10 +674,7 @@ get_attr_or_nothing() {
 # Returns:
 #     None
 add_package_to_includes() {
-    package=${1}
-    if [ -z `echo ${INCLUDES} | grep ",${package}"` ]; then
-        INCLUDES="${INCLUDES},${package}"
-    fi
+    add_item_to_list ${1} INCLUDES ","
 }
 
 # Adds the specified options to the PM_OPTIONS environment variable which is
@@ -645,15 +686,13 @@ add_package_to_includes() {
 # Returns:
 #     None
 add_option_to_pm_options() {
-    option=${1}
-    if [ -z `echo ${PM_OPTIONS} | grep " ${option}"` ]; then
-        PM_OPTIONS="${PM_OPTIONS} ${option}"
-    fi
+    add_item_to_list ${1} PM_OPTIONS " "
 }
 
-# Finds the public keys related to the operating system which is going to be
-# used as a base for the target image, and adds them to the keyring, the name
-# of which is stored in the KEYRING environment variable.
+# Creates a keyring from the public keys related to the operating system which
+# is going to be used as a base for the target image. Then, the keyring is
+# passed to debootstrap. The keyring name is stored in the KEYRING environment
+# variable.
 # Globals:
 #     PIECES
 #     KEYRING
@@ -664,5 +703,27 @@ add_option_to_pm_options() {
 create_keyring() {
     for key in keys/${PIECES[0]}/*; do
         gpg --no-default-keyring --keyring=${KEYRING} --import ${key}
+    done
+}
+
+# Adds the public keys, related to the operating system which is used as a base
+# for the target image, to the list of trusted keys.
+# Globals:
+#     PIECES
+#     R
+# Arguments:
+#     None
+# Returns:
+#     None
+mark_keys_as_trusted() {
+    for key in keys/${PIECES[0]}/*; do
+        local key_name=`basename ${key}`
+
+        cp ${key} ${R}
+
+        info "adding ${key} to the list of trusted keys"
+        chroot_exec apt-key add ${key_name}
+
+        chroot_exec rm ${key_name}
     done
 }

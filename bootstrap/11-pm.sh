@@ -17,6 +17,9 @@ for var in CREATE_ONLY_CHROOT ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
     check_if_variable_is_set ${var}
 done
 
+# To prevent NO_PUBKEY when the packages will be installed a bit later.
+mark_keys_as_trusted
+
 if ${ALLOW_UNAUTHENTICATED}; then
     add_option_to_pm_options --allow-unauthenticated
 fi
@@ -24,9 +27,6 @@ fi
 if ${ENABLE_SUDO}; then
     add_package_to_includes sudo
 fi
-
-# apt-key dependency
-add_package_to_includes gnupg2
 
 # /etc/rc.firstboot dependencies
 add_package_to_includes parted
