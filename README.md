@@ -1,3 +1,5 @@
+[![build](https://travis-ci.org/tolstoyevsky/pieman.svg?branch=master)](https://travis-ci.org/tolstoyevsky/pieman)
+
 # Pieman [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Create%20a%20custom%20OS%20image%20for%20for%20your%20Raspberry%20Pi&url=https://github.com/tolstoyevsky/pieman&via=CusDeb&hashtags=RaspberryPi,Raspbian,Ubuntu)
 
 <p align="center">
