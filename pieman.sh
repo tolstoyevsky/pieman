@@ -108,6 +108,8 @@ ETC=${R}/etc
 
 USR_BIN=${R}/usr/bin
 
+BASE_PACKAGES=""
+
 IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
 KEYRING=/tmp/atomatically-generated-keyring.gpg
@@ -151,6 +153,14 @@ params="`get_attr_or_nothing ${OS} params`"
 for param in ${params}; do
     eval $param=true
 done
+
+# Expand the base system.
+base_packages="`get_attr_or_nothing ${OS} base`"
+if [ ! -z "${base_packages}" ]; then
+    for package in ${base_packages}; do
+        add_package_to_base_packages ${package}
+    done
+fi
 
 run_scripts "bootstrap"
 
