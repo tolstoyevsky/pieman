@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-if [ "`id -u`" -ne "0" ]; then
+if [ "$(id -u)" -ne "0" ]; then
     >&2 echo "This script must be run as root"
     exit 1
 fi
@@ -73,11 +73,11 @@ tput cuu 1
 >&2 echo "+ PASSWORD=*****"
 set -x
 
-PROJECT_NAME=${PROJECT_NAME:=`uuidgen`}
+PROJECT_NAME=${PROJECT_NAME:=$(uuidgen)}
 
 PIEMAN_BIN=${PIEMAN_BIN:='bin'}
 
-PYTHON=${PYTHON:=`which python3`}
+PYTHON=${PYTHON:=$(which python3)}
 
 SUDO_REQUIRE_PASSWORD=${SUDO_REQUIRE_PASSWORD:=true}
 
@@ -104,24 +104,31 @@ BOOT=${BUILD_DIR}/${PROJECT_NAME}/boot
 
 MOUNT_POINT=${BUILD_DIR}/${PROJECT_NAME}/mount_point
 
+# shellcheck disable=SC2034
 ETC=${R}/etc
 
+# shellcheck disable=SC2034
 USR_BIN=${R}/usr/bin
 
+# shellcheck disable=SC2034
 BASE_PACKAGES=""
 
 IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
+# shellcheck disable=SC2034
 KEYRING=/tmp/atomatically-generated-keyring.gpg
 
+# shellcheck disable=SC2034
 PM_OPTIONS=""
 
 SOURCE_DIR=devices/${DEVICE}/${OS}
 
+# shellcheck disable=SC2034
 YML_FILE=${SOURCE_DIR}/pieman.yml
 
 # OS must stick to the following naming convention:
 # <distro name>-<codename>-<arch>.
+# shellcheck disable=SC2034
 IFS='-' read -ra PIECES <<< ${OS}
 
 . ./functions.sh
@@ -149,16 +156,17 @@ create_keyring
 create_necessary_dirs
 
 # Set to true the parameters recommended by the maintainer of the image.
-params="`get_attr_or_nothing ${OS} params`"
+params="$(get_attr_or_nothing ${OS} params)"
 for param in ${params}; do
-    eval $param=true
+    # shellcheck disable=SC2086
+    eval ${param}=true
 done
 
 # Expand the base system.
-base_packages="`get_attr_or_nothing ${OS} base`"
+base_packages="$(get_attr_or_nothing ${OS} base)"
 if [ ! -z "${base_packages}" ]; then
     for package in ${base_packages}; do
-        add_package_to_base_packages ${package}
+        add_package_to_base_packages "${package}"
     done
 fi
 
@@ -167,45 +175,46 @@ run_scripts "bootstrap"
 umount_required_filesystems
 
 info "creating image"
-dd if=/dev/zero of=${IMAGE} bs=1024 seek=$[ `du -s ${R}/ | cut -f1` + 150 * 1024 ] count=1
+dd if=/dev/zero of="${IMAGE}" bs=1024 seek=$(( $(du -s "${R}" | cut -f1) + 150 * 1024 )) count=1
 
-parted ${IMAGE} mktable msdos
+parted "${IMAGE}" mktable msdos
 
-parted ${IMAGE} mkpart p fat32 4MiB 104MiB
+parted "${IMAGE}" mkpart p fat32 4MiB 104MiB
 
-parted -s ${IMAGE} -- mkpart primary ext2 108MiB -1s
+parted -s "${IMAGE}" -- mkpart primary ext2 108MiB -1s
 
-LOOP_DEV=`losetup --partscan --show --find ${IMAGE}`
+LOOP_DEV=$(losetup --partscan --show --find "${IMAGE}")
 boot_partition="${LOOP_DEV}p1"
 root_partition="${LOOP_DEV}p2"
 
 # It may take a while until devices appear in /dev.
 max_retries=30
-for i in `eval echo {1..${max_retries}}`; do
-    if [ -z `ls ${boot_partition} 2> /dev/null` ]; then
+for i in $(eval echo "{1..${max_retries}}"); do
+    if [ -z "$(ls "${boot_partition}" 2> /dev/null)" ]; then
+        info "there is no ${boot_partition} so far ($((max_retries - i)) attempts left)"
         sleep 1
     else
         break
     fi
 done
 
-if [ -z `ls ${boot_partition} 2> /dev/null` ]; then
+if [ -z "$(ls "${boot_partition}" 2> /dev/null)" ]; then
     fatal "${boot_partition} does not exist"
     exit 1
 fi
 
 info "formatting boot partition"
-mkfs.vfat ${boot_partition} 1>&2-
+mkfs.vfat "${boot_partition}" 1>&2-
 
 info "formatting rootfs partition"
-mkfs.ext4 ${root_partition} 1>&2-
+mkfs.ext4 "${root_partition}" 1>&2-
 
-mount ${boot_partition} ${MOUNT_POINT}
+mount "${boot_partition}" "${MOUNT_POINT}"
 
-rsync -a ${BOOT}/ ${MOUNT_POINT}
+rsync -a "${BOOT}"/ "${MOUNT_POINT}"
 
-umount ${MOUNT_POINT}
+umount "${MOUNT_POINT}"
 
-mount ${root_partition} ${MOUNT_POINT}
+mount "${root_partition}" "${MOUNT_POINT}"
 
-rsync -a ${R}/ ${MOUNT_POINT}
+rsync -a "${R}"/ "${MOUNT_POINT}"
