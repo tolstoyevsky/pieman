@@ -1,9 +1,16 @@
 language: bash
 
+addons:
+  apt:
+    sources:
+    - debian-sid
+    packages:
+    - shellcheck
+
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y shunit2
 
 script:
   - bash -c 'cd test && ./test_functions.sh'
-
+  - bash -c 'shellcheck -x pieman.sh'
