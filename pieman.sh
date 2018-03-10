@@ -217,4 +217,4 @@ umount "${MOUNT_POINT}"
 
 mount "${root_partition}" "${MOUNT_POINT}"
 
-rsync -a "${R}"/ "${MOUNT_POINT}"
+rsync -ap "${R}"/ "${MOUNT_POINT}"
