@@ -320,6 +320,49 @@ cleanup() {
     set +x
 }
 
+# Creates an image which has two partitions. The first one is the boot
+# partition and the second one is the partition intended for the root
+# filesystem.
+# Globals:
+#     IMAGE
+#     R
+# Arguments:
+#     Root filesystem size in kilobytes
+# Returns:
+#     None
+create_image() {
+    # Partitions should be aligned on 4MiB boundaries.
+    # See https://lwn.net/Articles/428584/.
+    local alignment=4 # in megabytes
+    local alignment_x2=$(( ${alignment} * 2 ))
+
+    # The size of the partition which stores the kernel and RPi blobs.
+    local boot_partition_size=100 # in megabytes
+
+    # The size of the target image.
+    local image_size=0
+
+    # The filesystem metadata size. It has been experimentally determined that
+    # the metadata takes approximately 7% of the space, but we'll allocate for
+    # the purpose 3% more just in case.
+    local metadata_size="$(python3 -c "import math; print(math.ceil($1 / 100 * 10))")"
+
+    # The root partition size should be large enough to fit the rootfs.
+    root_partition_size="$(( $1 + ${metadata_size} ))"
+
+    image_size=$(( ${root_partition_size} + (${boot_partition_size} + ${alignment_x2}) * 1024 ))
+
+    dd if=/dev/zero of="${IMAGE}" bs=1024 seek=${image_size} count=1
+
+    parted "${IMAGE}" mktable msdos
+
+    parted "${IMAGE}" mkpart p fat32 4MiB "$(( ${boot_partition_size} + ${alignment} ))MiB"
+
+    parted -s "${IMAGE}" -- mkpart primary ext2 "$(( ${boot_partition_size} + ${alignment_x2} ))MiB" -1s
+
+    info "${IMAGE} of size ${image_size}K was successfully created"
+}
+
 # Runs all scripts which are located in the specified directory.
 # Globals:
 #     None
