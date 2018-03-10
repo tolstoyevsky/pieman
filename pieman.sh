@@ -175,13 +175,10 @@ run_scripts "bootstrap"
 umount_required_filesystems
 
 info "creating image"
-dd if=/dev/zero of="${IMAGE}" bs=1024 seek=$(( $(du -s "${R}" | cut -f1) + 150 * 1024 )) count=1
-
-parted "${IMAGE}" mktable msdos
-
-parted "${IMAGE}" mkpart p fat32 4MiB 104MiB
-
-parted -s "${IMAGE}" -- mkpart primary ext2 108MiB -1s
+# The root partition definitely won't be 100% full, since the rootfs size is
+# larger on the host system than it will be after copying to the root
+# partition. Probably it's because of the fragmentation.
+create_image "$(du -s "${R}" | cut -f1)"
 
 LOOP_DEV=$(losetup --partscan --show --find "${IMAGE}")
 boot_partition="${LOOP_DEV}p1"
@@ -208,6 +205,11 @@ mkfs.vfat "${boot_partition}" 1>&2-
 
 info "formatting rootfs partition"
 mkfs.ext4 "${root_partition}" 1>&2-
+
+# The root partition is expanded to fit the SD card. However, the size of the
+# SD card is currently unknown, so reserving 5% of the filesystem blocks at
+# this stage is incorrect.
+tune2fs -m 0 "${root_partition}"
 
 mount "${boot_partition}" "${MOUNT_POINT}"
 
