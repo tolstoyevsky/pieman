@@ -634,7 +634,11 @@ mount_required_filesystems() {
     mount -t proc none "${R}/proc"
     mount -t sysfs none "${R}/sys"
 
-    # To prevent the following error message:
+    # To prevent:
+    # /usr/bin/apt-key: cannot create /dev/null: Permission denied
+    mount --bind /dev "${R}/dev"
+
+    # To prevent:
     # E: Can not write log (Is /dev/pts mounted?) - posix_openpt (19: No such device)
     if [ -d "${R}/dev/pts" ] ; then
         mount --bind /dev/pts "${R}/dev/pts"
@@ -656,6 +660,7 @@ umount_required_filesystems() {
     umount -l "${R}/proc"    2> /dev/null || /bin/true
     umount -l "${R}/sys"     2> /dev/null || /bin/true
     umount    "${R}/dev/pts" 2> /dev/null || /bin/true
+    umount    "${R}/dev"     2> /dev/null || /bin/true
     umount    "${R}/tmp"     2> /dev/null || /bin/true
 }
 
