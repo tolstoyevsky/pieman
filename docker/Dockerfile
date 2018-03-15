@@ -7,6 +7,11 @@ ENV DEBOOTSTRAP_VER 1.0.91
 
 ENV TERM linux
 
+ARG VCS_REF
+
+LABEL org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/tolstoyevsky/pieman"
+
 RUN apt-get update && apt-get install -y \
     dosfstools \
     git \
