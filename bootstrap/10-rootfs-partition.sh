@@ -21,6 +21,8 @@ if [ ! -z ${BASE_DIR} ] && [ -d ${BASE_DIR} ]; then
 else
     info "BASE_DIR is not specified or does not exist. Running debootstrap to create chroot environment."
 
+    create_keyring
+
     run_scripts ${SOURCE_DIR}/pre-first-stage
 
     run_first_stage

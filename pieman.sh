@@ -153,8 +153,6 @@ choose_user_mode_emulation_binary
 
 set_traps
 
-create_keyring
-
 create_necessary_dirs
 
 # Set to true the parameters recommended by the maintainer of the image.
