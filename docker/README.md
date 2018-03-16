@@ -1,0 +1,2 @@
+Here are the sources of the [Pieman Docker image](https://hub.docker.com/r/cusdeb/pieman/). Run `make` inside the directory to build `cusdeb/pieman` image. Read the corresponding [section](https://github.com/tolstoyevsky/pieman#docker) of the documentation to know how to use it. Makefile is intended to simplify adding the metadata labels to the image which are used by [MicroBadger](https://microbadger.com/).
+
