@@ -32,6 +32,9 @@ else
     run_second_stage
 
     run_scripts ${SOURCE_DIR}/post-second-stage
+
+    # To prevent NO_PUBKEY when the packages will be installed a bit later.
+    mark_keys_as_trusted
 fi
 
 info "mounting proc and sys filesystems to chroot environment"
