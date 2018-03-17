@@ -138,7 +138,9 @@ add_item_to_list() {
 
 # Checks if all required dependencies are installed on the system.
 # Globals:
-#     None
+#     ENABLE_BZIP2
+#     ENABLE_GZIP
+#     ENABLE_XZ
 # Arguments:
 #     None
 # Returns:
@@ -186,6 +188,24 @@ check_dependencies() {
               "dnf install python3-PyYAML on Fedora"
         exit 1
     fi
+
+    if ${ENABLE_BZIP2}; then
+        if [ -z `which bzip2` ]; then
+            fatal "there is no bzip2." \
+                  "Run apt-get install bzip2 on Debian/Ubuntu or" \
+                  "dnf install bzip2 on Fedora."
+            exit 1
+        fi
+    fi
+
+    if ${ENABLE_XZ}; then
+        if [ -z `which xz` ]; then
+            fatal "there is no xz." \
+                  "Run apt-get install xz-utils on Debian/Ubuntu or" \
+                  "dnf install xz on Fedora."
+            exit 1
+        fi
+    fi
 }
 
 # Checks if two or more mutually exclusive parameters are set true or does not
@@ -219,6 +239,30 @@ check_mutually_exclusive_params() {
             fi
         done
     done
+}
+
+# Chooses a suitable compressor depending on which parameters passed (or didn't
+# pass) the user.
+# Globals:
+#     ENABLE_BZIP2
+#     ENABLE_GZIP
+#     ENABLE_XZ
+# Arguments:
+#     None
+# Returns:
+#     String which consists of the executable name and the extension name
+choose_compressor() {
+    if ${ENABLE_BZIP2}; then
+        echo "bzip2 .bz2"
+    fi
+
+    if ${ENABLE_GZIP}; then
+        echo "gzip .gz"
+    fi
+
+    if ${ENABLE_XZ}; then
+        echo "xz .xz"
+    fi
 }
 
 # Looks for debootstrap installed locally. If it does not exist, tries to find
@@ -386,8 +430,8 @@ run_scripts() {
     fi
 }
 
-# Calls the cleanup function on the following signals: EXIT, SIGHUP, SIGINT,
-# SIGQUIT and SIGABRT.
+# Calls the cleanup function on the following signals: SIGHUP, SIGINT, SIGQUIT
+# and SIGABRT.
 # Globals:
 #     None
 # Arguments:
@@ -395,7 +439,7 @@ run_scripts() {
 # Returns:
 #     None
 set_traps() {
-    trap cleanup 0 1 2 3 6
+    trap cleanup 1 2 3 6
 }
 
 #

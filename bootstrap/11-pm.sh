@@ -110,5 +110,8 @@ if ${CREATE_ONLY_CHROOT}; then
     clean
 
     info "exiting since CREATE_ONLY_CHROOT is set to true"
+
+    cleanup
+
     exit 0
 fi

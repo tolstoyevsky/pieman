@@ -91,6 +91,42 @@ test_checking_if_variable_is_set() {
     assertTrue "check_if_variable_is_set R"
 }
 
+test_choosing_compressor() {
+    local compressor=""
+
+    ENABLE_BZIP2=true
+    ENABLE_GZIP=false
+    ENABLE_XZ=false
+
+    compressor="$(choose_compressor)"
+
+    assertEquals "bzip2 .bz2" "${compressor}"
+
+    ENABLE_BZIP2=false
+    ENABLE_GZIP=true
+    ENABLE_XZ=false
+
+    compressor="$(choose_compressor)"
+
+    assertEquals "gzip .gz" "${compressor}"
+
+    ENABLE_BZIP2=false
+    ENABLE_GZIP=false
+    ENABLE_XZ=true
+
+    compressor="$(choose_compressor)"
+
+    assertEquals "xz .xz" "${compressor}"
+
+    ENABLE_BZIP2=false
+    ENABLE_GZIP=false
+    ENABLE_XZ=false
+
+    compressor="$(choose_compressor)"
+
+    assertNull "${compressor}"
+}
+
 test_choosing_debootstrap() {
     local result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
 
