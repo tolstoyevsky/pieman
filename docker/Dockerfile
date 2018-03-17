@@ -24,6 +24,9 @@ RUN apt-get update && apt-get install -y \
     uuid-runtime \
     wget \
     whois \
+    # Optional dependencies
+    bzip2 \
+    xz-utils \
  && mkdir /result \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
