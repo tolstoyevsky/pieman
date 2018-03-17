@@ -22,6 +22,7 @@ Pieman is a script for creating custom OS images for single-board computers such
     + [Networking](#networking)
     + [Package manager](#package-manager)
     + [Users](#users)
+    + [Image](#image)
     + [Pieman-specific](#pieman-specific)
 - [Authors](#authors)
 - [Licensing](#licensing)
@@ -30,6 +31,8 @@ Pieman is a script for creating custom OS images for single-board computers such
 ## Getting Started
 
 ### Dependencies
+
+#### Mandatary
 
 * debootstrap
 * dosfstools
@@ -44,6 +47,11 @@ Pieman is a script for creating custom OS images for single-board computers such
 * uuidgen
 * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
 * wget
+
+#### Optional
+
+* bzip2
+* xz
 
 ### Supported platforms
 
@@ -316,6 +324,28 @@ Allows specifying a non-root user name. It's ignored if `ENABLE_USER` is set to 
 ##### USER_PASSWORD="secret"
 
 Allows specifying a non-root user password. It's ignored if `ENABLE_USER` is set to `false`. It's **HIGHLY RECOMMENDED** to change the default user password.
+
+---
+
+### Image
+
+##### ENABLE_BZIP2=false
+
+Compresses the resulting image using `bzip2`.
+
+Note, that the parameter conflicts with `ENABLE_GZIP` and `ENABLE_XZ`.
+
+##### ENABLE_GZIP=true
+
+Compresses the resulting image using `gzip`.
+
+Note, that the parameter conflicts with `ENABLE_BZIP2` and `ENABLE_XZ`.
+
+##### ENABLE_XZ=false
+
+Compresses the resulting image using `xz`.
+
+Note, that the parameter conflicts with `ENABLE_BZIP2` and `ENABLE_GZIP`.
 
 ---
 

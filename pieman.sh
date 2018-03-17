@@ -44,11 +44,15 @@ DEVICE=${DEVICE:="rpi-3-b"}
 
 ENABLE_CUSTOM_DNS=${ENABLE_CUSTOM_DNS:=""}
 
+ENABLE_BZIP2=${ENABLE_BZIP2:=false}
+
 ENABLE_BASIC_YANDEX_DNS=${ENABLE_BASIC_YANDEX_DNS:=false}
 
 ENABLE_FAMILY_YANDEX_DNS=${ENABLE_FAMILY_YANDEX_DNS:=false}
 
 ENABLE_GOOGLE_DNS=${ENABLE_GOOGLE_DNS:=false}
+
+ENABLE_GZIP=${ENABLE_GZIP:=true}
 
 ENABLE_SUDO=${ENABLE_SUDO:=true}
 
@@ -59,6 +63,8 @@ ENABLE_UNATTENDED_INSTALLATION=${ENABLE_UNATTENDED_INSTALLATION:=false}
 ENABLE_UNIVERSE=${ENABLE_UNIVERSE:=false}
 
 ENABLE_USER=${ENABLE_USER:=true}
+
+ENABLE_XZ=${ENABLE_XZ:=false}
 
 HOST_NAME=${HOST_NAME:="pieman-${DEVICE}"}
 
@@ -141,6 +147,11 @@ check_mutually_exclusive_params \
     ENABLE_FAMILY_YANDEX_DNS \
     ENABLE_CUSTOM_DNS
 
+check_mutually_exclusive_params \
+    ENABLE_BZIP2 \
+    ENABLE_GZIP \
+    ENABLE_XZ
+
 check_dependencies
 
 check_required_directories
@@ -220,3 +231,17 @@ umount "${MOUNT_POINT}"
 mount "${root_partition}" "${MOUNT_POINT}"
 
 rsync -ap "${R}"/ "${MOUNT_POINT}"
+
+cleanup
+
+compressor="$(choose_compressor)"
+
+if [ ! -z "${compressor}" ]; then
+    executable="$(echo "${compressor}" | cut -d' ' -f1)"
+    extension="$(echo "${compressor}" | cut -d' ' -f2)"
+
+    info "compressing image using ${executable}"
+    ${executable} "${IMAGE}"
+fi
+
+success "${IMAGE}${extension} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
