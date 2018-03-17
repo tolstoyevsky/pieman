@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -8,4 +8,4 @@ cd /root/pieman && env ./pieman.sh
 # some platforms:
 # E: Cannot install into target '/build/<project name>/chroot' mounted with
 # noexec or nodev
-mv /root/pieman/build/*/*.img /result
+mv $(ls /root/pieman/build/*/*.img{.bz2,.gz,.xz,} 2> /dev/null) /result
