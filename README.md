@@ -24,6 +24,7 @@ Pieman is a script for creating custom OS images for single-board computers such
     + [Users](#users)
     + [Image](#image)
     + [Pieman-specific](#pieman-specific)
+- [Daily image builds](#daily-image-builds)
 - [Authors](#authors)
 - [Licensing](#licensing)
 - [Contribute](#contribute)
@@ -354,6 +355,10 @@ Note, that the parameter conflicts with `ENABLE_BZIP2` and `ENABLE_GZIP`.
 ##### PYTHON="$(which python3)"
 
 Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities. 
+
+## Daily image builds
+
+You can find the images of all supported operating systems for all supported devices [here](https://cusdeb.com/images-built-by-pieman). Login username is `cusdeb`, password is `secret`.
 
 ## Authors
 
