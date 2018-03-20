@@ -1,0 +1,42 @@
+import java.text.SimpleDateFormat
+
+node {
+    stage ("Build image") {
+        checkout scm
+
+        def dateFormat = new SimpleDateFormat("yyyyMMdd")
+        def date = new Date()
+        def params = ""
+        def project_name = ""
+        def volumes = "-v /srv/images-built-by-pieman:/result -v /dev:/dev ${env.JOB_NAME}:${env.BUILD_NUMBER}"
+
+        switch(env.Distro) {
+        case "Devuan Jessie (32bit)":
+            params = "-e OS=devuan-jessie-armhf"
+            project_name = "devuan-jessie-armhf_for_rpi1-2"
+            break
+        case "Raspbian Stretch (32bit)":
+            params = ""
+            project_name = "raspbian_stretch_armhf_for_rpi1-2-3-zero"
+            break
+        case "Ubuntu Xenial (32bit)":
+            params = "-e OS=ubuntu-xenial-armhf -e DEVICE=rpi-2-b"
+            project_name = "ubuntu_xenial_armhf_for_rpi2"
+            break
+        case "Ubuntu Artful (32bit)":
+            params = "-e OS=ubuntu-artful-armhf"
+            project_name = "ubuntu_artful_armhf_for_rpi2-3"
+            break
+        case "Ubuntu Artful (64bit)":
+            params = "-e OS=ubuntu-artful-arm64"
+            project_name = "ubuntu_artful_arm64_for_rpi3"
+            break
+        }
+
+        project_name = "${project_name}_${dateFormat.format(date)}"
+
+        def environment = docker.build("${env.JOB_NAME}:${env.BUILD_NUMBER}", "--force-rm --no-cache --file=ci/Dockerfile ci")
+
+        sh "docker run --network=host --privileged --rm -e PROJECT_NAME=${project_name} ${params} ${volumes}"
+    }
+}
