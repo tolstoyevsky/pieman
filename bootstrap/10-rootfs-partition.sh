@@ -17,7 +17,7 @@ check_if_variable_is_set R
 
 if [ ! -z ${BASE_DIR} ] && [ -d ${BASE_DIR} ]; then
     info "using ${BASE_DIR} instead of creating chroot environment via debootstrap."
-    cp -r ${BASE_DIR} ${R}
+    cp -r --preserve ${BASE_DIR} ${R}
 else
     info "BASE_DIR is not specified or does not exist. Running debootstrap to create chroot environment."
 
