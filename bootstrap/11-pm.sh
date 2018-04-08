@@ -113,5 +113,7 @@ if ${CREATE_ONLY_CHROOT}; then
 
     cleanup
 
+    success "Chroot environment ${R} is done. Now you can speed up next builds by passing it to Pieman via the BASE_DIR parameter."
+
     exit 0
 fi
