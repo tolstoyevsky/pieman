@@ -186,10 +186,7 @@ run_scripts "bootstrap"
 umount_required_filesystems
 
 info "creating image"
-# The root partition definitely won't be 100% full, since the rootfs size is
-# larger on the host system than it will be after copying to the root
-# partition. Probably it's because of the fragmentation.
-create_image "$(du -s "${R}" | cut -f1)"
+create_image "$(calc_size "${R}")"
 
 LOOP_DEV=$(losetup --partscan --show --find "${IMAGE}")
 boot_partition="${LOOP_DEV}p1"
