@@ -375,7 +375,7 @@ cleanup() {
 #     IMAGE
 #     R
 # Arguments:
-#     Root filesystem size in kilobytes
+#     Root filesystem size in bytes
 # Returns:
 #     None
 create_image() {
@@ -390,17 +390,15 @@ create_image() {
     # The size of the target image.
     local image_size=0
 
-    # The filesystem metadata size. It has been experimentally determined that
-    # the metadata takes approximately 7% of the space, but we'll allocate for
-    # the purpose 3% more just in case.
-    local metadata_size="$(python3 -c "import math; print(math.ceil($1 / 100 * 10))")"
+    # Just in case allocate 10% more space than required.
+    local metadata_size="$(python3 -c "import math; print(math.ceil($1 / 10))")"
 
     # The root partition size should be large enough to fit the rootfs.
-    root_partition_size="$(( $1 + ${metadata_size} ))"
+    local root_partition_size="$(( $1 + ${metadata_size} ))"
 
-    image_size=$(( ${root_partition_size} + (${boot_partition_size} + ${alignment_x2}) * 1024 ))
+    image_size=$(( ${root_partition_size} + (${boot_partition_size} + ${alignment_x2}) * 1024 * 1024 ))
 
-    dd if=/dev/zero of="${IMAGE}" bs=1024 seek=${image_size} count=1
+    dd if=/dev/zero of="${IMAGE}" bs=1 seek=${image_size} count=1
 
     parted "${IMAGE}" mktable msdos
 
@@ -558,6 +556,20 @@ success() {
 #
 # FS-related functions
 #
+
+# Calculates the size of the specified directory.
+# Globals:
+#     None
+# Arguments:
+#     Directory name
+# Returns:
+#     Total size of the specified directory in bytes
+calc_size() {
+    local dir=$1
+    local block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
+
+    echo $(${PYTHON} ${PIEMAN_BIN}/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs)
+}
 
 # Checks if the required directories exist.
 # Globals:
