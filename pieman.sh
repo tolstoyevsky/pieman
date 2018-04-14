@@ -227,7 +227,7 @@ umount "${MOUNT_POINT}"
 
 mount "${root_partition}" "${MOUNT_POINT}"
 
-rsync -ap "${R}"/ "${MOUNT_POINT}"
+rsync -apS "${R}"/ "${MOUNT_POINT}"
 
 cleanup
 
