@@ -25,7 +25,7 @@ PYTHON_MINOR_VER=5
 # Arguments:
 #     Variable name
 # Returns:
-#     None
+#     Boolean
 check_if_variable_is_set() {
     var_name=$1
     if [ -z "${!var_name+x}" ]; then
