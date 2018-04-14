@@ -18,5 +18,6 @@ devuan-jessie-armhf:
   - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  base: tzdata
   kernel:
     package: raspberrypi-kernel

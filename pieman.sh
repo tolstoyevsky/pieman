@@ -70,6 +70,8 @@ HOST_NAME=${HOST_NAME:="pieman-${DEVICE}"}
 
 INCLUDES=${INCLUDES:=""}
 
+LOCALE=${LOCALE:="en_US.UTF-8"}
+
 OS=${OS:="raspbian-stretch-armhf"}
 
 # Do not show the root password.
@@ -172,14 +174,6 @@ for param in ${params}; do
     # shellcheck disable=SC2086
     eval ${param}=true
 done
-
-# Expand the base system.
-base_packages="$(get_attr_or_nothing ${OS} base)"
-if [ ! -z "${base_packages}" ]; then
-    for package in ${base_packages}; do
-        add_package_to_base_packages "${package}"
-    done
-fi
 
 run_scripts "bootstrap"
 
