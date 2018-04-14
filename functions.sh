@@ -15,6 +15,10 @@
 
 DEBOOTSTRAP_VER="1.0.91"
 
+PYTHON_MAJOR_VER=3
+
+PYTHON_MINOR_VER=5
+
 # Checks if the specified variable is set.
 # Globals:
 #     None
@@ -182,6 +186,12 @@ check_dependencies() {
         exit 1
     fi
 
+    if ! $(check_python_version); then
+        fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or higher is required." \
+              "$(${PYTHON} -V) is used instead."
+        exit 1
+    fi
+
     if ! ${PYTHON} -c "import yaml"; then
         fatal "there is no yaml python package." \
               "Run apt-get install python3-yaml on Debian/Ubuntu or" \
@@ -239,6 +249,26 @@ check_mutually_exclusive_params() {
             fi
         done
     done
+}
+
+# Checks if the current Python version is equal or greater than required.
+# Globals:
+#     PYTHON_MAJOR_VER
+#     PYTHON_MINOR_VER
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+check_python_version() {
+    local current_python_version=()
+
+    IFS='.' read -ra current_python_version <<< $(${PYTHON} -V | cut -d' ' -f2)
+
+    if (("${current_python_version[0]}" >= "${PYTHON_MAJOR_VER}")) && (("${current_python_version[1]}" >= "${PYTHON_MINOR_VER}")); then
+        true
+    else
+        false
+    fi
 }
 
 # Chooses a suitable compressor depending on which parameters passed (or didn't

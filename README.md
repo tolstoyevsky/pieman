@@ -41,7 +41,7 @@ Pieman is a script for creating custom OS images for single-board computers such
 * GNU Parted
 * GnuPG
 * mkpasswd
-* Python 3
+* Python (3.5 or higher)
 * PyYAML
 * rsync
 * Setuptools
