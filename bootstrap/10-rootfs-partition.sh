@@ -15,6 +15,17 @@
 
 check_if_variable_is_set R
 
+# Expand the base system.
+
+add_package_to_base_packages locales
+
+base_packages="$(get_attr_or_nothing ${OS} base)"
+if [ ! -z "${base_packages}" ]; then
+    for package in ${base_packages}; do
+        add_package_to_base_packages "${package}"
+    done
+fi
+
 if [ ! -z ${BASE_DIR} ] && [ -d ${BASE_DIR} ]; then
     info "using ${BASE_DIR} instead of creating chroot environment via debootstrap."
     cp -r --preserve ${BASE_DIR} ${R}

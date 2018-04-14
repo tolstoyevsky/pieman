@@ -16,12 +16,12 @@ ubuntu-artful-arm64:
   - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
-  base: gnupg
-  includes:
+  base:
+  - gnupg
+  - tzdata
   # /usr/share/initramfs-tools/hooks/flash_kernel_set_root will be looking for
   # systemd-detect-virt during installation of the kernel.
-  - systemd
-  - tzdata
+  includes: systemd
   params:
   # The kernel package is available in the universe archive area.
   - ENABLE_UNIVERSE
