@@ -383,13 +383,13 @@ choose_user_mode_emulation_binary() {
 # Returns:
 #     None
 cleanup() {
+    safe_unmount ${MOUNT_POINT}
+
+    umount_required_filesystems
+
     set -x
 
     rm -f ${KEYRING}
-
-    umount ${MOUNT_POINT} 2> /dev/null || /bin/true
-
-    umount_required_filesystems
 
     if check_if_variable_is_set LOOP_DEV; then
         losetup -d ${LOOP_DEV}
@@ -735,6 +735,43 @@ mount_required_filesystems() {
     mount --bind /tmp "${R}/tmp"
 }
 
+# Unmounts the required filesystems checking before if the specified directory
+# is a mount point. If the process of unmounting fails, the function tries to
+# repeat it a few more times.
+# Globals:
+#     None
+# Arguments:
+#     Directory name
+# Returns:
+#     None
+safe_unmount() {
+    local max_retries=5
+    local mount_point=$1
+
+    if [ -z "$(mount | grep "${mount_point}")" ]; then
+        info "${mount_point} is not a mount point"
+
+        return 0
+    else
+        info "unmounting ${mount_point}"
+    fi
+
+    for i in $(eval echo "{1..${max_retries}}"); do
+        umount "${mount_point}"
+
+        if [ -z "$(mount | grep "${mount_point}")" ]; then
+            break
+        else
+            info "failed to unmount ${mount_point} ($((max_retries - i)) attempts left)"
+            sleep 1
+        fi
+    done
+
+    if [ ! -z "$(mount | grep "${mount_point}")" ]; then
+        fatal "could not unmount ${mount_point} even after ${max_retries} attempts"
+    fi
+}
+
 # Unmounts the required filesystems.
 # Globals:
 #     R
@@ -743,11 +780,15 @@ mount_required_filesystems() {
 # Returns:
 #     None
 umount_required_filesystems() {
-    umount -l "${R}/proc"    2> /dev/null || /bin/true
-    umount -l "${R}/sys"     2> /dev/null || /bin/true
-    umount    "${R}/dev/pts" 2> /dev/null || /bin/true
-    umount    "${R}/dev"     2> /dev/null || /bin/true
-    umount    "${R}/tmp"     2> /dev/null || /bin/true
+    safe_unmount "${R}/proc"
+
+    safe_unmount "${R}/sys"
+
+    safe_unmount "${R}/dev/pts"
+
+    safe_unmount "${R}/dev"
+
+    safe_unmount "${R}/tmp"
 }
 
 #
