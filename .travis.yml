@@ -4,12 +4,11 @@ addons:
   apt:
     sources:
     - debian-sid
-    packages:
-    - shellcheck
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y shunit2
+  - sudo apt-get install -y cabal-install shunit2
+  - cabal update
+  - cabal install shellcheck
 
 script:
   - bash -c 'cd test && ./test_functions.sh'
