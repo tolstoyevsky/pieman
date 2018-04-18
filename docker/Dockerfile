@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     git \
     gnupg \
     parted \
+    python3-pip \
     python3-setuptools \
     python3-yaml \
     qemu-user-static \
@@ -33,7 +34,7 @@ RUN apt-get update && apt-get install -y \
  && cd pieman \
  && git clone https://anonscm.debian.org/git/d-i/debootstrap.git \
  && cd debootstrap && git checkout $DEBOOTSTRAP_VER && cd .. \
- && python3 setup.py install \
+ && pip3 install pieman \
  && apt-get purge -y git \
  && apt autoremove -y \
  && apt-get clean \

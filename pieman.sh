@@ -83,7 +83,7 @@ set -x
 
 PROJECT_NAME=${PROJECT_NAME:=$(uuidgen)}
 
-PIEMAN_BIN=${PIEMAN_BIN:='bin'}
+PIEMAN_BIN=${PIEMAN_BIN:='pieman/bin'}
 
 PYTHON=${PYTHON:=$(which python3)}
 

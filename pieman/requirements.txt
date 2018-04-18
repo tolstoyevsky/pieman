@@ -1,0 +1,3 @@
+PyYAML
+pypandoc  # only for converting README.md
+

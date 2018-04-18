@@ -40,7 +40,7 @@ RUN apk --update add \
  && cd pieman \
  && git clone https://anonscm.debian.org/git/d-i/debootstrap.git \
  && cd debootstrap && git checkout $DEBOOTSTRAP_VER && cd .. \
- && python3 setup.py install \
+ && pip3 install pieman \
  && apk del git \
  && rm -rf /var/cache/apk/*
 
