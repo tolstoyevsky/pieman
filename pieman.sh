@@ -124,7 +124,7 @@ BASE_PACKAGES=""
 IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
 # shellcheck disable=SC2034
-KEYRING=/tmp/atomatically-generated-keyring.gpg
+KEYRING="/tmp/atomatically-generated-keyring-for-${PROJECT_NAME}.gpg"
 
 # shellcheck disable=SC2034
 PM_OPTIONS=""
