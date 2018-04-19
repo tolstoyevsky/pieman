@@ -15,6 +15,10 @@
 
 DEBOOTSTRAP_VER="1.0.91"
 
+PIEMAN_MAJOR_VER=0
+
+PIEMAN_MINOR_VER=2
+
 PYTHON_MAJOR_VER=3
 
 PYTHON_MINOR_VER=5
@@ -186,6 +190,12 @@ check_dependencies() {
         exit 1
     fi
 
+    if ! $(check_pieman_version); then
+        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or higher is required." \
+              "Execute 'pip install pieman --upgrade' to upgrade the package."
+        exit 1
+    fi
+
     if ! $(check_python_version); then
         fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or higher is required." \
               "$(${PYTHON} -V) is used instead."
@@ -249,6 +259,32 @@ check_mutually_exclusive_params() {
             fi
         done
     done
+}
+
+# Checks if the Pieman package version is equal or greater than required.
+# Globals:
+#     PIEMAN_MAJOR_VER
+#     PIEMAN_MINOR_VER
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+check_pieman_version() {
+    local pieman_version=(0 0)
+    local output=""
+
+    output="$(${PYTHON} -c "import pieman; print(pieman.__version__)" 2>&1)"
+    # Pieman package 0.1 doesn't have the __version__ module attribute, so we
+    # have to provide for backwards compatibility.
+    if [ $? -eq 0 ]; then
+        IFS='.' read -ra pieman_version <<< "${output}"
+    fi
+
+    if (("${pieman_version[0]}" >= "${PIEMAN_MAJOR_VER}")) && (("${pieman_version[1]}" >= "${PIEMAN_MINOR_VER}")); then
+        true
+    else
+        false
+    fi
 }
 
 # Checks if the current Python version is equal or greater than required.
