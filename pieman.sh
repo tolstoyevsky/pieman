@@ -19,10 +19,12 @@ if [ "$(id -u)" -ne "0" ]; then
     exit 1
 fi
 
-if [ ! -r ./functions.sh ] ; then
-    >&2 echo "'./functions.sh' required script not found!"
+if [ ! -r ./essentials.sh ] ; then
+    >&2 echo "'./essentials.sh' required script not found!"
     exit 1
 fi
+
+. ./essentials.sh
 
 set -e
 
@@ -141,7 +143,7 @@ YML_FILE=${SOURCE_DIR}/pieman.yml
 # shellcheck disable=SC2034
 IFS='-' read -ra PIECES <<< ${OS}
 
-. ./functions.sh
+run_scripts "helpers"
 
 check_mutually_exclusive_params \
     ENABLE_GOOGLE_DNS \
