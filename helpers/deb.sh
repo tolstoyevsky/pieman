@@ -28,14 +28,15 @@
 run_first_stage() {
     local additional_opts=""
 
-    if [ ! -z ${BASE_PACKAGES} ]; then
+    if [ ! -z "${BASE_PACKAGES}" ]; then
         additional_opts="--include=${BASE_PACKAGES}"
     fi
 
     arch=${PIECES[2]}
     codename=${PIECES[1]}
-    primary_repo=`get_attr ${OS} repos | head -n1`
-    ${DEBOOTSTRAP_EXEC} --arch=${arch} --foreign --variant=minbase --keyring=${KEYRING} ${additional_opts} ${codename} ${R} ${primary_repo} 1>&2
+    primary_repo=$(get_attr "${OS}" repos | head -n1)
+    # shellcheck disable=SC2086
+    ${DEBOOTSTRAP_EXEC} --arch="${arch}" --foreign --variant=minbase --keyring="${KEYRING}" ${additional_opts} ${codename} "${R}" "${primary_repo}" 1>&2
 
     install_user_mode_emulation_binary
 }

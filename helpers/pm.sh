@@ -23,7 +23,7 @@
 #     None
 clean() {
     chroot_exec apt-get clean
-    rm -rf ${R}/var/lib/apt/lists/*
+    rm -rf "${R}"/var/lib/apt/lists/*
 }
 
 # Updates the indexes in the chroot environment.
@@ -45,6 +45,7 @@ update_indexes() {
 # Returns:
 #     None
 upgrade() {
+    # shellcheck disable=SC2086
     chroot_exec apt-get -y ${PM_OPTIONS} dist-upgrade
 }
 
@@ -57,9 +58,10 @@ upgrade() {
 #     None
 install_packages() {
     if ${ENABLE_UNATTENDED_INSTALLATION}; then
-        DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ${PM_OPTIONS} install $*
+        DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" "${PM_OPTIONS}" install "$@"
     else
-        chroot_exec apt-get -y ${PM_OPTIONS} install $*
+        # shellcheck disable=SC2086
+        chroot_exec apt-get -y ${PM_OPTIONS} install "$@"
     fi
 }
 
@@ -72,5 +74,5 @@ install_packages() {
 # Returns:
 #     None
 purge_packages() {
-    chroot_exec apt-get -y purge $*
+    chroot_exec apt-get -y purge "$@"
 }
