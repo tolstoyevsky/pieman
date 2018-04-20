@@ -22,7 +22,7 @@
 # Returns:
 #     None
 add_package_to_base_packages() {
-    add_item_to_list ${1} BASE_PACKAGES ","
+    add_item_to_list "${1}" BASE_PACKAGES ","
 }
 
 # Adds the specified package name to the INCLUDES environment variable which is
@@ -34,7 +34,7 @@ add_package_to_base_packages() {
 # Returns:
 #     None
 add_package_to_includes() {
-    add_item_to_list ${1} INCLUDES ","
+    add_item_to_list "${1}" INCLUDES ","
 }
 
 # Adds the specified options to the PM_OPTIONS environment variable which is
@@ -46,7 +46,7 @@ add_package_to_includes() {
 # Returns:
 #     None
 add_option_to_pm_options() {
-    add_item_to_list ${1} PM_OPTIONS " "
+    add_item_to_list "${1}" PM_OPTIONS " "
 }
 
 # Creates a keyring from the public keys related to the operating system which
@@ -62,7 +62,7 @@ add_option_to_pm_options() {
 #     None
 create_keyring() {
     for key in keys/${PIECES[0]}/*; do
-        gpg --no-default-keyring --keyring=${KEYRING} --import ${key}
+        gpg --no-default-keyring --keyring="${KEYRING}" --import "${key}"
     done
 }
 
@@ -77,13 +77,15 @@ create_keyring() {
 #     None
 mark_keys_as_trusted() {
     for key in keys/${PIECES[0]}/*; do
-        local key_name=`basename ${key}`
+        local key_name=""
 
-        cp ${key} ${R}
+        key_name=$(basename "${key}")
+
+        cp "${key}" "${R}"
 
         info "adding ${key} to the list of trusted keys"
-        chroot_exec apt-key add ${key_name}
+        chroot_exec apt-key add "${key_name}"
 
-        chroot_exec rm ${key_name}
+        chroot_exec rm "${key_name}"
     done
 }

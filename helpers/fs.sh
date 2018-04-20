@@ -22,9 +22,11 @@
 #     Total size of the specified directory in bytes
 calc_size() {
     local dir=$1
-    local block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
+    local block_size=""
 
-    echo $(${PYTHON} ${PIEMAN_BIN}/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs)
+    block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
+
+    ${PYTHON} "${PIEMAN_BIN}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
 # Checks if the required directories exist.
@@ -38,7 +40,7 @@ check_required_directories() {
     dirs="bootstrap devices"
 
     for dir in ${dirs}; do
-        if [ ! -d ${dir} ] ; then
+        if [ ! -d "${dir}" ] ; then
             fatal "${dir} required directory not found!"
             exit 1
         fi
@@ -53,7 +55,7 @@ check_required_directories() {
 # Returns:
 #     None
 check_required_files() {
-    if [ ! -f ${YML_FILE} ]; then
+    if [ ! -f "${YML_FILE}" ]; then
         fatal "${YML_FILE} does not exist"
         exit 1
     fi
@@ -67,10 +69,10 @@ check_required_files() {
 # Returns:
 #     None
 create_dir() {
-    dir=$1
+    local dir=$1
 
-    if [ ! -d ${dir} ]; then
-        mkdir -p ${dir}
+    if [ ! -d "${dir}" ]; then
+        mkdir -p "${dir}"
     fi
 }
 
@@ -83,15 +85,15 @@ create_dir() {
 # Returns:
 #     None
 create_necessary_dirs() {
-    target=${BUILD_DIR}/${PROJECT_NAME}
-    if [ -d ${target} ]; then
+    local target=${BUILD_DIR}/${PROJECT_NAME}
+    if [ -d "${target}" ]; then
         fatal "${target} already exists"
         exit 1
     fi
 
-    create_dir ${target}
-    create_dir ${target}/boot
-    create_dir ${target}/mount_point
+    create_dir "${target}"
+    create_dir "${target}"/boot
+    create_dir "${target}"/mount_point
 }
 
 # Installs the specified file to the specified directory and changes
@@ -104,7 +106,7 @@ create_necessary_dirs() {
 # Returns:
 #     None
 install_exec() {
-    install -o root -g root -m 744 $*
+    install -o root -g root -m 744 "$@"
 }
 
 # Installs the specified file to the specified directory and changes
@@ -117,7 +119,7 @@ install_exec() {
 # Returns:
 #     None
 install_readonly() {
-    install -o root -g root -m 644 $*
+    install -o root -g root -m 644 "$@"
 }
 
 # Installs the corresponding user mode emulation binary to the chroot
@@ -132,7 +134,7 @@ install_readonly() {
 install_user_mode_emulation_binary() {
     # It's not possible to use install_exec for installing user mode emulation
     # binaries. For details, see https://github.com/drtyhlpr/rpi23-gen-image/pull/85.
-    install -m 755 -o root -g root ${EMULATOR} ${USR_BIN}
+    install -m 755 -o root -g root "${EMULATOR}" "${USR_BIN}"
 }
 
 # Mounts the required filesystems to the chroot environment.
@@ -174,7 +176,7 @@ safe_unmount() {
     local max_retries=5
     local mount_point=$1
 
-    if [ -z "$(mount | grep "${mount_point}")" ]; then
+    if ! mount | grep -q "${mount_point}"; then
         info "${mount_point} is not a mount point"
 
         return 0
@@ -185,7 +187,7 @@ safe_unmount() {
     for i in $(eval echo "{1..${max_retries}}"); do
         umount "${mount_point}"
 
-        if [ -z "$(mount | grep "${mount_point}")" ]; then
+        if ! mount | grep -q "${mount_point}"; then
             break
         else
             info "failed to unmount ${mount_point} ($((max_retries - i)) attempts left)"
@@ -193,7 +195,7 @@ safe_unmount() {
         fi
     done
 
-    if [ ! -z "$(mount | grep "${mount_point}")" ]; then
+    if ! mount | grep -q "${mount_point}"; then
         fatal "could not unmount ${mount_point} even after ${max_retries} attempts"
     fi
 }

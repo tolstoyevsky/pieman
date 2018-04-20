@@ -24,9 +24,14 @@
 # Returns:
 #     Image attribute value
 get_attr() {
-    output="`${PYTHON} ${PIEMAN_BIN}/image_attrs.py --file=${YML_FILE} $* 2>&1`"
+    local output=""
+
+    output="$(${PYTHON} "${PIEMAN_BIN}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"
+    # TODO: check exit code directly with e.g. 'if mycmd;'
+    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
-        fatal "while getting the specified attribute from ${YML_FILE} occurred the following error: ${output}."
+        fatal "while getting the specified attribute from ${YML_FILE} " \
+              "occurred the following error: ${output}."
         exit 1
     fi
 
@@ -43,5 +48,5 @@ get_attr() {
 # Returns:
 #     Image attribute value
 get_attr_or_nothing() {
-    ${PYTHON} ${PIEMAN_BIN}/image_attrs.py --file=${YML_FILE} $* 2> /dev/null || /bin/true
+    ${PYTHON} "${PIEMAN_BIN}"/image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
 }

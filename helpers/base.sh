@@ -28,8 +28,8 @@ add_item_to_list() {
     local item="${1}"
     local var_name=${2}
     local delimiter="${3}"
-    if [ -z `echo ${!var_name} | grep "${delimiter}${item}"` ]; then
-        local result=""
+    # shellcheck disable=SC2086
+    if ! echo ${!var_name} | grep -q "${delimiter}${item}"; then
         if [ "${delimiter}" == " " ]; then
             eval ${var_name}="\"${!var_name}${delimiter}${item}\""
         else
@@ -48,7 +48,7 @@ add_item_to_list() {
 # Returns:
 #     None
 check_dependencies() {
-    if [ -z `which dpkg` ]; then
+    if [ -z "$(which dpkg)" ]; then
         # Do not mention Debian or Ubuntu since dpkg is a part of
         # the base system there.
         fatal "there is no dpkg. Run dnf install dpkg on Fedora to fix it."
@@ -69,14 +69,14 @@ check_dependencies() {
         exit 1
     fi
 
-    if [ -z `which mkpasswd` ]; then
+    if [ -z "$(which mkpasswd)" ]; then
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
               "dnf install expect on Fedora."
         exit 1
     fi
 
-    if [ -z `which uuidgen` ]; then
+    if [ -z "$(which uuidgen)" ]; then
         # Do not mention Fedora since uuidgen belongs to the util-linux package
         # which is a key component of the system.
         fatal "there is no uuidgen." \
@@ -84,14 +84,16 @@ check_dependencies() {
         exit 1
     fi
 
-    if ! $(check_pieman_version); then
-        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or higher is required." \
+    if ! check_pieman_version; then
+        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or " \
+              "higher is required." \
               "Execute 'pip install pieman --upgrade' to upgrade the package."
         exit 1
     fi
 
-    if ! $(check_python_version); then
-        fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or higher is required." \
+    if ! check_python_version; then
+        fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or "\
+              "higher is required." \
               "$(${PYTHON} -V) is used instead."
         exit 1
     fi
@@ -104,7 +106,7 @@ check_dependencies() {
     fi
 
     if ${ENABLE_BZIP2}; then
-        if [ -z `which bzip2` ]; then
+        if [ -z "$(which bzip2)" ]; then
             fatal "there is no bzip2." \
                   "Run apt-get install bzip2 on Debian/Ubuntu or" \
                   "dnf install bzip2 on Fedora."
@@ -113,7 +115,7 @@ check_dependencies() {
     fi
 
     if ${ENABLE_XZ}; then
-        if [ -z `which xz` ]; then
+        if [ -z "$(which xz)" ]; then
             fatal "there is no xz." \
                   "Run apt-get install xz-utils on Debian/Ubuntu or" \
                   "dnf install xz on Fedora."
@@ -133,17 +135,18 @@ check_dependencies() {
 # Returns:
 #     None
 check_mutually_exclusive_params() {
-    for param in $*; do
+    for param in "$@"; do
         # false is considered as non-empty string, so use empty string
         # explicitly.
         if [[ ${!param} == false ]]; then
+            # shellcheck disable=SC2086
             declare $param=""
         fi
     done
 
-    for a in $*; do
-        for b in $*; do
-            if [[ ${a} == ${b} ]]; then
+    for a in "$@"; do
+        for b in "$@"; do
+            if [[ "${a}" == "${b}" ]]; then
                 continue
             fi
 
@@ -170,6 +173,8 @@ check_pieman_version() {
     output="$(${PYTHON} -c "import pieman; print(pieman.__version__)" 2>&1)"
     # Pieman package 0.1 doesn't have the __version__ module attribute, so we
     # have to provide for backwards compatibility.
+    # TODO: check exit code directly with e.g. 'if mycmd;'
+    # shellcheck disable=SC2181
     if [ $? -eq 0 ]; then
         IFS='.' read -ra pieman_version <<< "${output}"
     fi
@@ -192,7 +197,7 @@ check_pieman_version() {
 check_python_version() {
     local current_python_version=()
 
-    IFS='.' read -ra current_python_version <<< $(${PYTHON} -V | cut -d' ' -f2)
+    IFS='.' read -ra current_python_version <<< "$(${PYTHON} -V | cut -d' ' -f2)"
 
     if (("${current_python_version[0]}" >= "${PYTHON_MAJOR_VER}")) && (("${current_python_version[1]}" >= "${PYTHON_MINOR_VER}")); then
         true
@@ -241,15 +246,15 @@ choose_debootstrap() {
     local ver=""
 
     if [ -f debootstrap/debootstrap ]; then
-        DEBOOTSTRAP_EXEC="env DEBOOTSTRAP_DIR=`pwd`/debootstrap ./debootstrap/debootstrap"
+        DEBOOTSTRAP_EXEC="env DEBOOTSTRAP_DIR=$(pwd)/debootstrap ./debootstrap/debootstrap"
 
         # After cloning the debootstrap git repo the program is a fully
         # functional, but does not have a correct version number. However, the
         # version can be found in the source package changelog.
-        ver=`sed 's/.*(\(.*\)).*/\1/; q' debootstrap/debian/changelog`
-    elif [ ! -z `which debootstrap` ]; then
-        DEBOOTSTRAP_EXEC=`which debootstrap`
-        ver=`${DEBOOTSTRAP_EXEC} --version | awk '{print $2}' || /bin/true`
+        ver=$(sed 's/.*(\(.*\)).*/\1/; q' debootstrap/debian/changelog)
+    elif [ ! -z "$(which debootstrap)" ]; then
+        DEBOOTSTRAP_EXEC=$(which debootstrap)
+        ver=$(${DEBOOTSTRAP_EXEC} --version | awk '{print $2}' || /bin/true)
     else
         fatal "there is no debootstrap." \
               "It's recommended to install the latest version of the program" \
@@ -258,12 +263,12 @@ choose_debootstrap() {
         exit 1
     fi
 
-    if [ -z ${ver} ]; then
+    if [ -z "${ver}" ]; then
         fatal "your debootstrap seems to be broken. Could not get its version."
         exit 1
     fi
 
-    if dpkg --compare-versions ${ver} lt ${DEBOOTSTRAP_VER}; then
+    if dpkg --compare-versions "${ver}" lt "${DEBOOTSTRAP_VER}"; then
         fatal "debootstrap ${DEBOOTSTRAP_VER} or higher is required."
         exit 1
     fi
@@ -293,6 +298,7 @@ choose_user_mode_emulation_binary() {
         EMULATOR=/usr/bin/qemu-arm-static
         ;;
     arm64)
+        # shellcheck disable=SC2034
         EMULATOR=/usr/bin/qemu-aarch64-static
         ;;
     *)
@@ -313,16 +319,16 @@ choose_user_mode_emulation_binary() {
 # Returns:
 #     None
 cleanup() {
-    safe_unmount ${MOUNT_POINT}
+    safe_unmount "${MOUNT_POINT}"
 
     umount_required_filesystems
 
     set -x
 
-    rm -f ${KEYRING}
+    rm -f "${KEYRING}"
 
     if check_if_variable_is_set LOOP_DEV; then
-        losetup -d ${LOOP_DEV}
+        losetup -d "${LOOP_DEV}"
     fi
 
     set +x
@@ -341,7 +347,7 @@ create_image() {
     # Partitions should be aligned on 4MiB boundaries.
     # See https://lwn.net/Articles/428584/.
     local alignment=4 # in megabytes
-    local alignment_x2=$(( ${alignment} * 2 ))
+    local alignment_x2=$(( alignment * 2 ))
 
     # The size of the partition which stores the kernel and RPi blobs.
     local boot_partition_size=100 # in megabytes
@@ -350,20 +356,21 @@ create_image() {
     local image_size=0
 
     # Just in case allocate 10% more space than required.
+    # shellcheck disable=SC2155
     local metadata_size="$(python3 -c "import math; print(math.ceil($1 / 10))")"
 
     # The root partition size should be large enough to fit the rootfs.
-    local root_partition_size="$(( $1 + ${metadata_size} ))"
+    local root_partition_size="$(( $1 + metadata_size ))"
 
-    image_size=$(( ${root_partition_size} + (${boot_partition_size} + ${alignment_x2}) * 1024 * 1024 ))
+    image_size=$(( root_partition_size + (boot_partition_size + alignment_x2) * 1024 * 1024 ))
 
     dd if=/dev/zero of="${IMAGE}" bs=1 seek=${image_size} count=1
 
     parted "${IMAGE}" mktable msdos
 
-    parted "${IMAGE}" mkpart p fat32 4MiB "$(( ${boot_partition_size} + ${alignment} ))MiB"
+    parted "${IMAGE}" mkpart p fat32 4MiB "$(( boot_partition_size + alignment ))MiB"
 
-    parted -s "${IMAGE}" -- mkpart primary ext2 "$(( ${boot_partition_size} + ${alignment_x2} ))MiB" -1s
+    parted -s "${IMAGE}" -- mkpart primary ext2 "$(( boot_partition_size + alignment_x2 ))MiB" -1s
 
     info "${IMAGE} of size ${image_size}K was successfully created"
 }
