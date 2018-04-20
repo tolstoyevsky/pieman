@@ -43,7 +43,11 @@ setUp() {
 
     YML_FILE="${SOURCE_DIR}/pieman.yml"
 
-    . ../functions.sh
+    . ../essentials.sh
+
+    for script in ../helpers/*.sh; do
+        . ${script}
+    done
 }
 
 tearDown() {
