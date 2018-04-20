@@ -188,7 +188,7 @@ safe_unmount() {
         umount "${mount_point}"
 
         if ! mount | grep -q "${mount_point}"; then
-            break
+            return 0
         else
             info "failed to unmount ${mount_point} ($((max_retries - i)) attempts left)"
             sleep 1
