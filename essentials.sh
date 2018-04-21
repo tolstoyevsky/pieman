@@ -80,6 +80,63 @@ success() {
     >&2 echo "${text_in_green_color}Success${reset}: ${*}"
 }
 
+# Defines variable assigning the specified value to it if the variable does not
+# exist. The function is a kind of shortcut for
+#   set -x
+#   VAR_NAME=${VAR_NAME:="default value"}
+#   set +x
+# Globals:
+#     None
+# Arguments:
+#     Variable name
+#     Value by default
+# Returns:
+#     None
+def_var() {
+    local var_name=$1
+    local value=$2
+
+    if check_if_variable_is_set ${var_name}; then
+        value="${!var_name}"
+    fi
+
+    eval ${var_name}="\"${value}\""
+
+    >&2 echo "+ ${var_name}=${value}"
+}
+
+# Defines variable assigning the specified value to it if the variable does not
+# exist. If the variable equals to "-", the function will suggest entering the
+# value without echo.
+# The function behaviour is very similar to def_var, but it always prints to
+# stderr
+#   + VAR_NAME=*****
+# hiding the real value.
+# Globals:
+#     None
+# Arguments:
+#     Variable name
+#     Value by default
+# Returns:
+#     None
+def_protected_var() {
+    local var_name=$1
+    local value=$2
+
+    if check_if_variable_is_set ${var_name}; then
+        value="${!var_name}"
+
+        if [ "${value}" = "-" ]; then
+            read -s -p "Enter ${var_name} value: " value
+            echo
+        fi
+    fi
+
+    eval ${var_name}="\"${value}\""
+
+    >&2 echo "+ ${var_name}=*****"
+}
+
 # Runs all scripts which are located in the specified directory.
 # Globals:
 #     None
