@@ -155,3 +155,18 @@ run_scripts() {
         info "cannot run anything from ${dir} since it does not exist."
     fi
 }
+
+# Splits the value of the OS variable into pieces and stores it to the PIECES
+# array. OS must stick to the following naming convention:
+# <distro name>-<codename>-<arch>.
+# Globals:
+#     None
+# Arguments:
+#     OS
+#     PIECES
+# Returns:
+#     None
+split_os_name_into_pieces() {
+    # shellcheck disable=SC2034
+    IFS='-' read -ra PIECES <<< ${OS}
+}
