@@ -87,7 +87,8 @@ check_dependencies() {
     if ! check_pieman_version; then
         fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or " \
               "higher is required." \
-              "Execute 'pip install pieman --upgrade' to upgrade the package."
+              "Execute 'sudo pip3 install pieman --upgrade' " \
+              "to upgrade the package."
         exit 1
     fi
 
