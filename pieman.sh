@@ -28,83 +28,67 @@ fi
 
 set -e
 
-set -x
-
 #
 # User defined params
 #
 
-ALLOW_UNAUTHENTICATED=${ALLOW_UNAUTHENTICATED:=false}
+def_var ALLOW_UNAUTHENTICATED false
 
-BASE_DIR=${BASE_DIR:=""}
+def_var BASE_DIR ""
 
-BUILD_DIR=${BUILD_DIR:="build"}
+def_var BUILD_DIR "build"
 
-CREATE_ONLY_CHROOT=${CREATE_ONLY_CHROOT:=false}
+def_var CREATE_ONLY_CHROOT false
 
-DEVICE=${DEVICE:="rpi-3-b"}
+def_var DEVICE "rpi-3-b"
 
-ENABLE_CUSTOM_DNS=${ENABLE_CUSTOM_DNS:=""}
+def_var ENABLE_CUSTOM_DNS ""
 
-ENABLE_BZIP2=${ENABLE_BZIP2:=false}
+def_var ENABLE_BZIP2 false
 
-ENABLE_BASIC_YANDEX_DNS=${ENABLE_BASIC_YANDEX_DNS:=false}
+def_var ENABLE_BASIC_YANDEX_DNS false
 
-ENABLE_FAMILY_YANDEX_DNS=${ENABLE_FAMILY_YANDEX_DNS:=false}
+def_var ENABLE_FAMILY_YANDEX_DNS false
 
-ENABLE_GOOGLE_DNS=${ENABLE_GOOGLE_DNS:=false}
+def_var ENABLE_GOOGLE_DNS false
 
-ENABLE_GZIP=${ENABLE_GZIP:=true}
+def_var ENABLE_GZIP true
 
-ENABLE_SUDO=${ENABLE_SUDO:=true}
+def_var ENABLE_SUDO true
 
-ENABLE_NONFREE=${ENABLE_NONFREE:=false}
+def_var ENABLE_NONFREE false
 
-ENABLE_UNATTENDED_INSTALLATION=${ENABLE_UNATTENDED_INSTALLATION:=false}
+def_var ENABLE_UNATTENDED_INSTALLATION false
 
-ENABLE_UNIVERSE=${ENABLE_UNIVERSE:=false}
+def_var ENABLE_UNIVERSE false
 
-ENABLE_USER=${ENABLE_USER:=true}
+def_var ENABLE_USER true
 
-ENABLE_XZ=${ENABLE_XZ:=false}
+def_var ENABLE_XZ false
 
-HOST_NAME=${HOST_NAME:="pieman-${DEVICE}"}
+def_var HOST_NAME "pieman-${DEVICE}"
 
-INCLUDES=${INCLUDES:=""}
+def_var INCLUDES ""
 
-LOCALE=${LOCALE:="en_US.UTF-8"}
+def_var LOCALE "en_US.UTF-8"
 
-OS=${OS:="raspbian-stretch-armhf"}
+def_var OS "raspbian-stretch-armhf"
 
-# Do not show the root password.
-set +x
-PASSWORD=${PASSWORD:="secret"}
-# The line 'set +x' pollutes the output, so it's better to remove it.
-tput cuu 1
-# Emulate the 'set -x' output.
->&2 echo "+ PASSWORD=*****"
-set -x
+def_protected_var PASSWORD "secret"
 
-PROJECT_NAME=${PROJECT_NAME:=$(uuidgen)}
+def_var PROJECT_NAME "$(uuidgen)"
 
-PIEMAN_BIN=${PIEMAN_BIN:='pieman/bin'}
+def_var PIEMAN_BIN 'pieman/bin'
 
-PYTHON=${PYTHON:=$(which python3)}
+def_var PYTHON "$(which python3)"
 
-SUDO_REQUIRE_PASSWORD=${SUDO_REQUIRE_PASSWORD:=true}
+def_var SUDO_REQUIRE_PASSWORD true
 
-TIME_ZONE=${TIME_ZONE:="Etc/UTC"}
+def_var TIME_ZONE "Etc/UTC"
 
-USER_NAME=${USER_NAME:="cusdeb"}
+def_var USER_NAME "cusdeb"
 
-# Do not show the user password.
-set +x
-USER_PASSWORD=${USER_PASSWORD:="secret"}
-tput cuu 1
->&2 echo "+ USER_PASSWORD=*****"
-set -x
-
-set +x
+def_protected_var USER_PASSWORD "secret"
 
 #
 # Internal params
@@ -171,7 +155,7 @@ set_traps
 create_necessary_dirs
 
 # Set to true the parameters recommended by the maintainer of the image.
-params="$(get_attr_or_nothing ${OS} params)"
+params="$(get_attr_or_nothing "${OS}" params)"
 for param in ${params}; do
     # shellcheck disable=SC2086
     eval ${param}=true

@@ -316,6 +316,8 @@ Creates a non-root user `USER_NAME` with the password `USER_PASSWORD`.
 
 Allows specifying the root password. It's **HIGHLY RECOMMENDED** to change the default root password.
 
+If `PASSWORD` equals to `-`, Pieman will prompt for a password, and read it without echoing to screen.
+
 ##### SUDO_REQUIRE_PASSWORD=true
 
 Tells `sudo` whether it should prompt for the password.
@@ -329,6 +331,8 @@ Allows specifying a non-root user name. It's ignored if `ENABLE_USER` is set to 
 ##### USER_PASSWORD="secret"
 
 Allows specifying a non-root user password. It's ignored if `ENABLE_USER` is set to `false`. It's **HIGHLY RECOMMENDED** to change the default user password.
+
+If `USER_PASSWORD` equals to `-`, Pieman will prompt for a password, and read it without echoing to screen.
 
 ---
 
