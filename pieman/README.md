@@ -9,10 +9,5 @@ The package contains the utilities which are used by [Pieman](https://github.com
 
 ## Installation
 
-Using `pip`:
+```sudo pip3 install pieman```
 
-```pip install pieman```
-
-Manually:
-
-```python3 setup.py build```
