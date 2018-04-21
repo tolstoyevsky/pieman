@@ -122,10 +122,7 @@ SOURCE_DIR=devices/${DEVICE}/${OS}
 # shellcheck disable=SC2034
 YML_FILE=${SOURCE_DIR}/pieman.yml
 
-# OS must stick to the following naming convention:
-# <distro name>-<codename>-<arch>.
-# shellcheck disable=SC2034
-IFS='-' read -ra PIECES <<< ${OS}
+split_os_name_into_pieces
 
 run_scripts "helpers"
 
