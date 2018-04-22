@@ -338,23 +338,23 @@ If `USER_PASSWORD` equals to `-`, Pieman will prompt for a password, and read it
 
 ### Image
 
-##### ENABLE_BZIP2=false
+##### COMPRESS_WITH_BZIP2=false
 
 Compresses the resulting image using `bzip2`.
 
-Note, that the parameter conflicts with `ENABLE_GZIP` and `ENABLE_XZ`.
+Note, that the parameter conflicts with `COMPRESS_WITH_GZIP` and `COMPRESS_WITH_XZ`.
 
-##### ENABLE_GZIP=true
+##### COMPRESS_WITH_GZIP=true
 
 Compresses the resulting image using `gzip`.
 
-Note, that the parameter conflicts with `ENABLE_BZIP2` and `ENABLE_XZ`.
+Note, that the parameter conflicts with `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH_XZ`.
 
-##### ENABLE_XZ=false
+##### COMPRESS_WITH_XZ=false
 
 Compresses the resulting image using `xz`.
 
-Note, that the parameter conflicts with `ENABLE_BZIP2` and `ENABLE_GZIP`.
+Note, that the parameter conflicts with `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH_GZIP`.
 
 ---
 

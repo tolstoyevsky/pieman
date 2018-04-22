@@ -38,21 +38,23 @@ def_var BASE_DIR ""
 
 def_var BUILD_DIR "build"
 
+def_var COMPRESS_WITH_BZIP2 false
+
+def_var COMPRESS_WITH_GZIP true
+
+def_var COMPRESS_WITH_XZ false
+
 def_var CREATE_ONLY_CHROOT false
 
 def_var DEVICE "rpi-3-b"
 
 def_var ENABLE_CUSTOM_DNS ""
 
-def_var ENABLE_BZIP2 false
-
 def_var ENABLE_BASIC_YANDEX_DNS false
 
 def_var ENABLE_FAMILY_YANDEX_DNS false
 
 def_var ENABLE_GOOGLE_DNS false
-
-def_var ENABLE_GZIP true
 
 def_var ENABLE_SUDO true
 
@@ -63,8 +65,6 @@ def_var ENABLE_UNATTENDED_INSTALLATION false
 def_var ENABLE_UNIVERSE false
 
 def_var ENABLE_USER true
-
-def_var ENABLE_XZ false
 
 def_var HOST_NAME "pieman-${DEVICE}"
 
@@ -133,9 +133,9 @@ check_mutually_exclusive_params \
     ENABLE_CUSTOM_DNS
 
 check_mutually_exclusive_params \
-    ENABLE_BZIP2 \
-    ENABLE_GZIP \
-    ENABLE_XZ
+    COMPRESS_WITH_BZIP2 \
+    COMPRESS_WITH_GZIP \
+    COMPRESS_WITH_XZ
 
 check_dependencies
 
