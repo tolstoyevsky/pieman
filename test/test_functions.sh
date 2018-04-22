@@ -98,33 +98,33 @@ test_checking_if_variable_is_set() {
 test_choosing_compressor() {
     local compressor=""
 
-    ENABLE_BZIP2=true
-    ENABLE_GZIP=false
-    ENABLE_XZ=false
+    COMPRESS_WITH_BZIP2=true
+    COMPRESS_WITH_GZIP=false
+    COMPRESS_WITH_XZ=false
 
     compressor="$(choose_compressor)"
 
     assertEquals "bzip2 .bz2" "${compressor}"
 
-    ENABLE_BZIP2=false
-    ENABLE_GZIP=true
-    ENABLE_XZ=false
+    COMPRESS_WITH_BZIP2=false
+    COMPRESS_WITH_GZIP=true
+    COMPRESS_WITH_XZ=false
 
     compressor="$(choose_compressor)"
 
     assertEquals "gzip .gz" "${compressor}"
 
-    ENABLE_BZIP2=false
-    ENABLE_GZIP=false
-    ENABLE_XZ=true
+    COMPRESS_WITH_BZIP2=false
+    COMPRESS_WITH_GZIP=false
+    COMPRESS_WITH_XZ=true
 
     compressor="$(choose_compressor)"
 
     assertEquals "xz .xz" "${compressor}"
 
-    ENABLE_BZIP2=false
-    ENABLE_GZIP=false
-    ENABLE_XZ=false
+    COMPRESS_WITH_BZIP2=false
+    COMPRESS_WITH_GZIP=false
+    COMPRESS_WITH_XZ=false
 
     compressor="$(choose_compressor)"
 

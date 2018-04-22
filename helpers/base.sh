@@ -40,9 +40,9 @@ add_item_to_list() {
 
 # Checks if all required dependencies are installed on the system.
 # Globals:
-#     ENABLE_BZIP2
-#     ENABLE_GZIP
-#     ENABLE_XZ
+#     COMPRESS_WITH_BZIP2
+#     COMPRESS_WITH_GZIP
+#     COMPRESS_WITH_XZ
 # Arguments:
 #     None
 # Returns:
@@ -105,7 +105,7 @@ check_dependencies() {
         exit 1
     fi
 
-    if ${ENABLE_BZIP2}; then
+    if ${COMPRESS_WITH_BZIP2}; then
         if [ -z "$(which bzip2)" ]; then
             fatal "there is no bzip2." \
                   "Run apt-get install bzip2 on Debian/Ubuntu or" \
@@ -114,7 +114,7 @@ check_dependencies() {
         fi
     fi
 
-    if ${ENABLE_XZ}; then
+    if ${COMPRESS_WITH_XZ}; then
         if [ -z "$(which xz)" ]; then
             fatal "there is no xz." \
                   "Run apt-get install xz-utils on Debian/Ubuntu or" \
@@ -209,23 +209,23 @@ check_python_version() {
 # Chooses a suitable compressor depending on which parameters passed (or didn't
 # pass) the user.
 # Globals:
-#     ENABLE_BZIP2
-#     ENABLE_GZIP
-#     ENABLE_XZ
+#     COMPRESS_WITH_BZIP2
+#     COMPRESS_WITH_GZIP
+#     COMPRESS_WITH_XZ
 # Arguments:
 #     None
 # Returns:
 #     String which consists of the executable name and the extension name
 choose_compressor() {
-    if ${ENABLE_BZIP2}; then
+    if ${COMPRESS_WITH_BZIP2}; then
         echo "bzip2 .bz2"
     fi
 
-    if ${ENABLE_GZIP}; then
+    if ${COMPRESS_WITH_GZIP}; then
         echo "gzip .gz"
     fi
 
-    if ${ENABLE_XZ}; then
+    if ${COMPRESS_WITH_XZ}; then
         echo "xz .xz"
     fi
 }
