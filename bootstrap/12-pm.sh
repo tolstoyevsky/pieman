@@ -18,7 +18,11 @@ for var in CREATE_ONLY_CHROOT ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
 done
 
 if ${ALLOW_UNAUTHENTICATED}; then
-    add_option_to_pm_options --allow-unauthenticated
+    if is_alpine; then
+        add_option_to_pm_options --allow-untrusted
+    elif is_debian_based; then
+        add_option_to_pm_options --allow-unauthenticated
+    fi
 fi
 
 if ${ENABLE_SUDO}; then
@@ -29,28 +33,43 @@ fi
 add_package_to_includes parted
 add_package_to_includes ifupdown
 
-# Networking
-add_package_to_includes netbase
-add_package_to_includes net-tools
-add_package_to_includes isc-dhcp-client
-add_package_to_includes inetutils-ping
+if is_alpine; then
+    add_package_to_includes e2fsprogs-extra
+    add_package_to_includes util-linux
+elif is_debian_based; then
+    # Networking
+    add_package_to_includes netbase
+    add_package_to_includes net-tools
+    add_package_to_includes isc-dhcp-client
+    add_package_to_includes inetutils-ping
+fi
+
+if is_alpine; then
+    if ${ENABLE_COMMUNITY}; then
+        additional_sections="community"
+    fi
 
 # By default /etc/apt/sources.list uses only the main section of the archive.
 # However, the ENABLE_NONFREE and ENABLE_UNIVERSE environment variables can
 # change the situation.
-if is_raspbian || is_devuan; then
+elif is_raspbian || is_devuan; then
     if ${ENABLE_NONFREE}; then
         additional_sections=" contrib non-free"
     fi
-fi
-
-if is_ubuntu; then
+elif is_ubuntu; then
     if ${ENABLE_UNIVERSE}; then
         additional_sections=" universe"
     fi
 fi
 
-if is_debian_based; then
+if is_alpine; then
+    primary_repo="$(get_attr "${OS}" repos | head -n1)"
+    echo "${primary_repo}/v${PIECES[1]}/main" > ${ETC}/apk/repositories
+
+    if [ ! -z "${additional_sections}" ]; then
+        echo "${primary_repo}/v${PIECES[1]}/${additional_sections}" >> ${ETC}/apk/repositories
+    fi
+elif is_debian_based; then
     # If /etc/apt/sources.list exists, remove the content.
     echo "" > ${ETC}/apt/sources.list
 
@@ -76,7 +95,9 @@ dns_params=(
 )
 for param in ${dns_params[@]}; do
     if ${!param} && [ ! -z ${!param} ]; then
-        add_package_to_includes resolvconf
+        if is_debian_based; then
+            add_package_to_includes resolvconf
+        fi
     fi
 done
 
