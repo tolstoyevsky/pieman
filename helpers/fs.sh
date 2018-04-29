@@ -42,7 +42,7 @@ check_required_directories() {
     for dir in ${dirs}; do
         if [ ! -d "${dir}" ] ; then
             fatal "${dir} required directory not found!"
-            exit 1
+            do_exit
         fi
     done
 }
@@ -57,7 +57,7 @@ check_required_directories() {
 check_required_files() {
     if [ ! -f "${YML_FILE}" ]; then
         fatal "${YML_FILE} does not exist"
-        exit 1
+        do_exit
     fi
 }
 
@@ -88,7 +88,7 @@ create_necessary_dirs() {
     local target=${BUILD_DIR}/${PROJECT_NAME}
     if [ -d "${target}" ]; then
         fatal "${target} already exists"
-        exit 1
+        do_eixt
     fi
 
     create_dir "${target}"

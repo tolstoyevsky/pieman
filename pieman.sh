@@ -182,7 +182,7 @@ done
 
 if [ -z "$(ls "${boot_partition}" 2> /dev/null)" ]; then
     fatal "${boot_partition} does not exist"
-    exit 1
+    do_exit
 fi
 
 info "formatting boot partition"
