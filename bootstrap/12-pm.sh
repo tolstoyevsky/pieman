@@ -35,29 +35,31 @@ add_package_to_includes net-tools
 add_package_to_includes isc-dhcp-client
 add_package_to_includes inetutils-ping
 
-# If /etc/apt/sources.list exists, remove the content.
-echo "" > ${ETC}/apt/sources.list
-
 # By default /etc/apt/sources.list uses only the main section of the archive.
 # However, the ENABLE_NONFREE and ENABLE_UNIVERSE environment variables can
 # change the situation.
-if [[ ${PIECES[0]} -eq "debian" ]] || [[ ${PIECES[0]} -eq "raspbian" ]]; then
+if is_raspbian || is_devuan; then
     if ${ENABLE_NONFREE}; then
         additional_sections=" contrib non-free"
     fi
 fi
 
-if [[ ${PIECES[0]} -eq "ubuntu" ]]; then
+if is_ubuntu; then
     if ${ENABLE_UNIVERSE}; then
         additional_sections=" universe"
     fi
 fi
 
-# Form the content of /etc/apt/sources.list.
-for source in `get_attr ${OS} repos`; do
-    codename=${PIECES[1]}
-    echo "deb ${source} ${codename} main${additional_sections}" >> ${ETC}/apt/sources.list
-done
+if is_debian_based; then
+    # If /etc/apt/sources.list exists, remove the content.
+    echo "" > ${ETC}/apt/sources.list
+
+    # Form the content of /etc/apt/sources.list.
+    for source in `get_attr ${OS} repos`; do
+        codename=${PIECES[1]}
+        echo "deb ${source} ${codename} main${additional_sections}" >> ${ETC}/apt/sources.list
+    done
+fi
 
 run_scripts ${SOURCE_DIR}/pre-update-indexes
 
