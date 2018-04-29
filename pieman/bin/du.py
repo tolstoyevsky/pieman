@@ -32,7 +32,7 @@ def get_tree_size(path, block_size=4096):
     # os.walk skips the symbolic links that resolve to directories, not
     # counting them at all. It has a great impact on the end result, so we need
     # a different way to solve the task.
-    for dir_entry in os.scandir(path):
+    for dir_entry in fault_tolerant_scandir(path):
         items_number += 1
 
         if os.path.islink(dir_entry.path):
@@ -49,6 +49,16 @@ def get_tree_size(path, block_size=4096):
                 total_size += block_size
 
     return total_size, items_number
+
+
+def fault_tolerant_scandir(path):
+    try:
+        return os.scandir(path)
+    except PermissionError:
+        sys.stderr.write('Permission denied when trying to figure out '
+                         'the size of {}\n'.format(path))
+
+    return []
 
 
 def main():
