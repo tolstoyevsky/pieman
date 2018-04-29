@@ -375,6 +375,19 @@ create_image() {
     info "${IMAGE} of size ${image_size}K was successfully created"
 }
 
+# Guarantees calling cleanup before exiting with non-zero code.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     None
+do_exit() {
+    cleanup
+
+    exit 1
+}
+
 # Calls the cleanup function on the following signals: SIGHUP, SIGINT, SIGQUIT
 # and SIGABRT.
 # Globals:

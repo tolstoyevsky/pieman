@@ -23,7 +23,7 @@ info "setting up locale"
 
 if [ -z "$(grep "# ${LOCALE}" ${ETC}/locale.gen)" ]; then
     fatal "could not find locale ${LOCALE}"
-    exit 1
+    do_exit
 fi
 
 case ${PIECES[0]} in

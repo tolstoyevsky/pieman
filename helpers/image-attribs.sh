@@ -32,7 +32,7 @@ get_attr() {
     if [ $? -ne 0 ]; then
         fatal "while getting the specified attribute from ${YML_FILE} " \
               "occurred the following error: ${output}."
-        exit 1
+        do_exit
     fi
 
     echo "${output}"
