@@ -397,5 +397,5 @@ do_exit() {
 # Returns:
 #     None
 set_traps() {
-    trap cleanup 1 2 3 6
+    trap cleanup 1 2 3 6 ERR
 }

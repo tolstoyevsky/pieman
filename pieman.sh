@@ -26,7 +26,7 @@ fi
 
 . ./essentials.sh
 
-set -e
+set -eE
 
 #
 # User defined params
