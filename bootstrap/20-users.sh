@@ -17,11 +17,7 @@ check_if_variable_is_set ENABLE_USER PASSWORD USER_NAME USER_PASSWORD
 
 if ${ENABLE_USER}; then
     info "creating regular user ${USER_NAME}"
-    chroot_exec useradd -m ${USER_NAME} -s /bin/bash
-
-    encrypted_password=`mkpasswd -m sha-512 "${USER_PASSWORD}"`
-
-    chroot_exec usermod -p "${encrypted_password}" ${USER_NAME}
+    add_user ${USER_NAME} ${USER_PASSWORD}
 
     if ${ENABLE_SUDO}; then
         info "add regular user ${USER_NAME} to /etc/sudoers"
@@ -36,7 +32,5 @@ if ${ENABLE_USER}; then
     fi
 fi
 
-encrypted_password=`mkpasswd -m sha-512 "${PASSWORD}"`
-
 info "setting root password"
-chroot_exec usermod -p "${encrypted_password}" root
+set_root_password "${PASSWORD}"

@@ -326,6 +326,8 @@ cleanup() {
 
     set -x
 
+    rm -f "${FIRSTBOOT}"
+
     rm -f "${KEYRING}"
 
     if check_if_variable_is_set LOOP_DEV; then
@@ -374,6 +376,21 @@ create_image() {
     parted -s "${IMAGE}" -- mkpart primary ext2 "$(( boot_partition_size + alignment_x2 ))MiB" -1s
 
     info "${IMAGE} of size ${image_size}K was successfully created"
+}
+
+# Checks if the specified OS is Alpine.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_alpine() {
+    if [ "${PIECES[0]}" = "alpine" ]; then
+        true
+    else
+        false
+    fi
 }
 
 # Checks if the specified OS is a Debian derivative.

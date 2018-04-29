@@ -21,9 +21,11 @@ fi
 
 info "setting up locale"
 
-if [ -z "$(grep "# ${LOCALE}" ${ETC}/locale.gen)" ]; then
-    fatal "could not find locale ${LOCALE}"
-    do_exit
+if is_debian_based; then
+    if [ -z "$(grep "# ${LOCALE}" ${ETC}/locale.gen)" ]; then
+        fatal "could not find locale ${LOCALE}"
+        do_exit
+    fi
 fi
 
 case ${PIECES[0]} in
@@ -46,4 +48,10 @@ info "setting up timezone"
 # Set timezone
 # https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1554806
 chroot_exec ln -fs /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
-chroot_exec dpkg-reconfigure -f noninteractive tzdata
+
+
+if is_alpine; then
+    echo "${TIME_ZONE}" > ${ETC}/timezone
+elif is_debian_based; then
+    chroot_exec dpkg-reconfigure -f noninteractive tzdata
+fi

@@ -22,8 +22,12 @@
 # Returns:
 #     None
 clean() {
-    chroot_exec apt-get clean
-    rm -rf "${R}"/var/lib/apt/lists/*
+    if is_alpine; then
+        rm -rf "${R}"/var/cache/apk/*
+    elif is_debian_based; then
+        chroot_exec apt-get clean
+        rm -rf "${R}"/var/lib/apt/lists/*
+    fi
 }
 
 # Updates the indexes in the chroot environment.
@@ -34,7 +38,11 @@ clean() {
 # Returns:
 #     None
 update_indexes() {
-    chroot_exec apt-get update
+    if is_alpine; then
+        chroot_exec apk update
+    elif is_debian_based; then
+        chroot_exec apt-get update
+    fi
 }
 
 # Upgrades the chroot environment.
@@ -45,8 +53,13 @@ update_indexes() {
 # Returns:
 #     None
 upgrade() {
-    # shellcheck disable=SC2086
-    chroot_exec apt-get -y ${PM_OPTIONS} dist-upgrade
+    if is_alpine; then
+        # shellcheck disable=SC2086
+        chroot_exec apk upgrade ${PM_OPTIONS}
+    elif is_debian_based; then
+        # shellcheck disable=SC2086
+        chroot_exec apt-get -y ${PM_OPTIONS} dist-upgrade
+    fi
 }
 
 # Installs the specified packages in the chroot environment.
@@ -57,11 +70,16 @@ upgrade() {
 # Returns:
 #     None
 install_packages() {
-    if ${ENABLE_UNATTENDED_INSTALLATION}; then
-        DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" "${PM_OPTIONS}" install "$@"
-    else
+    if is_alpine; then
         # shellcheck disable=SC2086
-        chroot_exec apt-get -y ${PM_OPTIONS} install "$@"
+        chroot_exec apk add ${PM_OPTIONS} "$@"
+    elif is_debian_based; then
+        if ${ENABLE_UNATTENDED_INSTALLATION}; then
+            DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" "${PM_OPTIONS}" install "$@"
+        else
+            # shellcheck disable=SC2086
+            chroot_exec apt-get -y ${PM_OPTIONS} install "$@"
+        fi
     fi
 }
 
@@ -74,5 +92,9 @@ install_packages() {
 # Returns:
 #     None
 purge_packages() {
-    chroot_exec apt-get -y purge "$@"
+    if is_alpine; then
+        chroot_exec apk del "$@"
+    elif is_debian_based; then
+        chroot_exec apt-get -y purge "$@"
+    fi
 }

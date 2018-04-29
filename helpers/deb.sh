@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Runs the first stage of building a chroot environment. Then it installs
-# a user mode emulation binary to the chroot.
+# Runs the first stage of building a chroot environment based on a Debian-based
+# distribution. Then it installs a user mode emulation binary to the chroot.
 # Globals:
 #     BASE_PACKAGES
 #     DEBOOTSTRAP_EXEC
@@ -41,7 +41,8 @@ run_first_stage() {
     install_user_mode_emulation_binary
 }
 
-# Runs the second (i.e. final) stage of building a chroot environment.
+# Runs the second (i.e. final) stage of building a chroot environment based on
+# a Debian-based distribution.
 # Globals:
 #     None
 # Arguments:

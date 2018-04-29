@@ -1,4 +1,6 @@
 .idea
+.PKGINFO
+.SIGN.RSA.alpine-*
 build
 debootstrap
 dist

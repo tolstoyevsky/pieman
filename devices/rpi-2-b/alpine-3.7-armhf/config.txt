@@ -1,0 +1,21 @@
+disable_splash=1
+boot_delay=0
+gpu_mem=256
+gpu_mem_256=64
+
+hdmi_drive=1
+hdmi_group=2
+hdmi_mode=1
+hdmi_mode=87
+hdmi_cvt 800 480 60 6 0 0 0
+
+[pi2]
+kernel=vmlinuz-rpi2
+initramfs initramfs-rpi2
+
+[pi3]
+kernel=vmlinuz-rpi2
+initramfs initramfs-rpi2
+
+[all]
+include usercfg.txt

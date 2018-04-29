@@ -20,35 +20,39 @@ check_if_variable_is_set \
     ENABLE_GOOGLE_DNS \
     ETC
 
+dns_addr1=""
+dns_addr2=""
 dns_is_set=false
 
 if ${ENABLE_GOOGLE_DNS}; then
-    echo "nameserver 8.8.8.8"  > ${ETC}/resolvconf/resolv.conf.d/base
-    echo "nameserver 8.8.4.4" >> ${ETC}/resolvconf/resolv.conf.d/base
+    dns_addr1="8.8.8.8"
+    dns_addr2="8.8.4.4"
+    dns_is_set=true
+elif ${ENABLE_BASIC_YANDEX_DNS}; then
+    dns_addr1="77.88.8.8"
+    dns_addr2="77.88.8.1"
+    dns_is_set=true
+elif ${ENABLE_FAMILY_YANDEX_DNS}; then
+    dns_addr1="77.88.8.7"
+    dns_addr2="77.88.8.3"
+    dns_is_set=true
+elif [ ! -z ${ENABLE_CUSTOM_DNS} ]; then
+    dns_addr1="${ENABLE_CUSTOM_DNS}"
     dns_is_set=true
 fi
 
-if ${ENABLE_BASIC_YANDEX_DNS}; then
-    echo "nameserver 77.88.8.8"  > ${ETC}/resolvconf/resolv.conf.d/base
-    echo "nameserver 77.88.8.1" >> ${ETC}/resolvconf/resolv.conf.d/base
-    dns_is_set=true
+if is_alpine; then
+    mkdir "${ETC}/udhcpc"
+    addrs=$(echo "${dns_addr1} ${dns_addr2}" | xargs)
+    echo -e "dns=\"${addrs}\"" > "${ETC}/udhcpc/udhcpc.conf"
+elif is_debian_based; then
+    for i in ${dns_addr1} ${dns_addr2}; do
+        echo "nameserver ${i}" >> ${ETC}/resolvconf/resolv.conf.d/base
+    done
 
-fi
-
-if ${ENABLE_FAMILY_YANDEX_DNS}; then
-    echo "nameserver 77.88.8.7"  > ${ETC}/resolvconf/resolv.conf.d/base
-    echo "nameserver 77.88.8.3" >> ${ETC}/resolvconf/resolv.conf.d/base
-    dns_is_set=true
-
-fi
-
-if [ ! -z ${ENABLE_CUSTOM_DNS} ]; then
-    echo ${ENABLE_CUSTOM_DNS} > ${ETC}/resolvconf/resolv.conf.d/base
-    dns_is_set=true
-fi
-
-if ${dns_is_set}; then
-    chroot_exec resolvconf -u
+    if ${dns_is_set}; then
+        chroot_exec resolvconf -u
+    fi
 fi
 
 install_readonly files/etc/hostname.template ${ETC}/hostname
@@ -58,3 +62,17 @@ install_readonly files/etc/hosts.template ${ETC}/hosts
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
 
 install_readonly files/network/interfaces ${ETC}/network/interfaces
+
+if is_alpine; then
+    info "Adding the hostname service to the default runlevel"
+    chroot_exec rc-update add hostname default
+
+    info "Adding the networking service to the default runlevel"
+    chroot_exec rc-update add networking default
+
+    install_exec files/etc/local.d/11-up_eth0.start ${ETC}/local.d/11-up_eth0.start
+
+    # The networking service should depend on the local service since one of
+    # the scripts from /etc/local.d raises the network interface.
+    sed -i '/^\tneed/ s/$/ local/' "${ETC}/init.d/networking"
+fi

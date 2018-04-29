@@ -109,6 +109,9 @@ USR_BIN=${R}/usr/bin
 # shellcheck disable=SC2034
 BASE_PACKAGES=""
 
+# shellcheck disable=SC2034
+FIRSTBOOT="/tmp/firstboot-${PROJECT_NAME}.sh"
+
 IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
 
 # shellcheck disable=SC2034

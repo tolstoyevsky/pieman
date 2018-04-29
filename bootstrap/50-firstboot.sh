@@ -15,25 +15,34 @@
 
 check_if_variable_is_set ETC
 
-info "Preparing ${ETC}/rc.firstboot"
+if is_alpine; then
+    info "Adding the local service to the default runlevel"
+    chroot_exec rc-update add local default
+fi
 
-touch ${ETC}/rc.firstboot
-chmod +x ${ETC}/rc.firstboot
+info "Preparing ${FIRSTBOOT}"
+
+touch "${FIRSTBOOT}"
+chmod +x "${FIRSTBOOT}"
 
 for script in files/firstboot/*.sh; do
-    cat ${script} >> ${ETC}/rc.firstboot
+    cat ${script} >> "${FIRSTBOOT}"
 done
 
-# /etc/rc.firstboot has to destroy itself and its traces after first run.
-cat <<EOT >> ${ETC}/rc.firstboot
+if is_alpine; then
+    install_exec "${FIRSTBOOT}" ${ETC}/local.d/90-firstboot.start
+    echo "rm -f /etc/local.d/90-firstboot.start" >> ${ETC}/local.d/90-firstboot.start
+elif is_debian_based; then
+    install_exec "${FIRSTBOOT}" ${ETC}/rc.firstboot
+    install_exec files/etc/rc.local ${ETC}/rc.local
+
+    # /etc/rc.firstboot has to destroy itself and its traces after first run.
+    cat <<EOT >> ${ETC}/rc.firstboot
 rm -f /etc/rc.firstboot
 sed -i '/.*rc.firstboot/d' /etc/rc.local
 EOT
 
-if [ ! -f ${ETC}/rc.local ]; then
-    install_exec files/etc/rc.local ${ETC}/rc.local
+    sed -i "/exit 0/d" ${ETC}/rc.local
+    echo "/etc/rc.firstboot" >> ${ETC}/rc.local
+    echo "exit 0" >> ${ETC}/rc.local
 fi
-
-sed -i "/exit 0/d" ${ETC}/rc.local
-echo "/etc/rc.firstboot" >> ${ETC}/rc.local
-echo "exit 0" >> ${ETC}/rc.local

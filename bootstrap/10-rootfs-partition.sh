@@ -17,7 +17,9 @@ check_if_variable_is_set R
 
 # Expand the base system.
 
-add_package_to_base_packages locales
+if is_debian_based; then
+    add_package_to_base_packages locales
+fi
 
 base_packages="$(get_attr_or_nothing ${OS} base)"
 if [ ! -z "${base_packages}" ]; then
@@ -27,27 +29,12 @@ if [ ! -z "${base_packages}" ]; then
 fi
 
 if [ ! -z ${BASE_DIR} ] && [ -d ${BASE_DIR} ]; then
-    info "using ${BASE_DIR} instead of creating chroot environment via debootstrap."
+    info "using ${BASE_DIR} instead of creating chroot environment."
     cp -r --preserve ${BASE_DIR} ${R}
 else
-    info "BASE_DIR is not specified or does not exist. Running debootstrap to create chroot environment."
+    info "BASE_DIR is not specified or does not exist. Creating chroot environment."
 
-    create_keyring
-
-    run_scripts ${SOURCE_DIR}/pre-first-stage
-
-    run_first_stage
-
-    run_scripts ${SOURCE_DIR}/post-first-stage
-
-    run_scripts ${SOURCE_DIR}/pre-second-stage
-
-    run_second_stage
-
-    run_scripts ${SOURCE_DIR}/post-second-stage
-
-    # To prevent NO_PUBKEY when the packages will be installed a bit later.
-    mark_keys_as_trusted
+    create_chroot_environment
 fi
 
 info "mounting proc and sys filesystems to chroot environment"

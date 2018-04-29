@@ -13,6 +13,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# TODO: describe the function below.
+create_chroot_environment() {
+    run_scripts "${SOURCE_DIR}"/pre-create-chroot
+
+    if is_alpine; then
+        run_apk_static
+    elif is_debian_based; then
+        create_keyring
+
+        run_scripts "${SOURCE_DIR}"/pre-first-stage
+
+        run_first_stage
+
+        run_scripts "${SOURCE_DIR}"/post-first-stage
+
+        run_scripts "${SOURCE_DIR}"/pre-second-stage
+
+        run_second_stage
+
+        run_scripts "${SOURCE_DIR}"/post-second-stage
+
+        # To prevent NO_PUBKEY when the packages will be installed a bit later.
+        mark_keys_as_trusted
+    fi
+
+    run_scripts "${SOURCE_DIR}"/post-create-chroot
+}
+
 # Executes the specified command in the chroot environment.
 # Globals:
 #     None

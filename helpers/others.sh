@@ -22,7 +22,11 @@
 # Returns:
 #     None
 add_package_to_base_packages() {
-    add_item_to_list "${1}" BASE_PACKAGES ","
+    if is_alpine; then
+        add_item_to_list "${1}" BASE_PACKAGES " "
+    else
+        add_item_to_list "${1}" BASE_PACKAGES ","
+    fi
 }
 
 # Adds the specified package name to the INCLUDES environment variable which is
