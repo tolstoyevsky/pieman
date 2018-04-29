@@ -376,6 +376,66 @@ create_image() {
     info "${IMAGE} of size ${image_size}K was successfully created"
 }
 
+# Checks if the specified OS is a Debian derivative.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_debian_based() {
+    if [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# Checks if the specified OS is Devuan.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_devuan() {
+    if [ "${PIECES[0]}" = "devuan" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# Checks if the specified OS is Raspbian.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_raspbian() {
+    if [ "${PIECES[0]}" = "raspbian" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# Checks if the specified OS is Ubuntu.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_ubuntu() {
+    if [ "${PIECES[0]}" = "ubuntu" ]; then
+        true
+    else
+        false
+    fi
+}
+
 # Guarantees calling cleanup before exiting with non-zero code.
 # Globals:
 #     None
