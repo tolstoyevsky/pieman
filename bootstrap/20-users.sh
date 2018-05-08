@@ -32,7 +32,7 @@ if ${ENABLE_USER}; then
             permission="ALL=(ALL) NOPASSWD: ALL"
         fi
 
-        sed -i "/root\tALL=(ALL:ALL) ALL/a ${USER_NAME}\t${permission}" ${ETC}/sudoers
+        echo "${USER_NAME} ${permission}" > ${ETC}/sudoers.d/01_allow_executing_any_command
     fi
 fi
 
