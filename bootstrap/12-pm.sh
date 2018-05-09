@@ -73,7 +73,7 @@ dns_params=(
     ENABLE_CUSTOM_DNS
 )
 for param in ${dns_params[@]}; do
-    if [ ! -z "${!param}" ]; then
+    if ${!param} && [ ! -z ${!param} ]; then
         add_package_to_includes resolvconf
     fi
 done

@@ -22,20 +22,20 @@ check_if_variable_is_set \
 
 dns_is_set=false
 
-if [ ! -z ${ENABLE_GOOGLE_DNS} ]; then
+if ${ENABLE_GOOGLE_DNS}; then
     echo "nameserver 8.8.8.8"  > ${ETC}/resolvconf/resolv.conf.d/base
     echo "nameserver 8.8.4.4" >> ${ETC}/resolvconf/resolv.conf.d/base
     dns_is_set=true
 fi
 
-if [ ! -z ${ENABLE_BASIC_YANDEX_DNS} ]; then
+if ${ENABLE_BASIC_YANDEX_DNS}; then
     echo "nameserver 77.88.8.8"  > ${ETC}/resolvconf/resolv.conf.d/base
     echo "nameserver 77.88.8.1" >> ${ETC}/resolvconf/resolv.conf.d/base
     dns_is_set=true
 
 fi
 
-if [ ! -z ${ENABLE_FAMILY_YANDEX_DNS} ]; then
+if ${ENABLE_FAMILY_YANDEX_DNS}; then
     echo "nameserver 77.88.8.7"  > ${ETC}/resolvconf/resolv.conf.d/base
     echo "nameserver 77.88.8.3" >> ${ETC}/resolvconf/resolv.conf.d/base
     dns_is_set=true
