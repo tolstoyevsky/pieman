@@ -24,6 +24,12 @@ for script in files/firstboot/*.sh; do
     cat ${script} >> ${ETC}/rc.firstboot
 done
 
+# /etc/rc.firstboot has to destroy itself and its traces after first run.
+cat <<EOT >> ${ETC}/rc.firstboot
+rm -f /etc/rc.firstboot
+sed -i '/.*rc.firstboot/d' /etc/rc.local
+EOT
+
 if [ ! -f ${ETC}/rc.local ]; then
     install_exec files/etc/rc.local ${ETC}/rc.local
 fi
