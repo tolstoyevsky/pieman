@@ -178,14 +178,14 @@ The built images will be located in `build/<project name>`. By the way, you can 
 
 The operating system of the target image is specified via the `OS` environment variable. The next table maps full names of the supported operating systems to their short name intended for using as values of `OS`.
 
-| Full name                               | Short name             |
-|-----------------------------------------|------------------------|
-| Alpine [3.7](https://alpinelinux.org/posts/Alpine-3.7.0-released.html) (32-bit) | alpine-3.7-armhf |
-| Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf |
-| Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)           | raspbian-stretch-armhf |
-| Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)    | ubuntu-xenial-armhf    |
-| Ubuntu 17.10 «[Artful Aardvark](https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes)» (32-bit) | ubuntu-artful-armhf    |
-| Ubuntu 17.10 «[Artful Aardvark](https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes)» (64-bit) | ubuntu-artful-arm64    |
+| Full name                                                                                                            | Short name             |
+|----------------------------------------------------------------------------------------------------------------------|------------------------|
+| Alpine [3.7](https://alpinelinux.org/posts/Alpine-3.7.0-released.html) (32-bit)                                      | alpine-3.7-armhf       |
+| Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
+| Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)                                      | raspbian-stretch-armhf |
+| Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
+| Ubuntu 17.10 «[Artful Aardvark](https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes)» (32-bit)                       | ubuntu-artful-armhf    |
+| Ubuntu 17.10 «[Artful Aardvark](https://wiki.ubuntu.com/ArtfulAardvark/ReleaseNotes)» (64-bit)                       | ubuntu-artful-arm64    |
 
 The device the target image is created for is specified via the `DEVICE` environment variable. The next table maps full names of the supported devices to their short name intended for using as values of `DEVICE`.
 
