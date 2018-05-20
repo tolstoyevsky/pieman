@@ -66,6 +66,8 @@ def_var ENABLE_UNIVERSE false
 
 def_var ENABLE_USER true
 
+def_var ENABLE_WIRELESS false
+
 def_var HOST_NAME "pieman-${DEVICE}"
 
 def_var INCLUDES ""

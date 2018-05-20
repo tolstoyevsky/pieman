@@ -57,4 +57,14 @@ sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hostname"
 install_readonly files/etc/hosts.template ${ETC}/hosts
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
 
-install_readonly files/network/interfaces ${ETC}/network/interfaces
+
+if [[ ${PIECES[0]} -eq "raspbian" ]]; then
+    if ${ENABLE_WIRELESS}; then
+        install -v -d ${ETC}/etc/wpa_supplicant
+        install -v -m 644 files/etc/wpa_supplicant/wpa_supplicant.conf ${ETC}/wpa_supplicant/wpa_supplicant.conf
+        install -v -d ${ETC}/systemd/system/dhcpcd.service.d
+        install -v -m 600 files/etc/systemd/system/dhcpcd.service.d/wait.conf ${ETC}/systemd/system/dhcpcd.service.d/
+    fi
+else
+    install_readonly files/network/interfaces ${ETC}/network/interfaces
+fi

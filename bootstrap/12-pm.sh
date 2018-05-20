@@ -32,7 +32,16 @@ add_package_to_includes ifupdown
 # Networking
 add_package_to_includes netbase
 add_package_to_includes net-tools
-add_package_to_includes isc-dhcp-client
+if [[ ${PIECES[0]} -eq "raspbian" ]]; then
+    add_package_to_includes dhcpcd5
+    if ${ENABLE_WIRELESS}; then
+        add_package_to_includes wpasupplicant
+        # install only if raspberry pi
+        add_package_to_includes firmware-brcm80211
+    fi
+else
+    add_package_to_includes isc-dhcp-client
+fi
 add_package_to_includes inetutils-ping
 
 # If /etc/apt/sources.list exists, remove the content.
