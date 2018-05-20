@@ -2,7 +2,7 @@
 
 set -e
 
-cd /root/pieman && env ./pieman.sh
+cd /root/pieman && ./pieman.sh
 
 # Cannot build images in a volume because it causes the following problem on
 # some platforms:
