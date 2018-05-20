@@ -1,5 +1,4 @@
-FROM debian:stretch
-MAINTAINER Evgeny Golyshev <eugulixes@gmail.com>
+FROM alpine:3.7
 
 ENV BRANCH master
 
@@ -12,34 +11,45 @@ ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/tolstoyevsky/pieman"
 
-RUN apt-get update && apt-get install -y \
+COPY rollout_fixes.sh /usr/bin/rollout_fixes.sh
+
+RUN apk --update add \
+    bash \
+    # for ar
+    binutils \
     dosfstools \
+    dpkg \
+    # for tune2fs
+    e2fsprogs-extra \
     git \
     gnupg \
+    # for tput
+    ncurses \
     parted \
-    python3-pip \
-    python3-setuptools \
-    python3-yaml \
-    qemu-user-static \
+    # for pkgdetails
+    perl \
+    py3-yaml \
     rsync \
-    uuid-runtime \
+    # for uuidgen
+    util-linux \
+    # debootstrap needs GNU tar instead of tar from Busybox
+    tar \
     wget \
     whois \
-    # Optional dependencies
-    bzip2 \
-    xz-utils \
+    xz \
  && mkdir /result \
+ && /usr/bin/rollout_fixes.sh \
+ && rm -r qemu-user-static \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
  && cd pieman \
  && git clone https://anonscm.debian.org/git/d-i/debootstrap.git \
  && cd debootstrap && git checkout $DEBOOTSTRAP_VER && cd .. \
  && pip3 install pieman \
- && apt-get purge -y git \
- && apt autoremove -y \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && apk del git \
+ && rm -rf /var/cache/apk/*
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
+
