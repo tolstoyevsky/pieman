@@ -221,4 +221,10 @@ if [ ! -z "${compressor}" ]; then
     ${executable} "${IMAGE}"
 fi
 
-success "${IMAGE}${extension} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
+if check_if_run_in_docker; then
+    image="$(basename "${IMAGE}${extension}")"
+else
+    image="${IMAGE}${extension}"
+fi
+
+success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."

@@ -13,6 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Checks if Pieman is run in the docker container based on its official Docker
+# image cusdeb/pieman.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+check_if_run_in_docker() {
+    if [ -f /.dockerenv ]; then
+        true
+    else
+        false
+    fi
+}
+
 # Adds the specified package name to the BASE_PACKAGES environment variable
 # which is a comma-separated list.
 # Globals:
