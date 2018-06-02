@@ -13,7 +13,8 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
 
 COPY rollout_fixes.sh /usr/bin/rollout_fixes.sh
 
-RUN apk --update add \
+RUN touch .dockerenv \
+ && apk --update add \
     bash \
     # for ar
     binutils \
