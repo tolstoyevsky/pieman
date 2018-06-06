@@ -18,6 +18,9 @@ check_if_variable_is_set ETC
 if is_alpine; then
     info "Adding the local service to the default runlevel"
     chroot_exec rc-update add local default
+    # is_raspberrypi
+    info "Enabling the software clock"
+    chroot_exec rc-update add swclock boot
 fi
 
 info "Preparing ${FIRSTBOOT}"
