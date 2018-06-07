@@ -146,7 +146,7 @@ $ sudo dnf install dosfstools dpkg expect gpg parted python3-pip python3-PyYAML 
 Finally, return to the project directory and run
 
 ```
-$ sudo pip3 install pieman
+$ pip3 install pieman --user
 ```
 
 to install the required utilities and modules written in Python.
