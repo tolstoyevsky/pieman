@@ -212,6 +212,8 @@ Allows specifying the device the image is going to be run on. You can find all t
 
 Allows specifying the chroot environment to be used instead of creating a new one.
 
+Note, that the parameter conflicts with `CREATE_ONLY_CHROOT`.
+
 ##### PROJECT_NAME="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
 Each image is built in in the context of some project. The parameter allows specifying the project name. By default, the name is a randomly generated UUID 32-character string.
