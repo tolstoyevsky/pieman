@@ -112,7 +112,7 @@ BASE_PACKAGES=""
 # shellcheck disable=SC2034
 FIRSTBOOT="/tmp/firstboot-${PROJECT_NAME}.sh"
 
-IMAGE=${BUILD_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.img
+IMAGE=${BUILD_DIR}/${PROJECT_NAME}.img
 
 # shellcheck disable=SC2034
 KEYRING="/tmp/atomatically-generated-keyring-for-${PROJECT_NAME}.gpg"
