@@ -130,6 +130,10 @@ split_os_name_into_pieces
 run_scripts "helpers"
 
 check_mutually_exclusive_params \
+    BASE_DIR \
+    CREATE_ONLY_CHROOT
+
+check_mutually_exclusive_params \
     ENABLE_GOOGLE_DNS \
     ENABLE_BASIC_YANDEX_DNS \
     ENABLE_FAMILY_YANDEX_DNS \
