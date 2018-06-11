@@ -220,3 +220,15 @@ umount_required_filesystems() {
 
     safe_unmount "${R}/tmp"
 }
+
+# Sets ownership and permissions on the image file.
+# Globals:
+#     YML_FILE
+# Arguments:
+#     None
+# Returns:
+#     None
+set_image_file_ownership() {
+    local image=$1
+    chown --reference="${YML_FILE}" "${image}"
+}
