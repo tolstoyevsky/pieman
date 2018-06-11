@@ -92,8 +92,10 @@ create_necessary_dirs() {
     fi
 
     create_dir "${target}"
-    create_dir "${target}"/boot
-    create_dir "${target}"/mount_point
+    if ! ${CREATE_ONLY_CHROOT}; then
+        create_dir "${target}"/boot
+        create_dir "${target}"/mount_point
+    fi
 }
 
 # Installs the specified file to the specified directory and changes
