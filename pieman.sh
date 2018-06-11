@@ -156,7 +156,7 @@ choose_user_mode_emulation_binary
 
 set_traps
 
-create_necessary_dirs
+create_temporary_dirs
 
 # Set to true the parameters recommended by the maintainer of the image.
 params="$(get_attr_or_nothing "${OS}" params)"

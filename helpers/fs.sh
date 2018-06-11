@@ -76,7 +76,7 @@ create_dir() {
     fi
 }
 
-# Creates the directories which are considered as necessary for projects/
+# Creates the temporary directories used while creating an image.
 # Globals:
 #     BUILD_DIR
 #     PROJECT_NAME
@@ -84,7 +84,7 @@ create_dir() {
 #     None
 # Returns:
 #     None
-create_necessary_dirs() {
+create_temporary_dirs() {
     local target=${BUILD_DIR}/${PROJECT_NAME}
     if [ -d "${target}" ]; then
         fatal "${target} already exists"
@@ -96,6 +96,20 @@ create_necessary_dirs() {
         create_dir "${target}"/boot
         create_dir "${target}"/mount_point
     fi
+}
+
+# Removes temporary directories.
+# Globals:
+#     BUILD_DIR
+#     PROJECT_NAME
+# Arguments:
+#     None
+# Returns:
+#     None
+remove_temporary_dirs() {
+    local target=${BUILD_DIR}/${PROJECT_NAME}
+
+    rm -rf "${target}"
 }
 
 # Installs the specified file to the specified directory and changes
