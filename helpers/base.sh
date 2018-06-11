@@ -334,6 +334,8 @@ cleanup() {
         losetup -d "${LOOP_DEV}"
     fi
 
+    remove_temporary_dirs
+
     set +x
 }
 
