@@ -224,7 +224,7 @@ Allows specifying the projects location. By default, the directory named `build`
 
 ##### CREATE_ONLY_CHROOT=false
 
-Makes Pieman restrict itself to creating only a chroot environment based on the operating system specified via `OS`. The chroot environment can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
+Makes Pieman restrict itself to creating only a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
 
 ##### LOCALE="en_US.UTF-8"
 
