@@ -75,7 +75,8 @@ install_packages() {
         chroot_exec apk add ${PM_OPTIONS} "$@"
     elif is_debian_based; then
         if ${ENABLE_UNATTENDED_INSTALLATION}; then
-            DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" "${PM_OPTIONS}" install "$@"
+            # shellcheck disable=SC2086
+            DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ${PM_OPTIONS} install "$@"
         else
             # shellcheck disable=SC2086
             chroot_exec apt-get -y ${PM_OPTIONS} install "$@"
