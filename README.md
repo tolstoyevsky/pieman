@@ -80,7 +80,7 @@ $ wget https://raw.githubusercontent.com/tolstoyevsky/pieman/master/docker-piema
 or using `curl`
 
 ```
-$ curl -o docker-pieman.sh https://raw.githubusercontent.com/tolstoyevsky/pieman/master/docker-pieman.sh
+$ curl -O https://raw.githubusercontent.com/tolstoyevsky/pieman/master/docker-pieman.sh
 ```
 
 Note, that the script requires bash 4 or higher, so macOS users should upgrade their bash if they haven't done it yet.
