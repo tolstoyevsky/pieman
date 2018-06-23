@@ -68,6 +68,8 @@ def_var ENABLE_USER true
 
 def_var HOST_NAME "pieman-${DEVICE}"
 
+def_var IMAGE_OWNERSHIP "$(id -u "$(stat -c "%U" "$0")"):$(id -g "$(stat -c "%G" "$0")")"
+
 def_var INCLUDES ""
 
 def_var LOCALE "en_US.UTF-8"
@@ -145,6 +147,8 @@ check_mutually_exclusive_params \
     COMPRESS_WITH_XZ
 
 check_dependencies
+
+check_ownership_format
 
 check_required_directories
 
@@ -225,11 +229,12 @@ if [ ! -z "${compressor}" ]; then
     ${executable} "${IMAGE}"
 fi
 
+change_image_ownership "${IMAGE}${extension}"
+
 if check_if_run_in_docker; then
     image="$(basename "${IMAGE}${extension}")"
 else
     image="${IMAGE}${extension}"
-    set_image_file_ownership "${image}"
 fi
 
 success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
