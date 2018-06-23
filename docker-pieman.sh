@@ -44,4 +44,7 @@ for var in ${VARS[@]}; do
 done
 
 docker run \
-    --privileged --rm ${ARGS[@]} -v `pwd`:/result -v /dev:/dev cusdeb/pieman
+    --privileged \
+    --rm ${ARGS[@]} \
+    --env IMAGE_OWNERSHIP="$(id -u $(stat -c "%U" $0)):$(id -g $(stat -c "%G" $0))" \
+    -v `pwd`:/result -v /dev:/dev cusdeb/pieman

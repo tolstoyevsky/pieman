@@ -159,6 +159,24 @@ check_mutually_exclusive_params() {
     done
 }
 
+# Checks if the IMAGE_OWNERSHIP value follows the format.
+# Globals:
+#     IMAGE_OWNERSHIP
+# Arguments:
+#     None
+# Returns:
+#     None
+check_ownership_format() {
+    local ownership=()
+    local re="^[0-9]+$"
+
+    IFS=':' read -ra ownership <<< "${IMAGE_OWNERSHIP}"
+    if [ "${#ownership[@]}" -ne "2" ] || ! [[ "${ownership[0]}" =~ ${re} ]] || ! [[ "${ownership[1]}" =~ ${re} ]]; then
+        fatal "IMAGE_OWNERSHIP must follow the format: \"uid:gid\"."
+        exit 1
+    fi
+}
+
 # Checks if the Pieman package version is equal or greater than required.
 # Globals:
 #     PIEMAN_MAJOR_VER

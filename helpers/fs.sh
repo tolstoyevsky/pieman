@@ -29,6 +29,19 @@ calc_size() {
     ${PYTHON} "${PIEMAN_BIN}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
+# Changes the user owner and group owner to those which are specified in
+# IMAGE_OWNERSHIP for the image file.
+# Globals:
+#     IMAGE_OWNERSHIP
+# Arguments:
+#     None
+# Returns:
+#     None
+change_image_ownership() {
+    local image=$1
+    chown "${IMAGE_OWNERSHIP}" "${image}"
+}
+
 # Checks if the required directories exist.
 # Globals:
 #     None
@@ -233,16 +246,4 @@ umount_required_filesystems() {
     safe_unmount "${R}/dev"
 
     safe_unmount "${R}/tmp"
-}
-
-# Sets ownership and permissions on the image file.
-# Globals:
-#     YML_FILE
-# Arguments:
-#     None
-# Returns:
-#     None
-set_image_file_ownership() {
-    local image=$1
-    chown --reference="${YML_FILE}" "${image}"
 }
