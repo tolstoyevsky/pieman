@@ -29,19 +29,6 @@ calc_size() {
     ${PYTHON} "${PIEMAN_BIN}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
-# Changes the user owner and group owner to those which are specified in
-# IMAGE_OWNERSHIP for the image file.
-# Globals:
-#     IMAGE_OWNERSHIP
-# Arguments:
-#     None
-# Returns:
-#     None
-change_image_ownership() {
-    local image=$1
-    chown "${IMAGE_OWNERSHIP}" "${image}"
-}
-
 # Checks if the required directories exist.
 # Globals:
 #     None
