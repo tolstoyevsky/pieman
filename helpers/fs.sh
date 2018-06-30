@@ -92,6 +92,7 @@ create_temporary_dirs() {
     fi
 
     create_dir "${target}"
+    chown "${IMAGE_OWNERSHIP}" "${BUILD_DIR}"
     if ! ${CREATE_ONLY_CHROOT}; then
         create_dir "${target}"/boot
         create_dir "${target}"/mount_point

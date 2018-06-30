@@ -220,7 +220,7 @@ Each image is built in in the context of some project. The parameter allows spec
 
 ##### BUILD_DIR="build"
 
-Allows specifying the projects location. By default, the directory named `build` is created in the current directory.
+Allows specifying the projects location. By default, the directory named `build` is created in the current directory during the build process with ownership specified via `IMAGE_OWNERSHIP`.
 
 ##### CREATE_ONLY_CHROOT=false
 
@@ -365,7 +365,7 @@ Note, that the parameter conflicts with `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH
 
 ##### IMAGE_OWNERSHIP="$(id -u "$(stat -c "%U" "$0")"):$(id -g "$(stat -c "%G" "$0")")"
 
-Allows specifying the ownership of the target image. By default, the ownership is borrowed from `pieman.sh` which, as a rule, belongs to a regular user.
+Allows specifying the ownership of the target image (see `PROJECT_NAME`) and project directory (see `BUILD_DIR`). By default, the ownership is borrowed from `pieman.sh` which, as a rule, belongs to a regular user.
 
 Note, that the parameter must follow the format "uid:gid" where `uid` and `gid` are numbers.
 
