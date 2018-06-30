@@ -229,7 +229,7 @@ if [ ! -z "${compressor}" ]; then
     ${executable} "${IMAGE}"
 fi
 
-change_image_ownership "${IMAGE}${extension}"
+chown "${IMAGE_OWNERSHIP}" "${IMAGE}${extension}"
 
 if check_if_run_in_docker; then
     image="$(basename "${IMAGE}${extension}")"
