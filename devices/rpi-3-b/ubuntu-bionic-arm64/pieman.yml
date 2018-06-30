@@ -1,14 +1,14 @@
 # Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
 
-ubuntu-artful-arm64:
+ubuntu-bionic-arm64:
   repos:
   - http://ports.ubuntu.com/ubuntu-ports/
   boot:
   - cmdline.txt
   - config.txt
-  - /boot/vmlinuz-4.13.0-*-raspi2:kernel8.img
-  - /lib/firmware/4.13.0-*-raspi2/device-tree/broadcom/bcm2710-rpi-3-b.dtb
-  - /lib/firmware/4.13.0-*-raspi2/device-tree/broadcom/bcm2837-rpi-3-b.dtb
+  - /boot/vmlinuz-4.15.0-*-raspi2:kernel8.img
+  - /lib/firmware/4.15.0-*-raspi2/device-tree/broadcom/bcm2710-rpi-3-b.dtb
+  - /lib/firmware/4.15.0-*-raspi2/device-tree/broadcom/bcm2837-rpi-3-b.dtb
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
