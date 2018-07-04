@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-DEBOOTSTRAP_VER="1.0.91"
+DEBOOTSTRAP_VER="1.0.105"
 
 PIEMAN_MAJOR_VER=0
 

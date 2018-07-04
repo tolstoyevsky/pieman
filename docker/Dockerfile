@@ -2,7 +2,7 @@ FROM alpine:3.7
 
 ENV BRANCH master
 
-ENV DEBOOTSTRAP_VER 1.0.91
+ENV DEBOOTSTRAP_VER 1.0.105
 
 ENV TERM linux
 
@@ -53,4 +53,3 @@ RUN touch .dockerenv \
 COPY docker-entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-
