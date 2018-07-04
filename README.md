@@ -118,16 +118,16 @@ First, clone the Pieman git repo:
 $ git clone https://github.com/tolstoyevsky/pieman.git
 ```
 
-Then, go into the newly created directory and clone the debootstrap git repo there. Pieman requires debootstrap `1.0.91 `or higher.
+Then, go into the newly created directory and clone the debootstrap git repo there. Pieman requires debootstrap `1.0.105` or higher.
 
 ```
 $ cd pieman
-$ git clone https://anonscm.debian.org/git/d-i/debootstrap.git
+$ git clone https://salsa.debian.org/installer-team/debootstrap.git
 $ cd debootstrap
-$ git checkout 1.0.91
+$ git checkout 1.0.105
 ```
 
-If your distribution has debootstrap 1.0.91 or higher (for example, Ubuntu 17.10), you can skip this step and install it via a package manager.
+If your distribution has debootstrap 1.0.105 or higher (for example, Ubuntu 18.04), you can skip this step and install it via a package manager.
 
 Next, install the rest of the Pieman dependencies.
 

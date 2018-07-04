@@ -154,7 +154,7 @@ test_choosing_debootstrap() {
     assertNotNull \
         "$(echo ${result} | grep "${DEBOOTSTRAP_VER} or higher is required.")"
 
-    echo "debootstrap (1.0.91) unstable; " \
+    echo "debootstrap (1.0.105) unstable; " \
          "urgency=medium" > debootstrap/debian/changelog
 
     result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
