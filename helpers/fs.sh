@@ -80,6 +80,7 @@ create_dir() {
 # Globals:
 #     BUILD_DIR
 #     PROJECT_NAME
+#     CREATE_ONLY_CHROOT
 # Arguments:
 #     None
 # Returns:
@@ -103,6 +104,7 @@ create_temporary_dirs() {
 # Globals:
 #     BUILD_DIR
 #     PROJECT_NAME
+#     CREATE_ONLY_CHROOT
 # Arguments:
 #     None
 # Returns:
@@ -110,7 +112,9 @@ create_temporary_dirs() {
 remove_temporary_dirs() {
     local target=${BUILD_DIR}/${PROJECT_NAME}
 
-    rm -rf "${target}"
+    if ! ${CREATE_ONLY_CHROOT}; then
+        rm -rf "${target}"
+    fi
 }
 
 # Installs the specified file to the specified directory and changes
