@@ -22,7 +22,7 @@ fi
 info "setting up locale"
 
 if is_debian_based; then
-    if [ -z "$(grep "# ${LOCALE}" ${ETC}/locale.gen)" ]; then
+    if [ -z "$(grep "${LOCALE}" ${ETC}/locale.gen)" ]; then
         fatal "could not find locale ${LOCALE}"
         do_exit
     fi
