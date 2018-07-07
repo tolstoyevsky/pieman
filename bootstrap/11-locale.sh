@@ -28,21 +28,13 @@ if is_debian_based; then
     fi
 fi
 
-case ${PIECES[0]} in
-raspbian|devuan)
+if is_devuan || is_raspbian; then
     sed -i "s/^# *\($LOCALE\)/\1/" ${ETC}/locale.gen
 
     chroot_exec locale-gen
-    ;;
-ubuntu)
-    if [[ ${PIECES[1]} == "artful" ]]; then
-        info "skipping setting up locale for Ubuntu Artful since it's not" \
-             "possible so far using emulator"
-    else
-        chroot_exec locale-gen "${LOCALE}"
-    fi
-    ;;
-esac
+elif is_ubuntu; then
+    chroot_exec locale-gen "${LOCALE}"
+fi
 
 info "setting up timezone"
 # Set timezone
