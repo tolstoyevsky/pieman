@@ -1,6 +1,6 @@
 # Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
 
-alpine-3.7-armhf:
+alpine-3.9-armhf:
   repos:
   - http://dl-cdn.alpinelinux.org/alpine/
   boot:
@@ -20,5 +20,7 @@ alpine-3.7-armhf:
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
   base: tzdata
+  params:
+  - ENABLE_GOOGLE_DNS
   kernel:
     package: linux-rpi2

@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-ALPINE_VER="3.7"
+ALPINE_VER="3.9"
 
 DEBOOTSTRAP_VER="1.0.105"
 
