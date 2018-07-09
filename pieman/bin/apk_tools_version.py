@@ -32,7 +32,7 @@ from urllib.request import urlopen
 
 ARCH = 'armhf'
 
-ALPINE_VERSION = '3.7'
+ALPINE_VERSION = '3.9'
 
 MIRROR = 'http://dl-cdn.alpinelinux.org'
 
