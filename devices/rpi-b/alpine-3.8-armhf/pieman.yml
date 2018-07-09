@@ -1,0 +1,24 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+alpine-3.8-armhf:
+  repos:
+  - http://dl-cdn.alpinelinux.org/alpine/
+  boot:
+  - cmdline.txt
+  - config.txt
+  - /boot/initramfs-rpi
+  - /boot/vmlinuz-rpi
+  - /usr/lib/linux-*-rpi/bcm2835-rpi-b.dtb
+  - /usr/lib/linux-*-rpi/bcm2835-rpi-zero.dtb
+  - /usr/lib/linux-*-rpi/bcm2708-rpi-b-plus.dtb
+  - /usr/lib/linux-*-rpi/overlays
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  base: tzdata
+  kernel:
+    package: linux-rpi
