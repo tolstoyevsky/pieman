@@ -68,7 +68,7 @@ def_var ENABLE_USER true
 
 def_var HOST_NAME "pieman-${DEVICE}"
 
-def_var IMAGE_OWNERSHIP "$(id -u "$(stat -c "%U" "$0")"):$(id -g "$(stat -c "%G" "$0")")"
+def_var IMAGE_OWNERSHIP "$(get_ownership "$0")"
 
 def_var INCLUDES ""
 
@@ -78,15 +78,21 @@ def_var OS "raspbian-stretch-armhf"
 
 def_protected_var PASSWORD "secret"
 
-def_var PROJECT_NAME "$(uuidgen)"
+def_var PIEMAN_DIR "$(pwd)"
 
-def_var PIEMAN_BIN 'pieman/bin'
+def_var PIEMAN_UTILS_DIR "${PIEMAN_DIR}/pieman/bin"
+
+def_var PREPARE_ONLY_TOOLSET false
+
+def_var PROJECT_NAME "$(uuidgen)"
 
 def_var PYTHON "$(which python3)"
 
 def_var SUDO_REQUIRE_PASSWORD true
 
 def_var TIME_ZONE "Etc/UTC"
+
+def_var TOOLSET_DIR "${PIEMAN_DIR}/toolset"
 
 def_var USER_NAME "cusdeb"
 
@@ -131,6 +137,9 @@ split_os_name_into_pieces
 
 run_scripts "helpers"
 
+info "checking toolset"
+. toolset.sh
+
 check_mutually_exclusive_params \
     BASE_DIR \
     CREATE_ONLY_CHROOT
@@ -154,9 +163,9 @@ check_required_directories
 
 check_required_files
 
-choose_debootstrap
-
 choose_user_mode_emulation_binary
+
+init_debootstrap
 
 set_traps
 

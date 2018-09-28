@@ -35,7 +35,6 @@ Pieman is a script for creating custom OS images for single-board computers such
 
 #### Mandatary
 
-* debootstrap
 * dosfstools
 * dpkg
 * GNU Parted
@@ -118,18 +117,7 @@ First, clone the Pieman git repo:
 $ git clone https://github.com/tolstoyevsky/pieman.git
 ```
 
-Then, go into the newly created directory and clone the debootstrap git repo there. Pieman requires debootstrap `1.0.105` or higher.
-
-```
-$ cd pieman
-$ git clone https://salsa.debian.org/installer-team/debootstrap.git
-$ cd debootstrap
-$ git checkout 1.0.105
-```
-
-If your distribution has debootstrap 1.0.105 or higher (for example, Ubuntu 18.04), you can skip this step and install it via a package manager.
-
-Next, install the rest of the Pieman dependencies.
+Then, install the Pieman dependencies.
 
 On Debian or Ubuntu:
 
@@ -224,15 +212,27 @@ Allows specifying the projects location. By default, the directory named `build`
 
 ##### CREATE_ONLY_CHROOT=false
 
-Makes Pieman restrict itself to creating only a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
+Makes Pieman restrict itself to only creating a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
 
 ##### LOCALE="en_US.UTF-8"
 
 Allows specifying the locale.
 
+##### PIEMAN_DIR="$(pwd)"
+
+Allows specifying the directory into which Pieman is installed.
+
+##### PREPARE_ONLY_TOOLSET=false
+
+Makes Pieman restrict itself to only preparing or upgrading the toolset which is located in the directory specified via `TOOLSET_DIR`.
+
 ##### TIME_ZONE="Etc/UTC"
 
 Specifies the time zone of the system.
+
+##### TOOLSET_DIR="${PIEMAN_DIR}/toolset"
+
+Allows specifying the directory which contains the tools necessary for creating chroot environments based on Alpine Linux and different Debian-based distributions. The toolset consists of [debootstrap](https://wiki.debian.org/Debootstrap) and [apk.static](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management).
 
 ---
 

@@ -26,7 +26,7 @@ calc_size() {
 
     block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
 
-    ${PYTHON} "${PIEMAN_BIN}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
+    ${PYTHON} "${PIEMAN_UTILS_DIR}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
 # Checks if the required directories exist.

@@ -2,8 +2,6 @@ FROM alpine:3.7
 
 ENV BRANCH master
 
-ENV DEBOOTSTRAP_VER 1.0.105
-
 ENV TERM linux
 
 ARG VCS_REF
@@ -44,9 +42,8 @@ RUN touch .dockerenv \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
  && cd pieman \
- && git clone https://anonscm.debian.org/git/d-i/debootstrap.git \
- && cd debootstrap && git checkout $DEBOOTSTRAP_VER && cd .. \
  && pip3 install pieman \
+ && env PREPARE_ONLY_TOOLSET=true ./pieman.sh \
  && apk del git \
  && rm -rf /var/cache/apk/*
 
