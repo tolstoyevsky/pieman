@@ -249,52 +249,6 @@ choose_compressor() {
     fi
 }
 
-# Looks for debootstrap installed locally. If it does not exist, tries to find
-# debootstrap installed globally. When the function succeeds, it assigns the
-# corresponding executable name to DEBOOTSTRAP_EXEC and the full path of the
-# executable to DEBOOTSTRAP_DIR (only in case of a local debootstrap).
-# Otherwise, the function exits with the exit code 1.
-# Globals:
-#     DEBOOTSTRAP_DIR
-#     DEBOOTSTRAP_EXEC
-# Arguments:
-#     None
-# Returns:
-#     None
-choose_debootstrap() {
-    local ver=""
-
-    if [ -f debootstrap/debootstrap ]; then
-        DEBOOTSTRAP_EXEC="env DEBOOTSTRAP_DIR=$(pwd)/debootstrap ./debootstrap/debootstrap"
-
-        # After cloning the debootstrap git repo the program is a fully
-        # functional, but does not have a correct version number. However, the
-        # version can be found in the source package changelog.
-        ver=$(sed 's/.*(\(.*\)).*/\1/; q' debootstrap/debian/changelog)
-    elif [ ! -z "$(which debootstrap)" ]; then
-        DEBOOTSTRAP_EXEC=$(which debootstrap)
-        ver=$(${DEBOOTSTRAP_EXEC} --version | awk '{print $2}' || /bin/true)
-    else
-        fatal "there is no debootstrap." \
-              "It's recommended to install the latest version of the program" \
-              "using its git repo:" \
-              "https://anonscm.debian.org/git/d-i/debootstrap.git"
-        exit 1
-    fi
-
-    if [ -z "${ver}" ]; then
-        fatal "your debootstrap seems to be broken. Could not get its version."
-        exit 1
-    fi
-
-    if dpkg --compare-versions "${ver}" lt "${DEBOOTSTRAP_VER}"; then
-        fatal "debootstrap ${DEBOOTSTRAP_VER} or higher is required."
-        exit 1
-    fi
-
-    info "using ${DEBOOTSTRAP_EXEC}"
-}
-
 # Chooses the corresponding user mode emulation binary and assigns its full
 # path to the EMULATOR environment variable. The binary depends on the
 # architecture of the operating system which is going to be used as a base for

@@ -13,50 +13,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Gets the Alpine Package Keeper version.
+# Gets the Alpine Package Keeper (APK) version for the specified version of
+# Alpine Linux.
 # Globals:
 #     PIECES
-#     PIEMAN_BIN
+#     PIEMAN_UTILS_DIR
 #     PYTHON
 # Arguments:
-#     None
+#     Version of Alpine Linux
 # Returns:
-#     Version
+#     Alpine Package Keeper version
 get_apk_tools_version() {
-    ${PYTHON} "${PIEMAN_BIN}"/apk-tools-version.py --alpine-version="${PIECES[1]}"
+    local alpine_version=$1
+
+    ${PYTHON} "${PIEMAN_UTILS_DIR}"/apk-tools-version.py --alpine-version="${alpine_version}"
 }
 
-# Gets the latest version of apk.static for the specified Alpine release and
-# runs it to build a chroot environment.
+# Runs apk.static to build a chroot environment.
 # Globals:
 #     BASE_PACKAGES
-#     BUILD_DIR
 #     ETC
 #     OS
 #     PIECES
 #     R
-#     PROJECT_NAME
+#     TOOLSET_DIR
 # Arguments:
 #     None
 # Returns:
 #     None
 run_apk_static() {
-    local apk_tools_version=""
-    local apk_tools_static=""
-    local primary_repo=""
-
-    apk_tools_version="$(get_apk_tools_version)"
-    apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
+    local primary_repo
 
     primary_repo="$(get_attr "${OS}" repos | head -n1)"
-
-    cd "${BUILD_DIR}/${PROJECT_NAME}" || exit 1
-        wget "${primary_repo}/v${PIECES[1]}/main/armhf/${apk_tools_static}" -O "${apk_tools_static}"
-
-        tar -xzf "${apk_tools_static}"
-
-        rm "${apk_tools_static}"
-    cd - || exit 1
 
     mkdir -p "${R}"/usr/bin
 
@@ -64,7 +52,7 @@ run_apk_static() {
 
     # Ignore SC2086 since BASE_PACKAGES shouldn't be double-quoted.
     # shellcheck disable=SC2086
-    "${BUILD_DIR}/${PROJECT_NAME}"/sbin/apk.static -X "${primary_repo}/v${PIECES[1]}/main" -U --allow-untrusted --root "${R}" --initdb add alpine-base ${BASE_PACKAGES}
+    "${TOOLSET_DIR}/apk/${PIECES[1]}/apk.static" -X "${primary_repo}/v${PIECES[1]}/main" -U --allow-untrusted --root "${R}" --initdb add alpine-base ${BASE_PACKAGES}
 
     echo "nameserver 8.8.8.8" > "${ETC}"/resolv.conf
 }

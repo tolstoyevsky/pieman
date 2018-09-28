@@ -29,6 +29,8 @@ setUp() {
 
     PIECES=(raspbian stretch armhf)
 
+    PIEMAN_DIR="."
+
     PM_OPTIONS=""
 
     PROJECT_NAME="mock_project"
@@ -38,6 +40,8 @@ setUp() {
     R=${BUILD_DIR}/${PROJECT_NAME}/chroot
 
     SOURCE_DIR="devices/rpi-3-b/raspbian-stretch-armhf"
+
+    TOOLSET_DIR="${PIEMAN_DIR}/toolset"
 
     USR_BIN="${R}/usr/bin"
 
@@ -51,7 +55,7 @@ setUp() {
 }
 
 tearDown() {
-    rm -rf debootstrap
+    rm -rf "${TOOLSET_DIR}"
 }
 
 #
@@ -131,36 +135,29 @@ test_choosing_compressor() {
     assertNull "${compressor}"
 }
 
-test_choosing_debootstrap() {
-    local result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
+test_checking_if_debootstrap_is_uptodate() {
+    mkdir -p "${TOOLSET_DIR}"/debootstrap/debian
+    touch "${TOOLSET_DIR}"/debootstrap/debootstrap
 
-    assertNotNull "$(echo ${result} | grep "there is no debootstrap")"
-
-    mkdir -p debootstrap/debian
-    touch debootstrap/debootstrap
-
-    result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
+    result=$((is_debootstrap_uptodate) 2>&1)
 
     # There must be an error because there is no changelog
     assertNotNull "$(echo ${result} | grep "Could not get its version")"
 
     echo "debootstrap (1.0.90) unstable; " \
-         "urgency=medium" > debootstrap/debian/changelog
-
-    result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
+         "urgency=medium" > "${TOOLSET_DIR}"/debootstrap/debian/changelog
 
     # There must be an error because the version of debootstrap is less than
     # required
-    assertNotNull \
-        "$(echo ${result} | grep "${DEBOOTSTRAP_VER} or higher is required.")"
+    is_debootstrap_uptodate
+    assertTrue "[ $? -eq ${SHUNIT_FALSE} ]"
 
-    echo "debootstrap (1.0.105) unstable; " \
-         "urgency=medium" > debootstrap/debian/changelog
-
-    result=$((PATH="/bin:/usr/bin"; choose_debootstrap) 2>&1)
+    echo "debootstrap (${DEBOOTSTRAP_VER}) unstable; " \
+         "urgency=medium" > "${TOOLSET_DIR}"/debootstrap/debian/changelog
 
     # Everything must me fine
-    assertNotNull "$(echo ${result} | grep "using ${DEBOOTSTRAP_EXEC}")"
+    is_debootstrap_uptodate
+    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
 }
 
 test_choosing_user_mode_emulation_binary() {

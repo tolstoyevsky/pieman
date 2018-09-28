@@ -5,5 +5,6 @@ build
 debootstrap
 dist
 pieman.egg-info
+toolset
 __pycache__
 

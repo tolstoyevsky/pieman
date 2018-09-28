@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+ALPINE_VER="3.7"
+
 DEBOOTSTRAP_VER="1.0.105"
 
 PIEMAN_MAJOR_VER=0
@@ -135,6 +137,17 @@ def_protected_var() {
     eval ${var_name}="\"${value}\""
 
     >&2 echo "+ ${var_name}=*****"
+}
+
+# Gets the ownership of the specified file or directory.
+# Globals:
+#     None
+# Arguments:
+#     File name or directory name
+# Returns:
+#     Ownership in format "uid:gid"
+get_ownership() {
+    echo "$(id -u "$(stat -c "%U" "$1")"):$(id -g "$(stat -c "%G" "$1")")"
 }
 
 # Runs all scripts which are located in the specified directory.
