@@ -25,6 +25,12 @@ if ${ALLOW_UNAUTHENTICATED}; then
     fi
 fi
 
+if ${ENABLE_MENDER}; then
+    add_package_to_includes ca-certificates
+    # Need to have the reboot executable file in $PATH
+    add_package_to_includes systemd-sysv
+fi
+
 if ${ENABLE_SUDO}; then
     add_package_to_includes sudo
 fi

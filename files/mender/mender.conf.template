@@ -1,0 +1,9 @@
+{
+    "InventoryPollIntervalSeconds": 5,
+    "RetryPollIntervalSeconds": 30,
+    "RootfsPartA": "/dev/mmcblk0p2",
+    "RootfsPartB": "/dev/mmcblk0p3",
+    "ServerURL": "{MENDER_SERVER_URL}",
+    "TenantToken": "{MENDER_TENANT_TOKEN}",
+    "UpdatePollIntervalSeconds": 5
+}

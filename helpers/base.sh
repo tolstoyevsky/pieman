@@ -314,45 +314,112 @@ cleanup() {
     set +x
 }
 
-# Creates an image which has two partitions. The first one is the boot
-# partition and the second one is the partition intended for the root
-# filesystem.
+# Creates an image with the specified number of partitions.
+# When the partition size are specified, it's possible to additionally specify
+# a type of each partition. For example,
+#   create_image 4 fat32:100 1024
+# In this case, there are an alignment equal to 4M and two partitions one of
+# which marked as "W95 FAT32 (LBA)" (partition type 0xc). If a label of a
+# partition is not explicitly mentioned, it considered as "Linux" by default
+# (partition type 0x83).
+# Partition type can take one of the values mentioned in the documentation
+# related to the mkpart command
+# (see https://gnu.org/software/parted/manual/html_node/mkpart.html)
 # Globals:
 #     IMAGE
 # Arguments:
-#     Root filesystem size in bytes
+#     Alignment size in megabytes
+#     Partition1 size in megabytes
+#     PartitionN size in megabytes
+#     ...
 # Returns:
-#     None
+#     Image size in megabytes
 create_image() {
-    # Partitions should be aligned on 4MiB boundaries.
-    # See https://lwn.net/Articles/428584/.
-    local alignment=4 # in megabytes
-    local alignment_x2=$(( alignment * 2 ))
+    local alignment=$1
+    local args=("${@:2}")
+    local default_fs_type="ext4"
+    local fs_types=()
+    local image_size="${alignment}"
+    local partition_sizes=()
 
-    # The size of the partition which stores the kernel and RPi blobs.
-    local boot_partition_size=100 # in megabytes
+    local latest
+    local start
+    local end
 
-    # The size of the target image.
-    local image_size=0
+    # Parse arguments of the function and figure out the size of the image.
+    for partition in "${args[@]}"; do
+        local butter_bread=()
+        local fs_type=""
+        local partition_size=0
 
-    # Just in case allocate 10% more space than required.
-    # shellcheck disable=SC2155
-    local metadata_size="$(python3 -c "import math; print(math.ceil($1 / 10))")"
+        IFS=':' read -ra butter_bread <<< "${partition}"
+        if [ "${#butter_bread[@]}" -gt 1 ]; then
+            fs_type="${butter_bread[0]}"
+            partition_size="${butter_bread[1]}"
+        else
+            fs_type="${default_fs_type}"
+            partition_size="${butter_bread[0]}"
+        fi
 
-    # The root partition size should be large enough to fit the rootfs.
-    local root_partition_size="$(( $1 + metadata_size ))"
+        fs_types+=("${fs_type}")
+        partition_sizes+=("${partition_size}")
 
-    image_size=$(( root_partition_size + (boot_partition_size + alignment_x2) * 1024 * 1024 ))
+        image_size=$((image_size + partition_size))
+    done
 
-    dd if=/dev/zero of="${IMAGE}" bs=1 seek=${image_size} count=1
+    # Create the image.
+
+    dd if=/dev/zero of="${IMAGE}" bs="$((1024 * 1024))" seek="${image_size}" count=1
 
     parted "${IMAGE}" mktable msdos
 
-    parted "${IMAGE}" mkpart p fat32 4MiB "$(( boot_partition_size + alignment ))MiB"
+    latest="$((${#fs_types[@]} - 1))"
+    start="${alignment}"
+    for i in $(seq 0 "${latest}"); do
+        end="$((start + partition_sizes[i]))"
 
-    parted -s "${IMAGE}" -- mkpart primary ext2 "$(( boot_partition_size + alignment_x2 ))MiB" -1s
+        if [ "${i}" == "${latest}" ]; then
+            parted -s "${IMAGE}" -- mkpart primary "${fs_types[i]}" "${start}MiB" -1s
+        else
+            parted "${IMAGE}" mkpart p "${fs_types[i]}" "${start}MiB" "${end}MiB"
+        fi
 
-    info "${IMAGE} of size ${image_size}K was successfully created"
+        start="${end}"
+    done
+
+    echo "${image_size}"
+}
+
+# Formats the the partitions of the image. The number of the specified
+# filesystem types should match the number of the partitions in the image.
+# The supported filesystem types are fat (or vfat) and ext4.
+# Globals:
+#     LOOP_DEV
+# Arguments:
+#     Filesystem type1
+#     Filesystem typeN
+#     ...
+# Returns:
+#     None
+format_partitions() {
+    local args=("$@")
+    local mkfs=""
+
+    for i in $(eval echo "{1..$#}"); do
+        mkfs="mkfs.${args[i - 1]}"
+        case "${args[i - 1]}" in
+        fat|vfat)
+            ${mkfs} -n boot -F 32 -v "${LOOP_DEV}p${i}" 1>&2-
+            ;;
+        ext4)
+            ${mkfs} "${LOOP_DEV}p${i}" 1>&2-
+            ;;
+        *)
+            fatal "unknown filesystem type"
+            exit 1
+            ;;
+        esac
+    done
 }
 
 # Checks if the specified OS is Alpine.
@@ -441,6 +508,35 @@ do_exit() {
     cleanup
 
     exit 1
+}
+
+# Creates loop device and scans partition table.
+# Globals:
+#     IMAGE
+#     LOOP_DEV
+# Arguments:
+#     None
+# Returns:
+#     None
+scan_partition_table() {
+    LOOP_DEV=$(losetup --partscan --show --find "${IMAGE}")
+    partition1="${LOOP_DEV}p1"
+
+    # It may take a while until devices appear in /dev.
+    max_retries=30
+    for i in $(eval echo "{1..${max_retries}}"); do
+        if [ -z "$(ls "${partition1}" 2> /dev/null)" ]; then
+            info "there is no ${partition1} so far ($((max_retries - i)) attempts left)"
+            sleep 1
+        else
+            break
+        fi
+    done
+
+    if [ -z "$(ls "${partition1}" 2> /dev/null)" ]; then
+        fatal "${partition1} does not exist"
+        do_exit
+    fi
 }
 
 # Calls the cleanup function on the following signals: SIGHUP, SIGINT, SIGQUIT

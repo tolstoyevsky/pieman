@@ -44,6 +44,8 @@ def_var COMPRESS_WITH_GZIP false
 
 def_var COMPRESS_WITH_XZ false
 
+def_var CREATE_ONLY_MENDER_ARTIFACT false
+
 def_var CREATE_ONLY_CHROOT false
 
 def_var DEVICE "rpi-3-b"
@@ -57,6 +59,8 @@ def_var ENABLE_FAMILY_YANDEX_DNS false
 def_var ENABLE_GOOGLE_DNS false
 
 def_var ENABLE_SUDO true
+
+def_var ENABLE_MENDER false
 
 def_var ENABLE_NONFREE false
 
@@ -73,6 +77,14 @@ def_var IMAGE_OWNERSHIP "$(get_ownership "$0")"
 def_var INCLUDES ""
 
 def_var LOCALE "en_US.UTF-8"
+
+def_var MENDER_ARTIFACT_NAME "release-1_1.6.0"
+
+def_int_var MENDER_DATA_SIZE 128
+
+def_var MENDER_SERVER_URL "https://hosted.mender.io"
+
+def_var MENDER_TENANT_TOKEN ""
 
 def_var OS "raspbian-stretch-armhf"
 
@@ -114,8 +126,12 @@ ETC=${R}/etc
 # shellcheck disable=SC2034
 USR_BIN=${R}/usr/bin
 
+ARTIFACT="${PIEMAN_DIR}/${BUILD_DIR}/${PROJECT_NAME}.mender"
+
 # shellcheck disable=SC2034
 BASE_PACKAGES=""
+
+BUILD_TYPE="${IMAGE_FOR_RPI}"
 
 # shellcheck disable=SC2034
 FIRSTBOOT="/tmp/firstboot-${PROJECT_NAME}.sh"
@@ -152,6 +168,11 @@ check_mutually_exclusive_params \
     COMPRESS_WITH_GZIP \
     COMPRESS_WITH_XZ
 
+check_mutually_exclusive_params \
+    CREATE_ONLY_MENDER_ARTIFACT \
+    CREATE_ONLY_CHROOT \
+    ENABLE_MENDER
+
 check_dependencies
 
 check_ownership_format
@@ -163,6 +184,22 @@ check_required_files
 info "checking toolset"
 . toolset.sh
 
+if ${ENABLE_MENDER}; then
+    if [ ! -d "${TOOLSET_DIR}/mender" ]; then
+        fatal "Mender is not installed." \
+              "Check Mender dependencies and run Pieman" \
+              "with PREPARE_ONLY_TOOLSET=true."
+        exit 1
+    fi
+
+    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-stretch-armhf" ]; then
+        fatal "cannot create Mender compatible image for the specified" \
+              "device and operating system. OS=raspbian-stretch-armhf and" \
+              "DEVICE=rpi-3-b is supported only."
+        exit 1
+    fi
+fi
+
 choose_user_mode_emulation_binary
 
 init_debootstrap
@@ -170,6 +207,14 @@ init_debootstrap
 set_traps
 
 create_temporary_dirs
+
+if ${CREATE_ONLY_MENDER_ARTIFACT}; then
+    BUILD_TYPE="${IMAGE_MENDER_ARTIFACT}"
+fi
+
+if ${ENABLE_MENDER}; then
+    BUILD_TYPE="${IMAGE_FOR_RPI_WITH_MENDER_CLIENT}"
+fi
 
 # Set to true the parameters recommended by the maintainer of the image.
 params="$(get_attr_or_nothing "${OS}" params)"
@@ -183,48 +228,114 @@ run_scripts "bootstrap"
 umount_required_filesystems
 
 info "creating image"
-create_image "$(calc_size "${R}")"
 
-LOOP_DEV=$(losetup --partscan --show --find "${IMAGE}")
-boot_partition="${LOOP_DEV}p1"
-root_partition="${LOOP_DEV}p2"
+root_partition_size="$(calc_size -m "${R}")"
+metadata_size="$(python3 -c "import math; print(math.ceil(${root_partition_size} / 10))")"
+total=$((root_partition_size + metadata_size))
 
-# It may take a while until devices appear in /dev.
-max_retries=30
-for i in $(eval echo "{1..${max_retries}}"); do
-    if [ -z "$(ls "${boot_partition}" 2> /dev/null)" ]; then
-        info "there is no ${boot_partition} so far ($((max_retries - i)) attempts left)"
-        sleep 1
-    else
-        break
-    fi
-done
+case "${BUILD_TYPE}" in
+"${IMAGE_FOR_RPI}")
+    image_size="$(create_image 4 fat32:100 "${total}")"
+    info "${IMAGE} of size ${image_size}M was successfully created"
 
-if [ -z "$(ls "${boot_partition}" 2> /dev/null)" ]; then
-    fatal "${boot_partition} does not exist"
-    do_exit
-fi
+    info "creating loop device and scanning partition table"
 
-info "formatting boot partition"
-mkfs.vfat "${boot_partition}" 1>&2-
+    scan_partition_table
 
-info "formatting rootfs partition"
-mkfs.ext4 "${root_partition}" 1>&2-
+    info "${LOOP_DEV} is successfully created"
 
-# The root partition is expanded to fit the SD card. However, the size of the
-# SD card is currently unknown, so reserving 5% of the filesystem blocks at
-# this stage is incorrect.
-tune2fs -m 0 "${root_partition}"
+    info "formatting partitions"
 
-mount "${boot_partition}" "${MOUNT_POINT}"
+    format_partitions vfat ext4
 
-rsync -a "${BOOT}"/ "${MOUNT_POINT}"
+    mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
-umount "${MOUNT_POINT}"
+    rsync -a "${BOOT}"/ "${MOUNT_POINT}"
 
-mount "${root_partition}" "${MOUNT_POINT}"
+    umount "${MOUNT_POINT}"
 
-rsync -apS "${R}"/ "${MOUNT_POINT}"
+    mount "${LOOP_DEV}p2" "${MOUNT_POINT}"
+
+    rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    ;;
+"${IMAGE_FOR_RPI_WITH_MENDER_CLIENT}")
+    image_size="$(create_image 16 fat32:100 "${total}" "${total}" "${MENDER_DATA_SIZE}")"
+    info "${IMAGE} of size ${image_size}M was successfully created"
+
+    info "creating loop device and scanning partition table"
+
+    scan_partition_table
+
+    info "${LOOP_DEV} is successfully created"
+
+    info "formatting partitions"
+
+    format_partitions vfat ext4 ext4 ext4
+
+    mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
+
+    rsync -a "${BOOT}"/ "${MOUNT_POINT}"
+
+    cp "${TOOLSET_DIR}"/mender/boot.scr "${MOUNT_POINT}"
+    cp "${TOOLSET_DIR}"/mender/u-boot.bin "${MOUNT_POINT}"/kernel7.img
+    sed -i -e "s/\b[ ]root=[^ ]*/ root=\${mender_kernel_root}/" "${MOUNT_POINT}"/cmdline.txt
+
+    umount "${MOUNT_POINT}"
+
+    mount "${LOOP_DEV}p2" "${MOUNT_POINT}"
+
+    rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    install_mender
+
+    umount "${MOUNT_POINT}"
+
+    # The data partition has to contain /mender/device_type and
+    # /u-boot/fw_env.config
+    mount "${LOOP_DEV}p4" "${MOUNT_POINT}"
+    mkdir "${MOUNT_POINT}"/mender
+    mkdir "${MOUNT_POINT}"/u-boot
+    install -m 0644 "${PIEMAN_DIR}"/files/mender/device_type "${MOUNT_POINT}"/mender
+    install -m 0644 "${PIEMAN_DIR}"/files/mender/fw_env.config "${MOUNT_POINT}"/u-boot
+
+    ;;
+"${IMAGE_MENDER_ARTIFACT}")
+    dd if=/dev/zero of="${IMAGE}" bs="$((1024 * 1024))" seek="${total}" count=1
+
+    LOOP_DEV="$(losetup -f)"
+
+    losetup "${LOOP_DEV}" "${IMAGE}"
+
+    mkfs.ext4 "${LOOP_DEV}"
+
+    mount "${LOOP_DEV}" "${MOUNT_POINT}"
+
+    rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    install_mender
+
+    umount "${MOUNT_POINT}"
+
+    info "converting ${IMAGE} into artifact"
+
+    "${TOOLSET_DIR}"/mender/mender-artifact write rootfs-image \
+        --update "${IMAGE}" \
+        --output-path "${ARTIFACT}" \
+        --artifact-name "${MENDER_ARTIFACT_NAME}" \
+        --device-type raspberrypi3
+
+    rm "${IMAGE}"
+
+    IMAGE="${ARTIFACT}"
+
+    ;;
+*)
+    fatal "unknown build type"
+    exit 1
+
+    ;;
+esac
 
 cleanup
 
@@ -246,4 +357,8 @@ else
     image="${IMAGE}${extension}"
 fi
 
-success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
+if ${CREATE_ONLY_MENDER_ARTIFACT}; then
+    success "${image} was built. Upload it to hosted.mender.io to provide for OTA updates."
+else
+    success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
+fi
