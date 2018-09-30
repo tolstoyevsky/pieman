@@ -36,6 +36,21 @@ RUN touch .dockerenv \
     wget \
     whois \
     xz \
+    # The following packages are necessary for building Das U-Boot and Mender
+    # client
+    bc \
+    ca-certificates \
+    dtc \
+    gcc \
+    go \
+    make \
+    musl-dev \
+ # Provide a compatibility layer for the cross-compiler which is linked
+ # against glibc.
+ && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+ && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk \
+ && apk add glibc-2.28-r0.apk \
+ \
  && mkdir /result \
  && /usr/bin/rollout_fixes.sh \
  && rm -r qemu-user-static \
@@ -44,7 +59,14 @@ RUN touch .dockerenv \
  && cd pieman \
  && pip3 install pieman \
  && env PREPARE_ONLY_TOOLSET=true ./pieman.sh \
- && apk del git \
+ && apk del \
+    bc \
+    ca-certificates \
+    dtc \
+    gcc \
+    go \
+    make \
+    musl-dev \
  && rm -rf /var/cache/apk/*
 
 COPY docker-entrypoint.sh /entrypoint.sh

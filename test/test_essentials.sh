@@ -44,6 +44,17 @@ test_defining_variables() {
     assertNull "${EMPTY}"
 }
 
+test_defining_int_variables() {
+    local result=$((def_int_var N1 hello) 2>&1)
+    local output="+ N1=hello"
+    local len=$((${#output} + 1)) # plus a new line character
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: N1 must be an integer" "${result:len}"
+
+    def_int_var N2 1337
+    assertEquals 1337 "${N2}"
+}
+
 test_defining_protected_variables() {
     S1="test"
     def_protected_var S1 "value by default"

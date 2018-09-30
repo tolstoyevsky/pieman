@@ -19,15 +19,18 @@
 #     PYTHON
 # Arguments:
 #     Directory name
+#     Options to be passed to du.py
 # Returns:
 #     Total size of the specified directory in bytes
 calc_size() {
     local dir=$1
     local block_size=""
+    local opts=$2
 
     block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
 
-    ${PYTHON} "${PIEMAN_UTILS_DIR}"/du.py --block-size="${block_size}" "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
+    # shellcheck disable=SC2086
+    ${PYTHON} "${PIEMAN_UTILS_DIR}"/du.py --block-size="${block_size}" ${opts} "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
 # Checks if the required directories exist.

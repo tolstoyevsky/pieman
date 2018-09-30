@@ -12,6 +12,8 @@ Pieman is a script for creating custom OS images for single-board computers such
 
 - [Getting Started](#getting-started)
   * [Dependencies](#dependencies)
+    + [Mandatary](#mandatary)
+    + [Optional](#optional)
   * [Supported platforms](#supported-platforms)
   * [Installation](#installation)
     + [Docker](#docker)
@@ -24,6 +26,7 @@ Pieman is a script for creating custom OS images for single-board computers such
     + [Users](#users)
     + [Image](#image)
     + [Pieman-specific](#pieman-specific)
+    + [Extra](#extra)
 - [Daily image builds](#daily-image-builds)
 - [Authors](#authors)
 - [Licensing](#licensing)
@@ -49,10 +52,38 @@ Pieman is a script for creating custom OS images for single-board computers such
 * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
 * wget
 
+Here are the commands to install the mandatory dependencies
+* on Debian or Ubuntu
+  ```
+  $ sudo apt-get install dosfstools gnupg pandoc parted python3-pip python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
+  ```
+* on Fedora
+  ```
+  $ sudo dnf install dosfstools dpkg expect gpg pandoc parted python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync wget
+  ```
+
 #### Optional
 
-* bzip2
-* xz
+* To enable `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH_XZ`:
+  * bzip2
+  * xz
+* To enable [Mender](https://mender.io) support:
+  * Development libraries and header files related to C standard library (make sure the package, which is going to be installed to satisfy the dependency, includes `/usr/include/sys/types.h`)
+  * C programming language compiler
+  * Go programming language compiler
+  * bc
+  * dtc
+  * make
+
+Here are the commands to install the optional dependencies
+* on Debian or Ubuntu
+  ```
+  sudo apt-get install xz-utils bzip2 bc gcc device-tree-compiler golang make libc6-dev-i386
+  ```
+* on Fedora
+  ```
+  sudo dnf install xz bzip2 bc gcc dtc golang make
+  ```
 
 ### Supported platforms
 
@@ -118,27 +149,13 @@ First, clone the Pieman git repo:
 $ git clone https://github.com/tolstoyevsky/pieman.git
 ```
 
-Then, install the Pieman dependencies.
+Then, install the Pieman [mandatory dependencies](#mandatary).
 
-On Debian or Ubuntu:
-
-```
-$ sudo apt-get install dosfstools gnupg pandoc parted python3-pip python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
-```
-
-On Fedora:
-
-```
-$ sudo dnf install dosfstools dpkg expect gpg pandoc parted python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync wget
-```
-
-Finally, return to the project directory and run
+Finally, install the required utilities and modules written in Python.
 
 ```
 $ sudo pip3 install pieman
 ```
-
-to install the required utilities and modules written in Python.
 
 ##### Usage
 
@@ -377,6 +394,40 @@ Note, that the parameter must follow the format "uid:gid" where `uid` and `gid` 
 ##### PYTHON="$(which python3)"
 
 Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities. 
+
+#### Extra
+
+##### CREATE_ONLY_MENDER_ARTIFACT=false
+
+Makes Pieman restrict itself to only creating an artifact (a file with the `.mender` extension) which can later be uploaded to [hosted.mender.io](https://hosted.mender.io) to provide for OTA updates.
+
+Note, that the parameter conflicts with `CREATE_ONLY_CHROOT` and `ENABLE_MENDER`.
+
+##### ENABLE_MENDER=false
+
+Specifies whether to install the Mender client to provide for OTA updates.
+
+Note that the OTA updates support is currently limited to 32-bit Raspbian for Raspberry Pi 3 Model B.
+
+##### MENDER_ARTIFACT_NAME="release-1_1.6.0"
+
+The name of an image or update (called [artifact](https://docs.mender.io/1.6/architecture/mender-artifacts)) that will be built if either `ENABLE_MENDER` or `CREATE_ONLY_MENDER_ARTIFACT` is specified. Note that different updates must have different names.
+
+##### MENDER_DATA_SIZE=128
+
+Specifies the size in megabytes of the data partition.
+
+The parameter is used only when `ENABLE_MENDER` is set to `true`.
+
+##### MENDER_TENANT_TOKEN=""
+
+Specifies a token which identifies which tenant a device belongs to. It requires an account on [hosted.mender.io](https://hosted.mender.io).
+
+The parameter is used only when `ENABLE_MENDER` is set to `true`.
+
+##### MENDER_SERVER_URL="https://hosted.mender.io"
+
+Specifies the server for the client to connect to.
 
 ## Daily image builds
 
