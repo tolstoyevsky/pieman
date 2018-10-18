@@ -15,7 +15,8 @@
 
 # Calculates the size of the specified directory.
 # Globals:
-#     None
+#     PIEMAN_UTILS_DIR
+#     PYTHON
 # Arguments:
 #     Directory name
 # Returns:
@@ -79,8 +80,9 @@ create_dir() {
 # Creates the temporary directories used while creating an image.
 # Globals:
 #     BUILD_DIR
-#     PROJECT_NAME
 #     CREATE_ONLY_CHROOT
+#     IMAGE_OWNERSHIP
+#     PROJECT_NAME
 # Arguments:
 #     None
 # Returns:
@@ -103,8 +105,8 @@ create_temporary_dirs() {
 # Removes temporary directories.
 # Globals:
 #     BUILD_DIR
-#     PROJECT_NAME
 #     CREATE_ONLY_CHROOT
+#     PROJECT_NAME
 # Arguments:
 #     None
 # Returns:

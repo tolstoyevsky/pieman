@@ -41,8 +41,10 @@ add_item_to_list() {
 # Checks if all required dependencies are installed on the system.
 # Globals:
 #     COMPRESS_WITH_BZIP2
-#     COMPRESS_WITH_GZIP
 #     COMPRESS_WITH_XZ
+#     PIEMAN_MAJOR_VER
+#     PIEMAN_MINOR_VER
+#     PYTHON
 # Arguments:
 #     None
 # Returns:
@@ -181,6 +183,7 @@ check_ownership_format() {
 # Globals:
 #     PIEMAN_MAJOR_VER
 #     PIEMAN_MINOR_VER
+#     PYTHON
 # Arguments:
 #     None
 # Returns:
@@ -209,6 +212,7 @@ check_pieman_version() {
 # Globals:
 #     PYTHON_MAJOR_VER
 #     PYTHON_MINOR_VER
+#     PYTHON
 # Arguments:
 #     None
 # Returns:
@@ -282,11 +286,10 @@ choose_user_mode_emulation_binary() {
 
 # Cleans up the build environment.
 # Globals:
-#     IMAGE
+#     FIRSTBOOT
 #     KEYRING
 #     LOOP_DEV
 #     MOUNT_POINT
-#     PROJECT_NAME
 # Arguments:
 #     None
 # Returns:

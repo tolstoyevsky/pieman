@@ -16,7 +16,7 @@
 # Clears out the local repository of retrieved package files and removes
 # indexes.
 # Globals:
-#     None
+#     R
 # Arguments:
 #     None
 # Returns:
@@ -47,7 +47,7 @@ update_indexes() {
 
 # Upgrades the chroot environment.
 # Globals:
-#     None
+#     PM_OPTIONS
 # Arguments:
 #     None
 # Returns:
@@ -64,7 +64,9 @@ upgrade() {
 
 # Installs the specified packages in the chroot environment.
 # Globals:
-#     None
+#     DEBIAN_FRONTEND
+#     ENABLE_UNATTENDED_INSTALLATION
+#     PM_OPTIONS
 # Arguments:
 #     Packages names, separated by spaces
 # Returns:
