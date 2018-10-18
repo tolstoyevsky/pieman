@@ -18,7 +18,7 @@
 # Globals:
 #     DEBOOTSTRAP_DIR
 #     DEBOOTSTRAP_EXEC
-#     DEBOOTSTRAP_VER
+#     TOOLSET_DIR
 # Arguments:
 #     None
 # Returns:
@@ -36,7 +36,6 @@ init_debootstrap() {
 # DEBOOTSTRAP_VER environment variable.
 # Globals:
 #     DEBOOTSTRAP_VER
-#     PIEMAN_DIR
 #     TOOLSET_DIR
 # Arguments:
 #     None
@@ -67,9 +66,10 @@ is_debootstrap_uptodate() {
 # Globals:
 #     BASE_PACKAGES
 #     DEBOOTSTRAP_EXEC
+#     KEYRING
 #     OS
 #     PIECES
-#     KEYRING
+#     R
 # Arguments:
 #     None
 # Returns:

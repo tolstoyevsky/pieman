@@ -17,6 +17,7 @@
 # exit code is different from 0, interrupt the execution of the script and
 # exit.
 # Globals:
+#     PIEMAN_UTILS_DIR
 #     PYTHON
 #     YML_FILE
 # Arguments:
@@ -41,6 +42,7 @@ get_attr() {
 # Gets the values the specified image attribute using image_attrs.py.
 # If image_attrs.py could not succeed, the function does nothing.
 # Globals:
+#     PIEMAN_UTILS_DIR
 #     PYTHON
 #     YML_FILE
 # Arguments:

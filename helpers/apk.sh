@@ -16,7 +16,6 @@
 # Gets the Alpine Package Keeper (APK) version for the specified version of
 # Alpine Linux.
 # Globals:
-#     PIECES
 #     PIEMAN_UTILS_DIR
 #     PYTHON
 # Arguments:

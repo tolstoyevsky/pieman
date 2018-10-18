@@ -13,7 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# TODO: describe the function below.
+# Create a chroot environment based on one of the supported operating systems.
+# Globals:
+#     SOURCE_DIR
+# Arguments:
+#     None
+# Returns:
+#     None
 create_chroot_environment() {
     run_scripts "${SOURCE_DIR}"/pre-create-chroot
 
@@ -43,9 +49,9 @@ create_chroot_environment() {
 
 # Executes the specified command in the chroot environment.
 # Globals:
-#     None
+#     R
 # Arguments:
-#     None
+#     Command line to be passed to the chroot environment
 # Returns:
 #     None
 chroot_exec() {
@@ -54,9 +60,9 @@ chroot_exec() {
 
 # Executes the specified command in the chroot environment using shell.
 # Globals:
-#     None
+#     R
 # Arguments:
-#     None
+#     Command line to be passed to the chroot environment
 # Returns:
 #     None
 chroot_exec_sh() {
