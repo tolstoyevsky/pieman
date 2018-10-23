@@ -378,7 +378,7 @@ is_alpine() {
 # Returns:
 #     Boolean
 is_debian_based() {
-    if [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+    if [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "kali" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
         true
     else
         false
@@ -453,4 +453,23 @@ do_exit() {
 #     None
 set_traps() {
     trap cleanup 1 2 3 6 ERR
+}
+
+# Splits the value of the OS variable into pieces and stores it to the PIECES
+# array. OS must stick to the following naming convention:
+# <distro name>-<codename>-<arch>.
+# Globals:
+#     None
+# Arguments:
+#     OS
+#     PIECES
+# Returns:
+#     None
+split_os_name_into_pieces() {
+    # shellcheck disable=SC2034
+    IFS='-' read -ra PIECES <<< "${OS}"
+    codename="$(get_attr_or_nothing "${OS}" codename)"
+    if [ ! -z "${codename}" ]; then
+        PIECES[1]="${codename}"
+    fi
 }

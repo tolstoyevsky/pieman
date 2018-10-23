@@ -133,9 +133,9 @@ SOURCE_DIR=devices/${DEVICE}/${OS}
 # shellcheck disable=SC2034
 YML_FILE=${SOURCE_DIR}/pieman.yml
 
-split_os_name_into_pieces
-
 run_scripts "helpers"
+
+split_os_name_into_pieces
 
 info "checking toolset"
 . toolset.sh

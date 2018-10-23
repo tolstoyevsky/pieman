@@ -6,7 +6,7 @@
     <img src="/logo/380x400.png" alt="Pieman">
 </p>
 
-Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi. The images are based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com). The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
+Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi. The images are based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/), [Ubuntu](https://ubuntu.com) and [Kali Linux](https://www.kali.org/). The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
 
 ## Table of Contents
 
@@ -52,6 +52,17 @@ Pieman is a script for creating custom OS images for single-board computers such
 
 * bzip2
 * xz
+
+* To enable [Das U-Boot](https://github.com/u-boot/u-boot):
+    * bison
+    * flex
+    * make
+    * mkimage
+    
+    To install Das U-Boot dependences on Debian or Ubuntu run:
+    ```
+    $ sudo apt-get install bison flex make u-boot-tools
+    ```
 
 ### Supported platforms
 
@@ -157,12 +168,14 @@ The built image will be located in the `build` directory. By the way, you can sp
 
 ## Documentation
 
-|                                                                                             | Alpine 3.7     | Devuan 1 «Jessie»     | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 18.04 «Bionic Beaver» |
-|---------------------------------------------------------------------------------------------|:--------------:|:---------------------:|:---------------------:|:---------------------------:|:----------------------------:|
-| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) |                |                       | 32bit                 |                             |                              |
-| Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit          | 32bit                 | 32bit                 | 32bit                       | 32bit                        |
-| Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit          | 32bit                 | 32bit                 |                             | 32bit, 64bit                 |
-| Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                |                |                       | 32bit                 |                             |                              |
+|                                 |Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/)      | Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)   |  Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)  |Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)|
+|---------------------------------|:--------------:|:---------------------:|:---------------------:|:---------------------------:|
+| Alpine 3.7                      |        | 32bit  | 32bit        |        |
+| Devuan 1 «Jessie»               |        | 32bit  | 32bit        |        |
+| Kali Linux rolling              |        |        | 32bit        |        |
+| Raspbian 9 «Stretch»            | 32bit  | 32bit  | 32bit        | 32bit  |
+| Ubuntu 16.04 «Xenial Xerus»     |        | 32bit  |              |        |
+| Ubuntu 18.04 «Bionic Beaver»    |        | 32bit  | 32bit, 64bit |        |
 
 The operating system of the target image is specified via the `OS` environment variable. The next table maps full names of the supported operating systems to their short name intended for using as values of `OS`.
 
@@ -170,6 +183,7 @@ The operating system of the target image is specified via the `OS` environment v
 |----------------------------------------------------------------------------------------------------------------------|------------------------|
 | Alpine [3.7](https://alpinelinux.org/posts/Alpine-3.7.0-released.html) (32-bit)                                      | alpine-3.7-armhf       |
 | Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
+| Kali Linux rolling (32-bit)                                                                                          | kali-rolling-armhf
 | Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)                                      | raspbian-stretch-armhf |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
 | Ubuntu 18.04 «[Bionic Beaver](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)» (32-bit)                           | ubuntu-bionic-armhf    |

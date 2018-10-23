@@ -1,0 +1,23 @@
+# Maintainer: Polina Popova <ppopova.wis@gmail.com>
+
+kali-rolling-armhf:
+  codename: kali-rolling
+  repos:
+  - http://http.kali.org/kali/
+  boot:
+  - config.txt
+  - /boot/vmlinuz-4.18.0-kali2-armmp:zImage
+  - /usr/lib/linux-image-4.18.0-kali2-armmp/bcm2837-rpi-3-b.dtb
+  - ^toolset/u-boot/u-boot.bin:kernel7.img
+  - ^toolset/u-boot/boot.scr
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  base:
+  - gnupg
+  kernel:
+    package: linux-image-4.18.0-kali2-armmp
