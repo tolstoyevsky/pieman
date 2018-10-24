@@ -351,7 +351,7 @@ Compresses the resulting image using `bzip2`.
 
 Note, that the parameter conflicts with `COMPRESS_WITH_GZIP` and `COMPRESS_WITH_XZ`.
 
-##### COMPRESS_WITH_GZIP=true
+##### COMPRESS_WITH_GZIP=false
 
 Compresses the resulting image using `gzip`.
 

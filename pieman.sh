@@ -40,7 +40,7 @@ def_var BUILD_DIR "build"
 
 def_var COMPRESS_WITH_BZIP2 false
 
-def_var COMPRESS_WITH_GZIP true
+def_var COMPRESS_WITH_GZIP false
 
 def_var COMPRESS_WITH_XZ false
 
