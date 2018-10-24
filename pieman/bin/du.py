@@ -18,6 +18,7 @@
 # provide inaccurate result. For example, directory size may vary depending on
 # when du is called -- before or after transferring the directory to an image.
 
+import math
 import os
 import sys
 from optparse import OptionParser
@@ -65,6 +66,8 @@ def main():
     parser = OptionParser(usage='usage: %prog [options] <directory>')
     parser.add_option("-b", "--block-size", default=4096, type="int",
                       help="block size", metavar="SIZE")
+    parser.add_option("-m", "--size-in-megabytes", action="store_true",
+                      help="return total size in megabytes", dest="megabytes")
     (options, args) = parser.parse_args()
 
     if len(args) < 1:
@@ -76,6 +79,9 @@ def main():
         sys.exit(1)
 
     total_size, items_number = get_tree_size(args[0], options.block_size)
+
+    if options.megabytes:
+        total_size = math.ceil(total_size / 1024 / 1024)
 
     print('Items number: {}'.format(items_number))
     print('Total size: {}'.format(total_size))
