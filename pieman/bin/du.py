@@ -21,7 +21,7 @@
 import math
 import os
 import sys
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 
 def get_tree_size(path, block_size=4096):
@@ -63,24 +63,21 @@ def fault_tolerant_scandir(path):
 
 
 def main():
-    parser = OptionParser(usage='usage: %prog [options] <directory>')
-    parser.add_option("-b", "--block-size", default=4096, type="int",
+    parser = ArgumentParser()
+    parser.add_argument("-b", "--block-size", default=4096, type=int,
                       help="block size", metavar="SIZE")
-    parser.add_option("-m", "--size-in-megabytes", action="store_true",
+    parser.add_argument("-m", "--size-in-megabytes", action="store_true",
                       help="return total size in megabytes", dest="megabytes")
-    (options, args) = parser.parse_args()
+    parser.add_argument('directory')
+    args = parser.parse_args()
 
-    if len(args) < 1:
-        parser.print_help()
+    if not os.path.isdir(args.directory):
+        sys.stderr.write('The {} directory does not exist\n'.format(args.directory))
         sys.exit(1)
 
-    if not os.path.isdir(args[0]):
-        sys.stderr.write('The {} directory does not exist\n'.format(args[0]))
-        sys.exit(1)
+    total_size, items_number = get_tree_size(args.directory, args.block_size)
 
-    total_size, items_number = get_tree_size(args[0], options.block_size)
-
-    if options.megabytes:
+    if args.megabytes:
         total_size = math.ceil(total_size / 1024 / 1024)
 
     print('Items number: {}'.format(items_number))

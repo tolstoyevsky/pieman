@@ -16,7 +16,7 @@
 
 import os
 import sys
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 from pieman import attrs
 
@@ -29,35 +29,31 @@ def fail(message):
 
 
 def main():
-    usage = "Usage: %prog [options] root [features]"
-    parser = OptionParser(usage=usage)
-    parser.add_option('-f', '--file', dest='file', default='pieman.yaml',
+    parser = ArgumentParser()
+    parser.add_argument('-f', '--file', dest='file', default='pieman.yaml',
                       help='path to a YAML file which describes the target '
                            'image')
+    parser.add_argument('root', nargs='*')
+    args = parser.parse_args()
 
-    (options, args) = parser.parse_args()
+    if not os.path.isfile(args.file):
+        fail('{} does not exist'.format(args.file))
 
-    if len(args) < 1:
-        fail('{} must take at least one argument'.format(sys.argv[0]))
-
-    if not os.path.isfile(options.file):
-        fail('{} does not exist'.format(options.file))
-
-    attributes_list = attrs.AttributesList(options.file)
+    attributes_list = attrs.AttributesList(args.file)
 
     try:
-        attr = attributes_list.get_attribute(args)
+        attr = attributes_list.get_attribute(args.root)
     except attrs.RootDoesNotExist:
-        fail('There is no root named {}'.format(args[0]))
+        fail('There is no root named {}'.format(args.root))
     except attrs.AttributeDoesNotExist as e:
         fail(str(e))
     except attrs.UnknownAttribute:
-        fail('{} attribute is unknown'.format(args[-1]))
+        fail('{} attribute is unknown'.format(args.root[-1]))
 
     try:
         attr.echo()
     except attrs.UnprintableType:
-        fail('{} attribute is not supposed to be printed'.format(args[-1]))
+        fail('{} attribute is not supposed to be printed'.format(args.root[-1]))
 
 
 if __name__ == "__main__":
