@@ -17,8 +17,8 @@
 import os
 import sys
 import time
+from argparse import ArgumentParser
 from html.parser import HTMLParser
-from optparse import OptionParser
 from urllib.error import URLError, HTTPError
 from urllib.parse import urljoin
 from urllib.request import urlopen
@@ -58,18 +58,18 @@ class CustomHTMLParser(HTMLParser):
 
 
 def main():
-    parser = OptionParser(usage='usage: %prog [options]')
-    parser.add_option('--alpine-version', default=ALPINE_VERSION,
+    parser = ArgumentParser()
+    parser.add_argument('--alpine-version', default=ALPINE_VERSION,
                       help='alpine version', metavar='ALPINE_VERSION')
-    parser.add_option('--arch', default=ARCH,
+    parser.add_argument('--arch', default=ARCH,
                       help='target architecture', metavar='ARCH')
-    parser.add_option('--mirror', default=MIRROR,
+    parser.add_argument('--mirror', default=MIRROR,
                       help='mirror', metavar='MIRROR')
-    options, args = parser.parse_args()
+    args = parser.parse_args()
 
-    address = urljoin(options.mirror,
-                      os.path.join('alpine', 'v' + options.alpine_version,
-                                   'main', options.arch))
+    address = urljoin(args.mirror,
+                      os.path.join('alpine', 'v' + args.alpine_version,
+                                   'main', args.arch))
 
     content = b''
     for attempt in range(1, RETRIES_NUMBER + 1):
