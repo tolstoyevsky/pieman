@@ -452,5 +452,6 @@ do_exit() {
 # Returns:
 #     None
 set_traps() {
-    trap cleanup 1 2 3 6 ERR
+	trap "cleanup && exit 0" 2
+    trap cleanup 1 3 6 ERR
 }
