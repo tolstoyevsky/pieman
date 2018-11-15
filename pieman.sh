@@ -32,43 +32,43 @@ set -eE
 # User defined params
 #
 
-def_var ALLOW_UNAUTHENTICATED false
+def_bool_var ALLOW_UNAUTHENTICATED false
 
 def_var BASE_DIR ""
 
 def_var BUILD_DIR "build"
 
-def_var COMPRESS_WITH_BZIP2 false
+def_bool_var COMPRESS_WITH_BZIP2 false
 
-def_var COMPRESS_WITH_GZIP false
+def_bool_var COMPRESS_WITH_GZIP false
 
-def_var COMPRESS_WITH_XZ false
+def_bool_var COMPRESS_WITH_XZ false
 
-def_var CREATE_ONLY_MENDER_ARTIFACT false
+def_bool_var CREATE_ONLY_MENDER_ARTIFACT false
 
-def_var CREATE_ONLY_CHROOT false
+def_bool_var CREATE_ONLY_CHROOT false
 
 def_var DEVICE "rpi-3-b"
 
 def_var ENABLE_CUSTOM_DNS ""
 
-def_var ENABLE_BASIC_YANDEX_DNS false
+def_bool_var ENABLE_BASIC_YANDEX_DNS false
 
-def_var ENABLE_FAMILY_YANDEX_DNS false
+def_bool_var ENABLE_FAMILY_YANDEX_DNS false
 
-def_var ENABLE_GOOGLE_DNS false
+def_bool_var ENABLE_GOOGLE_DNS false
 
-def_var ENABLE_SUDO true
+def_bool_var ENABLE_SUDO true
 
-def_var ENABLE_MENDER false
+def_bool_var ENABLE_MENDER false
 
-def_var ENABLE_NONFREE false
+def_bool_var ENABLE_NONFREE false
 
-def_var ENABLE_UNATTENDED_INSTALLATION false
+def_bool_var ENABLE_UNATTENDED_INSTALLATION false
 
-def_var ENABLE_UNIVERSE false
+def_bool_var ENABLE_UNIVERSE false
 
-def_var ENABLE_USER true
+def_bool_var ENABLE_USER true
 
 def_var HOST_NAME "pieman-${DEVICE}"
 
@@ -96,13 +96,13 @@ def_var PIEMAN_DIR "$(pwd)"
 
 def_var PIEMAN_UTILS_DIR "${PIEMAN_DIR}/pieman/bin"
 
-def_var PREPARE_ONLY_TOOLSET false
+def_bool_var PREPARE_ONLY_TOOLSET false
 
 def_var PROJECT_NAME "$(uuidgen)"
 
 def_var PYTHON "$(which python3)"
 
-def_var SUDO_REQUIRE_PASSWORD true
+def_bool_var SUDO_REQUIRE_PASSWORD true
 
 def_var TIME_ZONE "Etc/UTC"
 
