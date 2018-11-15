@@ -181,6 +181,27 @@ def_protected_var() {
     >&2 echo "+ ${var_name}=*****"
 }
 
+# Acts like def_var but additionally requires that the target value is Boolean.
+# Globals:
+#     None
+# Arguments:
+#     Variable name
+#     Value by default
+# Returns:
+#     None
+def_bool_var() {
+    local var=$1
+    local val=$2
+    
+    def_var "${var}" "${val}"
+
+    if [[ "${!var}" != "true" ]] && [[ "${!var}" != "false" ]]; then
+        fatal "${var} must be a boolean"
+        exit 1
+    fi
+}
+
+
 # Gets the ownership of the specified file or directory.
 # Globals:
 #     None

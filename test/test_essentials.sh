@@ -44,6 +44,26 @@ test_defining_variables() {
     assertNull "${EMPTY}"
 }
 
+test_defining_bool_variables() {
+    local result=$((def_bool_var V1 "test") 2>&1)
+    local output="+ V1=test"
+    local len=$((${#output} + 1)) # plus a new line character
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: V1 must be a boolean" "${result:len}"
+
+    result=$((def_bool_var V2 "") 2>&1)
+    output="+ V2="
+    len=$((${#output} + 1))
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: V2 must be a boolean" "${result:len}"
+
+    def_bool_var V3 "true"
+    assertTrue "${V3}"
+
+    def_bool_var V4 "false"
+    assertFalse "${V4}"
+}
+
 test_defining_int_variables() {
     local result=$((def_int_var N1 hello) 2>&1)
     local output="+ N1=hello"
