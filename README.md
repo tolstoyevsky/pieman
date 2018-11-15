@@ -40,6 +40,7 @@ Pieman is a script for creating custom OS images for single-board computers such
 * GNU Parted
 * GnuPG
 * mkpasswd
+* pandoc
 * Python (3.5 or higher)
 * PyYAML
 * rsync
@@ -122,13 +123,13 @@ Then, install the Pieman dependencies.
 On Debian or Ubuntu:
 
 ```
-$ sudo apt-get install dosfstools gnupg parted python3-pip python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
+$ sudo apt-get install dosfstools gnupg pandoc parted python3-pip python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
 ```
 
 On Fedora:
 
 ```
-$ sudo dnf install dosfstools dpkg expect gpg parted python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync wget
+$ sudo dnf install dosfstools dpkg expect gpg pandoc parted python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync wget
 ```
 
 Finally, return to the project directory and run
