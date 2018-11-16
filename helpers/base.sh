@@ -440,7 +440,22 @@ is_alpine() {
 # Returns:
 #     Boolean
 is_debian_based() {
-    if [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+    if [ "${PIECES[0]}" = "debian" ] || [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# Checks if the specified OS is Debian.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_debian() {
+    if [ "${PIECES[0]}" = "debian" ]; then
         true
     else
         false
