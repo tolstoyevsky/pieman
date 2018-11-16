@@ -13,8 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-toolchain_dir="gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf"
-cross_compiler="${TOOLSET_DIR}/mender/${toolchain_dir}/bin/arm-linux-gnueabihf-"
+toolchain_dir="gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf"
+cross_compiler="${TOOLSET_DIR}/uboot-${UBOOT_VER}/${toolchain_dir}/bin/arm-linux-gnueabihf-"
+
+toolchain_for_mender_dir="gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf"
+cross_compiler_for_mender="${TOOLSET_DIR}/mender/${toolchain_for_mender_dir}/bin/arm-linux-gnueabihf-"
 uboot_tools="${TOOLSET_DIR}/mender/uboot-mender/tools"
 mendersoftware_dir="${TOOLSET_DIR}"/mender/client/src/mender/vendor/github.com/mendersoftware
 
@@ -26,6 +29,15 @@ if $(are_mender_dependencies_satisfied); then
 else
     info "Mender dependencies are not satisfied"
     mender_dependencies_are_satisfied=false
+fi
+
+info "checking Das U-Boot dependencies"
+
+if ! $(are_uboot_dependencies_satisfied) && [[ ! -d "${TOOLSET_DIR}/uboot-${UBOOT_VER}" ]]; then
+    fatal "Das U-Boot dependencies are not satisfied"
+    exit 1
+else
+    info "Das U-Boot dependencies are satisfied"
 fi
 
 if $(init_installation_if_needed "${TOOLSET_DIR}/apk"); then
@@ -83,14 +95,14 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         wget -q -O mender-inventory-os "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-os
         wget -q -O mender-inventory-rootfs-type "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-rootfs-type
 
-        info "fetching cross-toolchain for building Das U-Boot and Mender client"
-        wget "https://releases.linaro.org/components/toolchain/binaries/6.3-2017.05/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
+        info "fetching cross-toolchain for building Das U-Boot (Mender flavour) and Mender client"
+        wget "https://releases.linaro.org/components/toolchain/binaries/6.3-2017.05/arm-linux-gnueabihf/${toolchain_for_mender_dir}.tar.xz" -O "${toolchain_for_mender_dir}.tar.xz"
 
-        info "unpacking cross-toolchain archive"
-        tar xJf "${toolchain_dir}.tar.xz"
-        rm "${toolchain_dir}.tar.xz"
+        info "unpacking archive with toolchain for building Das U-Boot (Mender flavour)"
+        tar xJf "${toolchain_for_mender_dir}.tar.xz"
+        rm "${toolchain_for_mender_dir}.tar.xz"
 
-        info "fetching Das U-Boot from https://github.com/mendersoftware/uboot-mender.git"
+        info "fetching Das U-Boot (Mender flavour) from https://github.com/mendersoftware/uboot-mender.git"
         git clone https://github.com/mendersoftware/uboot-mender.git -b "${UBOOT_MENDOR_BRANCH}"
         git -C "uboot-mender" checkout "${UBOOT_MENDOR_COMMIT}"
 
@@ -106,17 +118,17 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
     popd
 
     pushd "${TOOLSET_DIR}/mender/uboot-mender"
-        info "building Das U-Boot"
+        info "building Das U-Boot (Mender flavour)"
 
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make --quiet distclean
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make rpi_3_32b_defconfig
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make -j $(number_of_cores)
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make envtools -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make --quiet distclean
+        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make rpi_3_32b_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make PYTHON=python -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make envtools -j $(number_of_cores)
 
         cp "u-boot.bin" "${TOOLSET_DIR}/mender"
         cp tools/env/fw_printenv "${TOOLSET_DIR}/mender"
 
-        info "generating image for Das U-Boot"
+        info "generating image for Das U-Boot (Mender flavour)"
         "${uboot_tools}"/mkimage -A arm -T script -C none -n "Boot script" -d "${PIEMAN_DIR}"/files/mender/boot.cmd "${TOOLSET_DIR}"/mender/boot.scr
     popd
 
@@ -124,7 +136,7 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         info "building Mender client"
 
         env CGO_ENABLED=1 \
-            CC="${cross_compiler}"gcc \
+            CC="${cross_compiler_for_mender}"gcc \
             GOARCH=arm \
             GOOS=linux \
             GOPATH="${TOOLSET_DIR}"/mender/client make build
@@ -141,7 +153,39 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
     popd
 
     pushd "${TOOLSET_DIR}/mender"
-        finalise_installation "${toolchain_dir}" client uboot-mender
+        finalise_installation "${toolchain_for_mender_dir}" client uboot-mender
+    popd
+fi
+
+if $(init_installation_if_needed "${TOOLSET_DIR}/uboot-${UBOOT_VER}"); then
+    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+        info "fetching cross-toolchain for building Das U-Boot"
+        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
+
+        info "unpacking archive with toolchain for building Das U-Boot"
+        tar xJf "${toolchain_dir}.tar.xz"
+        rm "${toolchain_dir}.tar.xz"
+
+        info "fetching Das U-Boot ${UBOOT_VER} from ${UBOOT_URL}"
+        git clone --depth=1 -b "v${UBOOT_VER}" https://github.com/u-boot/u-boot.git "u-boot-${UBOOT_VER}"
+    popd
+
+    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"
+        info "building Das U-Boot"
+
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_pc_plus_defconfig
+
+        # The host system may have both Python 2 and 3 installed. U-Boot
+        # depends on Python 2, so it's necessary to specify it explicitly via
+        # the PYTHON variable.
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
+
+        cp tools/mkimage "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+    popd
+
+    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+        finalise_installation "${toolchain_dir}" "u-boot-${UBOOT_VER}" uboot-env
     popd
 fi
 

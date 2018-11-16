@@ -145,7 +145,7 @@ ARTIFACT="${PIEMAN_DIR}/${BUILD_DIR}/${PROJECT_NAME}.mender"
 # shellcheck disable=SC2034
 BASE_PACKAGES=""
 
-BUILD_TYPE="${IMAGE_FOR_RPI}"
+BUILD_TYPE="${IMAGE_CLASSIC}"
 
 # shellcheck disable=SC2034
 FIRSTBOOT="/tmp/firstboot-${PROJECT_NAME}.sh"
@@ -240,7 +240,7 @@ if ${CREATE_ONLY_MENDER_ARTIFACT}; then
 fi
 
 if ${ENABLE_MENDER}; then
-    BUILD_TYPE="${IMAGE_FOR_RPI_WITH_MENDER_CLIENT}"
+    BUILD_TYPE="${IMAGE_WITH_MENDER_CLIENT}"
 fi
 
 # Set to true the parameters recommended by the maintainer of the image.
@@ -272,7 +272,7 @@ fi
 total=$((root_partition_size + metadata_size))
 
 case "${BUILD_TYPE}" in
-"${IMAGE_FOR_RPI}")
+"${IMAGE_CLASSIC}")
     image_size="$(create_image 4 fat32:100 "${total}")"
     info "${IMAGE} of size ${image_size}M was successfully created"
 
@@ -290,7 +290,16 @@ case "${BUILD_TYPE}" in
 
     send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
+    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
+        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl.bin" of="${LOOP_DEV}" bs=1024 seek=8
+        sync
+    fi
+
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
+
+    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
+        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot.cmd "${BOOT}"/boot.scr
+    fi
 
     rsync -a "${BOOT}"/ "${MOUNT_POINT}"
 
@@ -303,7 +312,7 @@ case "${BUILD_TYPE}" in
     send_request_to_bsc_server SYNCED_CODE
 
     ;;
-"${IMAGE_FOR_RPI_WITH_MENDER_CLIENT}")
+"${IMAGE_WITH_MENDER_CLIENT}")
     image_size="$(create_image 16 fat32:100 "${total}" "${total}" "${MENDER_DATA_SIZE}")"
     info "${IMAGE} of size ${image_size}M was successfully created"
 
