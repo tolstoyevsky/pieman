@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-toolchain_dir="gcc-linaro-7.3.1-2018.05-x86_64_arm-linux-gnueabihf"
-cross_compiler="${TOOLSET_DIR}/u-boot/${toolchain_dir}/bin/arm-linux-gnueabihf-"
+toolchain_dir="gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu"
+cross_compiler="${TOOLSET_DIR}/u-boot/${toolchain_dir}/bin/aarch64-linux-gnu-"
 
 info "checking Das U-Boot dependencies"
 
@@ -91,7 +91,7 @@ if ${uboot_dependencies_are_satisfied}; then
         if [ ! -d "${TOOLSET_DIR}/u-boot/${toolchain_dir}" ]; then
             pushd "${TOOLSET_DIR}/u-boot"
                 info "fetching cross-toolchain for building Das U-Boot"
-                wget "https://releases.linaro.org/components/toolchain/binaries/7.3-2018.05/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
+                wget "https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
                 info "unpacking cross-toolchain archive"
                 tar xf "${toolchain_dir}.tar.xz"
                 rm "${toolchain_dir}.tar.xz"
@@ -100,7 +100,7 @@ if ${uboot_dependencies_are_satisfied}; then
 
     pushd "${TOOLSET_DIR}/u-boot/u-boot-${UBOOT_VER}"
         info "writing configuration for Das U-Boot"
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" chrt -i 0 make rpi_3_32b_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" chrt -i 0 make rpi_3_defconfig
         ARCH=arm CROSS_COMPILE="${cross_compiler}" chrt -i 0 make -j4
         mv u-boot.bin "${TOOLSET_DIR}/u-boot"
         info "generating image for Das U-Boot"

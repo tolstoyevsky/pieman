@@ -172,7 +172,7 @@ The built image will be located in the `build` directory. By the way, you can sp
 |---------------------------------|:--------------:|:---------------------:|:---------------------:|:---------------------------:|
 | Alpine 3.7                      |        | 32bit  | 32bit        |        |
 | Devuan 1 «Jessie»               |        | 32bit  | 32bit        |        |
-| Devuan 2.0.0 ASCII              |        | 32bit  |              |        |
+| Devuan 2.0.0 ASCII              |        | 32bit  | 64bit        |        |
 | Kali Linux rolling              |        |        | 32bit        |        |
 | Raspbian 9 «Stretch»            | 32bit  | 32bit  | 32bit        | 32bit  |
 | Ubuntu 16.04 «Xenial Xerus»     |        | 32bit  |              |        |
@@ -185,6 +185,7 @@ The operating system of the target image is specified via the `OS` environment v
 | Alpine [3.7](https://alpinelinux.org/posts/Alpine-3.7.0-released.html) (32-bit)                                      | alpine-3.7-armhf       |
 | Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
 | Devuan 2.0.0 [ASCII](https://devuan.org/os/debian-fork/ascii-stable-announce-060818) (32-bit)                        | devuan-ascii-armhf     |
+| Devuan 2.0.0 [ASCII](https://devuan.org/os/debian-fork/ascii-stable-announce-060818) (64-bit)                        | devuan-ascii-arm64     |
 | Kali Linux rolling (32-bit)                                                                                          | kali-rolling-armhf
 | Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)                                      | raspbian-stretch-armhf |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
