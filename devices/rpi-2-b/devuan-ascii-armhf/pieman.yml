@@ -1,0 +1,22 @@
+# Maintainer: Polina Popova <ppopova.wis@gmail.com>
+
+devuan-ascii-armhf:
+  repos:
+  - http://auto.mirror.devuan.org/merged
+  boot:
+  - config.txt
+  - /usr/lib/linux-image-4.9.0-*-armmp/bcm2836-rpi-2-b.dtb
+  - /boot/vmlinuz-4.9.0-*-armmp:zImage
+  - ^toolset/u-boot/u-boot.bin:kernel7.img
+  - ^toolset/u-boot/boot.scr
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  base:
+  - gnupg
+  kernel:
+    package: linux-image-armmp
