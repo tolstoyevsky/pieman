@@ -137,9 +137,6 @@ split_os_name_into_pieces
 
 run_scripts "helpers"
 
-info "checking toolset"
-. toolset.sh
-
 check_mutually_exclusive_params \
     BASE_DIR \
     CREATE_ONLY_CHROOT
@@ -162,6 +159,9 @@ check_ownership_format
 check_required_directories
 
 check_required_files
+
+info "checking toolset"
+. toolset.sh
 
 choose_user_mode_emulation_binary
 
