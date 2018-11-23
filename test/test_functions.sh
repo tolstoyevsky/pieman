@@ -31,6 +31,8 @@ setUp() {
 
     PIEMAN_DIR="."
 
+    PIEMAN_UTILS_DIR="${PIEMAN_UTILS_DIR:=/usr/local/bin}"
+
     PM_OPTIONS=""
 
     PROJECT_NAME="mock_project"
@@ -77,14 +79,14 @@ test_adding_package_pm_options() {
 }
 
 test_checking_mutually_exclusive_params() {
-    PARAM1="true"
+    export PARAM1="true"
 
     local result=$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)
 
     assertNull "${result}"
 
-    PARAM2="true"
-    PARAM3="true"
+    export PARAM2="true"
+    export PARAM3="true"
 
     local result=$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)
 
