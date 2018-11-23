@@ -20,6 +20,7 @@ setup(name='pieman',
       license='https://gnu.org/licenses/gpl-3.0.txt',
       scripts=[
           'bin/apk_tools_version.py',
+          'bin/check_mutually_exclusive_params.py',
           'bin/du.py',
           'bin/image_attrs.py',
       ],

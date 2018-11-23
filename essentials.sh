@@ -122,7 +122,7 @@ def_var() {
         value="${!var_name}"
     fi
 
-    eval ${var_name}="\"${value}\""
+    eval export ${var_name}="\"${value}\""
 
     >&2 echo "+ ${var_name}=${value}"
 }

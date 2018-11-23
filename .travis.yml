@@ -3,6 +3,10 @@ language: python
 python:
   - 3.6
 
+env:
+  # for test_functions.sh
+  - PIEMAN_UTILS_DIR=$TRAVIS_BUILD_DIR/pieman/bin PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/pieman
+
 addons:
   apt:
     sources:
