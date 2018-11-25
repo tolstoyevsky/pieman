@@ -296,7 +296,7 @@ case "${BUILD_TYPE}" in
     mount "${LOOP_DEV}p4" "${MOUNT_POINT}"
     mkdir "${MOUNT_POINT}"/mender
     mkdir "${MOUNT_POINT}"/u-boot
-    install -m 0644 "${PIEMAN_DIR}"/files/mender/device_type "${MOUNT_POINT}"/mender
+    install -m 0444 "${PIEMAN_DIR}"/files/mender/device_type "${MOUNT_POINT}"/mender
     install -m 0644 "${PIEMAN_DIR}"/files/mender/fw_env.config "${MOUNT_POINT}"/u-boot
 
     ;;
