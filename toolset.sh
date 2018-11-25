@@ -157,7 +157,7 @@ if [ "$(get_ownership "${TOOLSET_DIR}")" != "${pieman_dir_ownership}" ]; then
 fi
 
 if ${PREPARE_ONLY_TOOLSET}; then
-    info "exiting since PREPARE_ONLY_TOOLSET is set to true"
+    success "exiting since PREPARE_ONLY_TOOLSET is set to true"
 
     exit 0
 fi
