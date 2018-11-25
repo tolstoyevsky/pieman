@@ -409,7 +409,14 @@ format_partitions() {
         mkfs="mkfs.${args[i - 1]}"
         case "${args[i - 1]}" in
         fat|vfat)
-            ${mkfs} -n boot -F 32 -v "${LOOP_DEV}p${i}" 1>&2-
+            local volume_name=""
+            if [[ "${i}" -eq 1 ]]; then
+                # If the first partition is FAT, give volume name boot to it.
+                volume_name="-n boot"
+            fi
+
+            # shellcheck disable=SC2086
+            ${mkfs} ${volume_name} -F 32 -v "${LOOP_DEV}p${i}" 1>&2-
             ;;
         ext4)
             ${mkfs} "${LOOP_DEV}p${i}" 1>&2-
