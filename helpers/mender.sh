@@ -77,8 +77,6 @@ install_mender() {
     sed -i -e "s#{MENDER_TENANT_TOKEN}#${MENDER_TENANT_TOKEN}#" "${etc_mender_dir}"/mender.conf
     install -m 0644 "${PIEMAN_DIR}"/files/mender/artifact_info "${etc_mender_dir}"
     sed -i -e "s#{MENDER_ARTIFACT_NAME}#${MENDER_ARTIFACT_NAME}#" "${etc_mender_dir}"/artifact_info
-    install -d "${etc_mender_dir}"/scripts
-    install -m 0644 "${PIEMAN_DIR}"/files/mender/version "${etc_mender_dir}"/scripts
 
     # Make the daemon start on boot
     install -m 0644 "${PIEMAN_DIR}"/files/mender/mender.service "${MOUNT_POINT}"/lib/systemd/system
