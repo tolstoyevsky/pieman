@@ -387,6 +387,10 @@ Allows specifying the ownership of the target image (see `PROJECT_NAME`) and pro
 
 Note, that the parameter must follow the format "uid:gid" where `uid` and `gid` are numbers.
 
+##### IMAGE_ROOTFS_SIZE=0 #####
+
+Specifies the rootfs partition size in megabytes. Beware! If rootfs doesn't fit onto that size - build will fail.
+
 ---
 
 #### Pieman-specific

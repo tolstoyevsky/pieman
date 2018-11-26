@@ -74,6 +74,8 @@ def_var HOST_NAME "pieman-${DEVICE}"
 
 def_var IMAGE_OWNERSHIP "$(get_ownership "$0")"
 
+def_int_var IMAGE_ROOTFS_SIZE 0
+
 def_var INCLUDES ""
 
 def_var LOCALE "en_US.UTF-8"
@@ -173,6 +175,10 @@ check_mutually_exclusive_params \
     CREATE_ONLY_CHROOT \
     ENABLE_MENDER
 
+check_mutually_exclusive_params \
+    IMAGE_ROOTFS_SIZE \
+    CREATE_ONLY_CHROOT
+
 check_dependencies
 
 check_ownership_format
@@ -229,8 +235,19 @@ umount_required_filesystems
 
 info "creating image"
 
-root_partition_size="$(calc_size -m "${R}")"
-metadata_size="$(python3 -c "import math; print(math.ceil(${root_partition_size} / 10))")"
+if [ "$IMAGE_ROOTFS_SIZE" -gt 0 ]; then
+    # check if IMAGE_ROOTFS_SIZE can fit rootfs
+    chroot_size="$(calc_size -m "${R}")"
+    chroot_and_metadata_size="$(python3 -c "import math; print(math.ceil(${chroot_size} / 10))")"
+    if [ "$chroot_and_metadata_size" -gt "$IMAGE_ROOTFS_SIZE" ]; then
+        fail "IMAGE_ROOTFS_SIZE is too small. Try at least $chroot_and_metadata_size."
+    fi
+    root_partition_size="$IMAGE_ROOTFS_SIZE"
+    metadata_size="0"
+else
+    root_partition_size="$(calc_size -m "${R}")"
+    metadata_size="$(python3 -c "import math; print(math.ceil(${root_partition_size} / 10))")"
+fi
 total=$((root_partition_size + metadata_size))
 
 case "${BUILD_TYPE}" in
