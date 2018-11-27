@@ -433,6 +433,14 @@ Specifies the size in megabytes of the data partition.
 
 The parameter is used only when `ENABLE_MENDER` is set to `true`.
 
+##### MENDER_INVENTORY_POLL_INTERVAL=86400
+
+Specifies the frequency (in seconds) for periodically sending inventory data. Inventory data is always sent after each boot of the device, and after a new update has been correctly applied and committed by the device in addition to this periodic interval. Default value: 86400 seconds (one day).
+
+##### MENDER_RETRY_POLL_INTERVAL=300
+
+Specifies the number of seconds to wait between each attempt to download an update file. Note that the client may attempt more often initially to enable rapid upgrades, but will gradually fall back to this value if the server is busy. See `MENDER_INVENTORY_POLL_INTERVAL`.
+
 ##### MENDER_TENANT_TOKEN=""
 
 Specifies a token which identifies which tenant a device belongs to. It requires an account on [hosted.mender.io](https://hosted.mender.io).
@@ -442,6 +450,10 @@ The parameter is used only when `ENABLE_MENDER` is set to `true`.
 ##### MENDER_SERVER_URL="https://hosted.mender.io"
 
 Specifies the server for the client to connect to.
+
+##### MENDER_UPDATE_POLL_INTERVAL=1800
+
+Specifies the frequency (in seconds) the client will send an update check request to the server. Default value: 1800 seconds (30 minutes).
 
 ## Daily image builds
 

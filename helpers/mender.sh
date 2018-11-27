@@ -73,8 +73,11 @@ install_mender() {
     install -m 0755 "${TOOLSET_DIR}/mender/mender" "${MOUNT_POINT}"/usr/bin/mender
     install -d "${etc_mender_dir}"
     install -m 0644 "${PIEMAN_DIR}"/files/mender/mender.conf.template "${etc_mender_dir}"/mender.conf
+    sed -i -e "s#{MENDER_INVENTORY_POLL_INTERVAL}#${MENDER_INVENTORY_POLL_INTERVAL}#" "${etc_mender_dir}"/mender.conf
+    sed -i -e "s#{MENDER_RETRY_POLL_INTERVAL}#${MENDER_RETRY_POLL_INTERVAL}#" "${etc_mender_dir}"/mender.conf
     sed -i -e "s#{MENDER_SERVER_URL}#${MENDER_SERVER_URL}#" "${etc_mender_dir}"/mender.conf
     sed -i -e "s#{MENDER_TENANT_TOKEN}#${MENDER_TENANT_TOKEN}#" "${etc_mender_dir}"/mender.conf
+    sed -i -e "s#{MENDER_UPDATE_POLL_INTERVAL}#${MENDER_UPDATE_POLL_INTERVAL}#" "${etc_mender_dir}"/mender.conf
     install -m 0644 "${PIEMAN_DIR}"/files/mender/artifact_info "${etc_mender_dir}"
     sed -i -e "s#{MENDER_ARTIFACT_NAME}#${MENDER_ARTIFACT_NAME}#" "${etc_mender_dir}"/artifact_info
 
