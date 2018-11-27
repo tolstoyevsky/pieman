@@ -84,9 +84,15 @@ def_var MENDER_ARTIFACT_NAME "release-1_1.6.0"
 
 def_int_var MENDER_DATA_SIZE 128
 
+def_int_var MENDER_INVENTORY_POLL_INTERVAL 86400
+
+def_int_var MENDER_RETRY_POLL_INTERVAL 300
+
 def_var MENDER_SERVER_URL "https://hosted.mender.io"
 
 def_var MENDER_TENANT_TOKEN ""
+
+def_int_var MENDER_UPDATE_POLL_INTERVAL 1800
 
 def_var OS "raspbian-stretch-armhf"
 
