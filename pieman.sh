@@ -240,9 +240,9 @@ if [ "$IMAGE_ROOTFS_SIZE" -gt 0 ]; then
     chroot_size="$(calc_size -m "${R}")"
     chroot_and_metadata_size="$(python3 -c "import math; print(math.ceil(${chroot_size} / 10))")"
     if [ "$chroot_and_metadata_size" -gt "$IMAGE_ROOTFS_SIZE" ]; then
-        fail "IMAGE_ROOTFS_SIZE is too small. Try at least $chroot_and_metadata_size."
+        fail "IMAGE_ROOTFS_SIZE is too small. Try at least ${chroot_and_metadata_size}."
     fi
-    root_partition_size="$IMAGE_ROOTFS_SIZE"
+    root_partition_size="${IMAGE_ROOTFS_SIZE}"
     metadata_size="0"
 else
     root_partition_size="$(calc_size -m "${R}")"
