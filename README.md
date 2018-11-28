@@ -208,7 +208,7 @@ The device the target image is created for is specified via the `DEVICE` environ
 
 ##### OS="raspbian-stretch-armhf"
 
-Allows specifying the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column).
+Allows specifying the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column). 
 
 ##### DEVICE="rpi-3-b"
 
@@ -397,7 +397,7 @@ Specifies the rootfs partition size in megabytes. Beware! Build will fail if roo
 
 ##### PYTHON="$(which python3)"
 
-Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities.
+Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities. 
 
 #### Extra
 
