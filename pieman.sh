@@ -235,11 +235,11 @@ umount_required_filesystems
 
 info "creating image"
 
-if [ "$IMAGE_ROOTFS_SIZE" -gt 0 ]; then
+if [ "${IMAGE_ROOTFS_SIZE}" -gt 0 ]; then
     # check if IMAGE_ROOTFS_SIZE can fit rootfs
     chroot_size="$(calc_size -m "${R}")"
     chroot_and_metadata_size="$(python3 -c "import math; print(math.ceil(${chroot_size} / 10))")"
-    if [ "$chroot_and_metadata_size" -gt "$IMAGE_ROOTFS_SIZE" ]; then
+    if [ "${chroot_and_metadata_size}" -gt "${IMAGE_ROOTFS_SIZE}" ]; then
         fail "IMAGE_ROOTFS_SIZE is too small. Try at least ${chroot_and_metadata_size}."
     fi
     root_partition_size="${IMAGE_ROOTFS_SIZE}"
