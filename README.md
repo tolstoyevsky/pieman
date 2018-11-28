@@ -389,7 +389,7 @@ Note, that the parameter must follow the format "uid:gid" where `uid` and `gid` 
 
 ##### IMAGE_ROOTFS_SIZE=0 #####
 
-Specifies the rootfs partition size in megabytes. Beware! Build will fail if rootfs doesn't fit into that size.
+Specifies the rootfs partition size in megabytes. Beware! Build will fail if rootfs doesn't fit into that size. If the parameter is equal to 0, the rootfs size will be calculated automatically.
 
 ---
 
