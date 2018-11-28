@@ -175,10 +175,6 @@ check_mutually_exclusive_params \
     CREATE_ONLY_CHROOT \
     ENABLE_MENDER
 
-check_mutually_exclusive_params \
-    IMAGE_ROOTFS_SIZE \
-    CREATE_ONLY_CHROOT
-
 check_dependencies
 
 check_ownership_format
