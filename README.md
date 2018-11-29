@@ -10,6 +10,8 @@ Pieman is a script for creating custom OS images for single-board computers such
 
 The project is named after a superhero Pie Man appeared in the Simpsons' episode [Simple Simpson](https://en.wikipedia.org/wiki/Simple_Simpson).
 
+Pieman is a core component of [CusDeb](https://cusdeb.com).
+
 ## Features
 
 * The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com/).
