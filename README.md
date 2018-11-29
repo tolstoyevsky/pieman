@@ -208,15 +208,15 @@ The device the target image is created for is specified via the `DEVICE` environ
 
 ##### OS="raspbian-stretch-armhf"
 
-Allows specifying the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column).
+Specifies the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column).
 
 ##### DEVICE="rpi-3-b"
 
-Allows specifying the device the image is going to be run on. You can find all the possible values for the parameter in the table above (see the "Short name" column).
+Specifies the device the image is going to be run on. You can find all the possible values for the parameter in the table above (see the "Short name" column).
 
 ##### BASE_DIR=""
 
-Allows specifying the chroot environment to be used instead of creating a new one.
+Specifies the chroot environment to be used instead of creating a new one.
 
 Note, that the parameter conflicts with `CREATE_ONLY_CHROOT`.
 
@@ -226,23 +226,23 @@ Each image is built in in the context of some project. The parameter allows spec
 
 ##### BUILD_DIR="build"
 
-Allows specifying the projects location. By default, the directory named `build` is created in the current directory during the build process with ownership specified via `IMAGE_OWNERSHIP`.
+Specifies the projects location. By default, the directory named `build` is created in the current directory during the build process with ownership specified via `IMAGE_OWNERSHIP`.
 
 ##### CREATE_ONLY_CHROOT=false
 
-Makes Pieman restrict itself to only creating a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
+Restricts Pieman to only creating a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
 
 ##### LOCALE="en_US.UTF-8"
 
-Allows specifying the locale.
+Specifies the locale.
 
 ##### PIEMAN_DIR="$(pwd)"
 
-Allows specifying the directory into which Pieman is installed.
+Specifies the directory into which Pieman is installed.
 
 ##### PREPARE_ONLY_TOOLSET=false
 
-Makes Pieman restrict itself to only preparing or upgrading the toolset which is located in the directory specified via `TOOLSET_DIR`.
+Restricts Pieman to only preparing or upgrading the toolset which is located in the directory specified via `TOOLSET_DIR`.
 
 ##### TIME_ZONE="Etc/UTC"
 
@@ -250,7 +250,7 @@ Specifies the time zone of the system.
 
 ##### TOOLSET_DIR="${PIEMAN_DIR}/toolset"
 
-Allows specifying the directory which contains the tools necessary for creating chroot environments based on Alpine Linux and different Debian-based distributions. The toolset consists of [debootstrap](https://wiki.debian.org/Debootstrap) and [apk.static](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management).
+Specifies the directory which contains the tools necessary for creating chroot environments based on Alpine Linux and different Debian-based distributions. The toolset consists of [debootstrap](https://wiki.debian.org/Debootstrap) and [apk.static](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management).
 
 ---
 
@@ -303,7 +303,7 @@ Specifies the hostname of a device.
 
 ##### ALLOW_UNAUTHENTICATED=false
 
-Allows installing packages without checking their signatures.
+Specifies whether to install packages without checking their signatures.
 
 ##### ENABLE_COMMUNITY=false
 
@@ -315,7 +315,7 @@ This is a Debian-specific parameter. It enables the [non-free and contrib](https
 
 ##### ENABLE_UNATTENDED_INSTALLATION=false
 
-Allows installing packages without prompting the user to answer any questions.
+Specifies whether to install packages without prompting the user to answer any questions.
 
 ##### ENABLE_UNIVERSE=false
 
@@ -331,15 +331,15 @@ A comma-separated list of the packages to be installed on the system specified v
 
 ##### ENABLE_SUDO=true
 
-Installs `sudo`. If `ENABLE_USER` is set to `true`, Pieman adds the user `USER_NAME` to `/etc/sudoers`.
+Specifies whether to install `sudo`. If `ENABLE_USER` is set to `true`, Pieman adds the user `USER_NAME` to `/etc/sudoers`.
 
 ##### ENABLE_USER=true
 
-Creates a non-root user `USER_NAME` with the password `USER_PASSWORD`.
+Specifies whether to create a non-root user `USER_NAME` with the password `USER_PASSWORD`.
 
 ##### PASSWORD="secret"
 
-Allows specifying the root password. It's **HIGHLY RECOMMENDED** to change the default root password.
+Specifies the root password. It's **HIGHLY RECOMMENDED** to change the default root password.
 
 If `PASSWORD` equals to `-`, Pieman will prompt for a password, and read it without echoing to screen.
 
@@ -351,11 +351,11 @@ It's necessary to disable the password prompts if you want to manage your device
 
 ##### USER_NAME="cusdeb"
 
-Allows specifying a non-root user name. It's ignored if `ENABLE_USER` is set to `false`.
+Specifies a non-root user name. It's ignored if `ENABLE_USER` is set to `false`.
 
 ##### USER_PASSWORD="secret"
 
-Allows specifying a non-root user password. It's ignored if `ENABLE_USER` is set to `false`. It's **HIGHLY RECOMMENDED** to change the default user password.
+Specifies a non-root user password. It's ignored if `ENABLE_USER` is set to `false`. It's **HIGHLY RECOMMENDED** to change the default user password.
 
 If `USER_PASSWORD` equals to `-`, Pieman will prompt for a password, and read it without echoing to screen.
 
@@ -383,7 +383,7 @@ Note, that the parameter conflicts with `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH
 
 ##### IMAGE_OWNERSHIP="$(id -u "$(stat -c "%U" "$0")"):$(id -g "$(stat -c "%G" "$0")")"
 
-Allows specifying the ownership of the target image (see `PROJECT_NAME`) and project directory (see `BUILD_DIR`). By default, the ownership is borrowed from `pieman.sh` which, as a rule, belongs to a regular user.
+Specifies the ownership of the target image (see `PROJECT_NAME`) and project directory (see `BUILD_DIR`). By default, the ownership is borrowed from `pieman.sh` which, as a rule, belongs to a regular user.
 
 Note, that the parameter must follow the format "uid:gid" where `uid` and `gid` are numbers.
 
@@ -397,13 +397,13 @@ Specifies the rootfs partition size in megabytes. Beware! Build will fail if roo
 
 ##### PYTHON="$(which python3)"
 
-Allows specifying the Python 3 interpreter to be used when calling the Pieman-specific utilities.
+Specifies the Python 3 interpreter to be used when calling the Pieman-specific utilities.
 
 #### Extra
 
 ##### CREATE_ONLY_MENDER_ARTIFACT=false
 
-Makes Pieman restrict itself to only creating an artifact (a file with the `.mender` extension) which can later be uploaded to [hosted.mender.io](https://hosted.mender.io) to provide for OTA updates.
+Restricts Pieman to only creating an artifact (a file with the `.mender` extension) which can later be uploaded to [hosted.mender.io](https://hosted.mender.io) to provide for OTA updates.
 
 Note, that the parameter conflicts with `CREATE_ONLY_CHROOT` and `ENABLE_MENDER`.
 
