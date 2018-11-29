@@ -6,7 +6,13 @@
     <img src="/logo/380x400.png" alt="Pieman">
 </p>
 
-Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi. The images are based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com). The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
+Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi. The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
+
+## Features
+
+* The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com/).
+* 64-bit images based on Ubuntu.
+* OTA updates via [Mender](https://mender.io/).
 
 ## Table of Contents
 
