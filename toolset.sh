@@ -28,11 +28,11 @@ else
     mender_dependencies_are_satisfied=false
 fi
 
-if [ ! -d "${TOOLSET_DIR}/apk/${ALPINE_VER}" ]; then
-    create_dir "${TOOLSET_DIR}/apk/${ALPINE_VER}"
-
+if $(init_installation_if_needed "${TOOLSET_DIR}/apk"); then
     info "fetching apk.static for Alpine Linux ${ALPINE_VER}"
     pushd "${TOOLSET_DIR}"/apk
+        create_dir "${ALPINE_VER}"
+
         addr=http://dl-cdn.alpinelinux.org/alpine/
         apk_tools_version="$(get_apk_tools_version "${ALPINE_VER}")"
         apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
@@ -44,8 +44,9 @@ if [ ! -d "${TOOLSET_DIR}/apk/${ALPINE_VER}" ]; then
 
         mv "${apk_tools_static_path}/sbin/apk.static" "${apk_tools_static_path}"
 
-        rm    "${apk_tools_static_path}/${apk_tools_static}"
-        rm -r "${apk_tools_static_path}/sbin"
+        finalise_installation \
+            "${apk_tools_static_path}/${apk_tools_static}" \
+            "${apk_tools_static_path}/sbin"
     popd
 fi
 
@@ -72,9 +73,7 @@ else
     fi
 fi
 
-if [ ! -d "${TOOLSET_DIR}/mender" ] && ${mender_dependencies_are_satisfied}; then
-    create_dir "${TOOLSET_DIR}/mender"
-
+if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOLSET_DIR}/mender"); then
     pushd "${TOOLSET_DIR}/mender"
         info "downloading inventory & identity scripts"
         wget -q -O mender-device-identity "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-device-identity
@@ -141,11 +140,8 @@ if [ ! -d "${TOOLSET_DIR}/mender" ] && ${mender_dependencies_are_satisfied}; the
         cp mender-artifact "${TOOLSET_DIR}"/mender
     popd
 
-    # Cleanup
     pushd "${TOOLSET_DIR}/mender"
-        rm -r "${toolchain_dir}"
-        rm -r "client"
-        rm -r "uboot-mender"
+        finalise_installation "${toolchain_dir}" client uboot-mender
     popd
 fi
 
