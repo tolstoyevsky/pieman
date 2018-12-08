@@ -25,7 +25,7 @@ if ${ALLOW_UNAUTHENTICATED}; then
     fi
 fi
 
-if ${ENABLE_MENDER}; then
+if ${ENABLE_MENDER} || ${CREATE_ONLY_MENDER_ARTIFACT}; then
     add_package_to_includes ca-certificates
     # Need to have the reboot executable file in $PATH
     add_package_to_includes systemd-sysv
