@@ -423,9 +423,9 @@ Specifies whether to install the Mender client to provide for OTA updates.
 
 Note that the OTA updates support is currently limited to 32-bit Raspbian for Raspberry Pi 3 Model B.
 
-##### MENDER_ARTIFACT_NAME="release-1_1.6.0"
+##### MENDER_ARTIFACT_NAME="release-1_1.7.0"
 
-The name of an image or update (called [artifact](https://docs.mender.io/1.6/architecture/mender-artifacts)) that will be built if either `ENABLE_MENDER` or `CREATE_ONLY_MENDER_ARTIFACT` is specified. Note that different updates must have different names.
+The name of an image or update (called [artifact](https://docs.mender.io/1.7/architecture/mender-artifacts)) that will be built if either `ENABLE_MENDER` or `CREATE_ONLY_MENDER_ARTIFACT` is specified. Note that different updates must have different names.
 
 ##### MENDER_DATA_SIZE=128
 

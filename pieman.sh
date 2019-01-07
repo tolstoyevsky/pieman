@@ -80,7 +80,7 @@ def_var INCLUDES ""
 
 def_var LOCALE "en_US.UTF-8"
 
-def_var MENDER_ARTIFACT_NAME "release-1_1.6.0"
+def_var MENDER_ARTIFACT_NAME "release-1_1.7.0"
 
 def_int_var MENDER_DATA_SIZE 128
 
