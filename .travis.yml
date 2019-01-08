@@ -1,16 +1,22 @@
-language: bash
+language: python
+
+python:
+  - 3.6
 
 addons:
   apt:
     sources:
     - debian-sid
 
-before_install:
-  - sudo apt-get install -y cabal-install shunit2
+install:
+  - sudo apt-get install -y bash cabal-install pandoc shunit2
+  - pip install -r pieman/requirements.txt
+  - pip install pylint
   - cabal update
   - cabal install shellcheck
 
 script:
+  - find -name "*.py" -not -path "./.git/*" ! -name "setup.py" | xargs pylint
   - bash -c 'cd test && ./test_essentials.sh'
   - bash -c 'cd test && ./test_functions.sh'
   - bash -c 'shellcheck -x pieman.sh'
