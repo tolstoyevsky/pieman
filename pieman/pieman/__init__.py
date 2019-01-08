@@ -1,2 +1,3 @@
-__version__ = '0.4.0'
+"""The Pieman tools. """
 
+__version__ = '0.4.0'

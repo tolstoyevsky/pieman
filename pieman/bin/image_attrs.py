@@ -14,6 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Utility intended to fetch the image attributes from the specified pieman.yml
+file.
+"""
+
 import os
 import sys
 from argparse import ArgumentParser
@@ -29,10 +33,11 @@ def fail(message):
 
 
 def main():
+    """The main entry point. """
     parser = ArgumentParser()
     parser.add_argument('-f', '--file', dest='file', default='pieman.yaml',
-                      help='path to a YAML file which describes the target '
-                           'image')
+                        help='path to a YAML file which describes the target '
+                             'image')
     parser.add_argument('root', nargs='*')
     args = parser.parse_args()
 
@@ -45,8 +50,8 @@ def main():
         attr = attributes_list.get_attribute(args.root)
     except attrs.RootDoesNotExist:
         fail('There is no root named {}'.format(args.root))
-    except attrs.AttributeDoesNotExist as e:
-        fail(str(e))
+    except attrs.AttributeDoesNotExist as exc:
+        fail(str(exc))
     except attrs.UnknownAttribute:
         fail('{} attribute is unknown'.format(args.root[-1]))
 

@@ -14,6 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Utility intended to fetch the latest version of the apk-tools-static package
+in the specified version of Alpine Linux. The point is that the
+apk-tools-static version is not frozen in the stable release of Alpine Linux
+and may vary.
+"""
+
 import os
 import sys
 import time
@@ -35,7 +41,11 @@ NAP = 1
 RETRIES_NUMBER = 5
 
 
-class CustomHTMLParser(HTMLParser):
+class CustomHTMLParser(HTMLParser):  # pylint: disable=abstract-method
+    """Simplified HTML parser to find the apk-tools-static version on the
+    specified page.
+    """
+
     def __init__(self, content):
         HTMLParser.__init__(self, convert_charrefs=True)
 
@@ -43,6 +53,7 @@ class CustomHTMLParser(HTMLParser):
         self._content = content
 
     def get_apk_tools_version(self):
+        """Returns the apk-tools-static version. """
         self.feed(self._content)
         return self._apk_tools_version
 
@@ -58,13 +69,15 @@ class CustomHTMLParser(HTMLParser):
 
 
 def main():
+    """The main entry point. """
+
     parser = ArgumentParser()
     parser.add_argument('--alpine-version', default=ALPINE_VERSION,
-                      help='alpine version', metavar='ALPINE_VERSION')
+                        help='alpine version', metavar='ALPINE_VERSION')
     parser.add_argument('--arch', default=ARCH,
-                      help='target architecture', metavar='ARCH')
+                        help='target architecture', metavar='ARCH')
     parser.add_argument('--mirror', default=MIRROR,
-                      help='mirror', metavar='MIRROR')
+                        help='mirror', metavar='MIRROR')
     args = parser.parse_args()
 
     address = urljoin(args.mirror,
@@ -76,11 +89,11 @@ def main():
         try:
             content = urlopen(address).read()
             break
-        except HTTPError as e:
+        except HTTPError as exc:
             sys.stderr.write('{}: request failed (error code {})\n'.
-                             format(sys.argv[0], e.code))
-        except URLError as e:
-            sys.stderr.write('{}: {}\n'.format(sys.argv[0], e.reason))
+                             format(sys.argv[0], exc.code))
+        except URLError as exc:
+            sys.stderr.write('{}: {}\n'.format(sys.argv[0], exc.reason))
 
         if attempt != RETRIES_NUMBER:
             sys.stderr.write('Retrying in {} seconds...\n'.format(NAP))
