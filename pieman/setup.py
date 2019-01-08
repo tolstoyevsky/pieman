@@ -19,7 +19,7 @@ setup(name='pieman',
       maintainer_email='eugulixes@gmail.com',
       license='https://gnu.org/licenses/gpl-3.0.txt',
       scripts=[
-          'bin/apk-tools-version.py',
+          'bin/apk_tools_version.py',
           'bin/du.py',
           'bin/image_attrs.py',
       ],

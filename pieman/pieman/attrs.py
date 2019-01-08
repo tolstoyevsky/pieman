@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Module intended to simplify working with pieman.yml files. """
+
 import yaml
 
 
@@ -41,28 +43,30 @@ class AttributeDoesNotExist(Exception):
 class RootDoesNotExist(Exception):
     """Exception raised when attempting to get the root which does not
     exist. """
-    pass
 
 
 class UnknownAttribute(Exception):
     """Exception raised when attempting to get an attribute which may exist
     but is not mentioned in the specification. """
-    pass
 
 
 class UnprintableType(Exception):
     """Exception raised when attempting to print an attribute the type of which
     is neither str nor list. """
-    pass
 
 
-class Attribute:
+class Attribute:  # pylint: disable=too-few-public-methods
+    """Class representing a single attribute. """
+
     def __init__(self, attribute, attribute_type):
         self._attribute, self._attribute_type = attribute, attribute_type
 
     def echo(self):
+        """Writes the value of the attribute to stdout or raises
+        `UnprintableType` if the attribute type is neither str nor list.
+        """
         if list in self._attribute_type or str in self._attribute_type:
-            if type(self._attribute) == str:
+            if isinstance(self._attribute, str):
                 self._attribute = [self._attribute]
 
             for line in self._attribute:
@@ -71,13 +75,19 @@ class Attribute:
             raise UnprintableType
 
 
-class AttributesList:
+class AttributesList:  # pylint: disable=too-few-public-methods
+    """Class implementing the interface for working with pieman.yml files. """
+
     def __init__(self, attributes_file):
-        with open(attributes_file, 'r') as f:
-            self._attributes = yaml.load(f)
+        with open(attributes_file, 'r') as infile:
+            self._attributes = yaml.load(infile)
 
     def get_attribute(self, attributes_chain):
-        if len(attributes_chain) > 0:
+        """Gets the value of the attribute. To get the value the full path to
+        the attribute must be specified starting with the root.
+        """
+
+        if attributes_chain:
             par_name = attributes_chain[0]
             try:
                 cur_attribute = self._attributes[par_name]
@@ -99,7 +109,9 @@ class AttributesList:
 
                 par_name = attribute_name
 
-            if type(cur_type) == dict:
-                cur_type = dict,
+            if isinstance(cur_type, dict):
+                cur_type = (dict, )
 
             return Attribute(cur_attribute, cur_type)
+
+        return None

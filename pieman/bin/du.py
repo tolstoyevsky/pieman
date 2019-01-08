@@ -14,9 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# The main motivation to create a substitution for du is that it can sometimes
-# provide inaccurate result. For example, directory size may vary depending on
-# when du is called -- before or after transferring the directory to an image.
+"""Utility intended to calculate the size of the chroot environments.
+The main motivation to create a substitution for du from GNU Coreutils is that
+it can sometimes provide inaccurate result. For example, directory size may
+vary depending on when du is called -- before or after transferring the
+directory to an image.
+"""
 
 import math
 import os
@@ -53,6 +56,10 @@ def get_tree_size(path, block_size=4096):
 
 
 def fault_tolerant_scandir(path):
+    """Wrapper for ``os.scandir`` which is supposed to write to stderr if there
+    is some problems instead of throwing exceptions.
+    """
+
     try:
         return os.scandir(path)
     except PermissionError:
@@ -63,11 +70,13 @@ def fault_tolerant_scandir(path):
 
 
 def main():
+    """The main entry point. """
+
     parser = ArgumentParser()
     parser.add_argument("-b", "--block-size", default=4096, type=int,
-                      help="block size", metavar="SIZE")
+                        help="block size", metavar="SIZE")
     parser.add_argument("-m", "--size-in-megabytes", action="store_true",
-                      help="return total size in megabytes", dest="megabytes")
+                        help="return total size in megabytes", dest="megabytes")
     parser.add_argument('directory')
     args = parser.parse_args()
 
