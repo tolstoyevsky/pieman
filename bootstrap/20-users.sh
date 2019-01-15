@@ -34,3 +34,5 @@ fi
 
 info "setting root password"
 set_root_password "${PASSWORD}"
+
+send_request_to_bsc_server DONE_WITH_USERS_CODE

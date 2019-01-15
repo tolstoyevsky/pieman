@@ -543,6 +543,6 @@ scan_partition_table() {
 # Returns:
 #     None
 set_traps() {
-    trap "cleanup && exit 130" 2
-    trap cleanup 1 3 6 ERR
+    trap "cleanup && send_request_to_bsc_server FAILED_CODE && stop_bscd && exit 130" 2
+    trap "cleanup && send_request_to_bsc_server FAILED_CODE && stop_bscd" 1 3 6 ERR
 }

@@ -417,6 +417,10 @@ Restricts Pieman to only creating an artifact (a file with the `.mender` extensi
 
 Note, that the parameter conflicts with `CREATE_ONLY_CHROOT` and `ENABLE_MENDER`.
 
+##### ENABLE_BSC_CHANNEL=false
+
+Specifies whether to run the build status codes server (also known as bscd). If the parameter is set to `true`, Pieman will check the connection to the Redis server (specified via `REDIS_HOST` and `REDIS_PORT`) and, in case there is no problem with that, it will be pushing the build status codes to the channel named `bscd-${PROJECT_NAME}`.
+
 ##### ENABLE_MENDER=false
 
 Specifies whether to install the Mender client to provide for OTA updates.
@@ -454,6 +458,14 @@ Specifies the server for the client to connect to.
 ##### MENDER_UPDATE_POLL_INTERVAL=1800
 
 Specifies the frequency (in seconds) the client will send an update check request to the server. Default value: 1800 seconds (30 minutes).
+
+##### REDIS_HOST="127.0.0.1"
+
+Specifies the Redis server host used by the build status codes server (see `ENABLE_BSC_CHANNEL`). 
+
+##### REDIS_PORT=6379
+
+Specifies the Redis server port used by the build status codes server (see `ENABLE_BSC_CHANNEL`). 
 
 ## Daily image builds
 

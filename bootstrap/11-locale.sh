@@ -36,6 +36,8 @@ elif is_ubuntu; then
     chroot_exec locale-gen "${LOCALE}"
 fi
 
+send_request_to_bsc_server SET_UP_LOCALE_CODE
+
 info "setting up timezone"
 # Set timezone
 # https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1554806
@@ -47,3 +49,5 @@ if is_alpine; then
 elif is_debian_based; then
     chroot_exec dpkg-reconfigure -f noninteractive tzdata
 fi
+
+send_request_to_bsc_server SET_UP_TIMEZONE_CODE

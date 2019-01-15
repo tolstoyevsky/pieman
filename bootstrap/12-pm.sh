@@ -93,6 +93,8 @@ update_indexes
 
 run_scripts ${SOURCE_DIR}/post-update-indexes
 
+send_request_to_bsc_server UPDATED_CODE
+
 dns_params=(
     ENABLE_GOOGLE_DNS
     ENABLE_BASIC_YANDEX_DNS
@@ -126,6 +128,8 @@ if [ ! -z ${INCLUDES} ]; then
     install_packages ${packages_list}
 
     run_scripts ${SOURCE_DIR}/post-install
+
+    send_request_to_bsc_server INSTALLED_PACKAGES_CODE
 fi
 
 run_scripts ${SOURCE_DIR}/pre-upgrade
@@ -134,6 +138,8 @@ info "upgrading chroot environment"
 upgrade
 
 run_scripts ${SOURCE_DIR}/post-upgrade
+
+send_request_to_bsc_server UPGRADED_CODE
 
 if ${CREATE_ONLY_CHROOT}; then
     clean

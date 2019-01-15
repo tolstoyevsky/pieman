@@ -37,5 +37,7 @@ else
     create_chroot_environment
 fi
 
+send_request_to_bsc_server PREPARED_CHROOT_ENV_CODE
+
 info "mounting proc and sys filesystems to chroot environment"
 mount_required_filesystems

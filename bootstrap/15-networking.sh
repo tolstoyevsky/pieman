@@ -76,3 +76,5 @@ if is_alpine; then
     # the scripts from /etc/local.d raises the network interface.
     sed -i '/^\tneed/ s/$/ local/' "${ETC}/init.d/networking"
 fi
+
+send_request_to_bsc_server DONE_WITH_NETWORKING_CODE

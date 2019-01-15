@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,18 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-for var in OS SOURCE_DIR; do
-    check_if_variable_is_set ${var}
-done
+"""Module intended for parsing the build_status_codes text file. """
 
-kernel_package="`get_attr ${OS} kernel package`"
+import os
+import sys
 
-info "installing kernel package"
 
-run_scripts ${SOURCE_DIR}/pre-kernel-installation
+BUILD_STATUS_CODES = os.path.join(os.path.dirname(__file__),
+                                  'build_status_codes')
 
-install_packages ${kernel_package}
+MODULE = sys.modules[__name__]
 
-run_scripts ${SOURCE_DIR}/post-kernel-installation
-
-send_request_to_bsc_server INSTALLED_KERNEL_CODE
+LINES = [line.rstrip('\n').strip() for line in open(BUILD_STATUS_CODES)]
+for line in LINES:
+    if line and not line.startswith('#'):
+        nam, val = line.split('=')
+        setattr(MODULE, nam, val.encode())  # values must be bytes
