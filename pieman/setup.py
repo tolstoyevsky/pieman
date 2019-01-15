@@ -22,11 +22,16 @@ setup(name='pieman',
       license='https://gnu.org/licenses/gpl-3.0.txt',
       scripts=[
           'bin/apk_tools_version.py',
+          'bin/bsc.py',
+          'bin/bscd.py',
           'bin/check_mutually_exclusive_params.py',
+          'bin/check_redis.py',
           'bin/du.py',
           'bin/image_attrs.py',
       ],
       packages=['pieman'],
+      include_package_data=True,
+      data_files=[('pieman', ['pieman/build_status_codes'])],
       install_requires=[
           'PyYAML',
       ])

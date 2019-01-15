@@ -14,3 +14,5 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 clean
+
+send_request_to_bsc_server DONE_WITH_CLEAN_UP_CODE

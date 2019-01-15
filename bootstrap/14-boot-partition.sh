@@ -46,3 +46,5 @@ for f in ${boot}; do
         cp ${SOURCE_DIR}/${f} ${BOOT}
     fi
 done
+
+send_request_to_bsc_server PREPARED_BOOT_PARTITION_CODE

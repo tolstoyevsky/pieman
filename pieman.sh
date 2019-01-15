@@ -54,6 +54,8 @@ def_var ENABLE_CUSTOM_DNS ""
 
 def_bool_var ENABLE_BASIC_YANDEX_DNS false
 
+def_bool_var ENABLE_BSC_CHANNEL false
+
 def_bool_var ENABLE_FAMILY_YANDEX_DNS false
 
 def_bool_var ENABLE_GOOGLE_DNS false
@@ -108,6 +110,10 @@ def_var PROJECT_NAME "$(uuidgen)"
 
 def_var PYTHON "$(which python3)"
 
+def_var REDIS_HOST "127.0.0.1"
+
+def_int_var REDIS_PORT 6379
+
 def_bool_var SUDO_REQUIRE_PASSWORD true
 
 def_var TIME_ZONE "Etc/UTC"
@@ -152,6 +158,12 @@ KEYRING="/tmp/atomatically-generated-keyring-for-${PROJECT_NAME}.gpg"
 # shellcheck disable=SC2034
 PM_OPTIONS=""
 
+# shellcheck disable=SC2034
+EXIT_REQUEST="EXIT"
+
+# shellcheck disable=SC2034
+REDIS_IS_AVAILABLE=true
+
 SOURCE_DIR=devices/${DEVICE}/${OS}
 
 # shellcheck disable=SC2034
@@ -185,12 +197,17 @@ check_dependencies
 
 check_ownership_format
 
+check_redis # relevant only if ENABLE_BSC_CHANNEL is set to true
+
 check_required_directories
 
 check_required_files
 
 info "checking toolset"
 . toolset.sh
+
+# shellcheck source=./pieman/pieman/build_status_codes
+. "${PIEMAN_DIR}"/pieman/pieman/build_status_codes
 
 if ${ENABLE_MENDER}; then
     if [ ! -d "${TOOLSET_DIR}/mender" ]; then
@@ -215,6 +232,8 @@ init_debootstrap
 set_traps
 
 create_temporary_dirs
+
+start_bscd # relevant only if ENABLE_BSC_CHANNEL is set to true
 
 if ${CREATE_ONLY_MENDER_ARTIFACT}; then
     BUILD_TYPE="${IMAGE_MENDER_ARTIFACT}"
@@ -257,6 +276,8 @@ case "${BUILD_TYPE}" in
     image_size="$(create_image 4 fat32:100 "${total}")"
     info "${IMAGE} of size ${image_size}M was successfully created"
 
+    send_request_to_bsc_server CREATED_IMAGE_CODE
+
     info "creating loop device and scanning partition table"
 
     scan_partition_table
@@ -266,6 +287,8 @@ case "${BUILD_TYPE}" in
     info "formatting partitions"
 
     format_partitions vfat ext4
+
+    send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
@@ -277,10 +300,14 @@ case "${BUILD_TYPE}" in
 
     rsync -apS "${R}"/ "${MOUNT_POINT}"
 
+    send_request_to_bsc_server SYNCED_CODE
+
     ;;
 "${IMAGE_FOR_RPI_WITH_MENDER_CLIENT}")
     image_size="$(create_image 16 fat32:100 "${total}" "${total}" "${MENDER_DATA_SIZE}")"
     info "${IMAGE} of size ${image_size}M was successfully created"
+
+    send_request_to_bsc_server CREATED_IMAGE_CODE
 
     info "creating loop device and scanning partition table"
 
@@ -291,6 +318,8 @@ case "${BUILD_TYPE}" in
     info "formatting partitions"
 
     format_partitions vfat ext4 ext4 ext4
+
+    send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
@@ -305,6 +334,8 @@ case "${BUILD_TYPE}" in
     mount "${LOOP_DEV}p2" "${MOUNT_POINT}"
 
     rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    send_request_to_bsc_server SYNCED_CODE
 
     install_mender
 
@@ -322,15 +353,21 @@ case "${BUILD_TYPE}" in
 "${IMAGE_MENDER_ARTIFACT}")
     dd if=/dev/zero of="${IMAGE}" bs="$((1024 * 1024))" seek="${total}" count=1
 
+    send_request_to_bsc_server CREATED_IMAGE_CODE
+
     LOOP_DEV="$(losetup -f)"
 
     losetup "${LOOP_DEV}" "${IMAGE}"
 
     mkfs.ext4 "${LOOP_DEV}"
 
+    send_request_to_bsc_server FORMATTED_PARTITION_CODE
+
     mount "${LOOP_DEV}" "${MOUNT_POINT}"
 
     rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    send_request_to_bsc_server SYNCED_CODE
 
     install_mender
 
@@ -381,3 +418,7 @@ if ${CREATE_ONLY_MENDER_ARTIFACT}; then
 else
     success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
 fi
+
+send_request_to_bsc_server SUCCESSFUL_CODE
+
+stop_bscd
