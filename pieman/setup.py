@@ -1,10 +1,12 @@
+""" Script for building the Pieman package. """
+
 from setuptools import setup
 
 try:
     import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
+    LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
 except ImportError:
-    long_description = ('Utilities written in Python which are used by '
+    LONG_DESCRIPTION = ('Utilities written in Python which are used by '
                         'Pieman, script for creating custom OS images for '
                         'single-board computers.')
 
@@ -12,7 +14,7 @@ except ImportError:
 setup(name='pieman',
       version='0.6.0',
       description='Pieman package',
-      long_description=long_description,
+      long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
       author='Evgeny Golyshev',
       maintainer='Evgeny Golyshev',
