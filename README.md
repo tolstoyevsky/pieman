@@ -421,6 +421,8 @@ Note, that the parameter conflicts with `CREATE_ONLY_CHROOT` and `ENABLE_MENDER`
 
 Specifies whether to run the build status codes server (also known as bscd). If the parameter is set to `true`, Pieman will check the connection to the Redis server (specified via `REDIS_HOST` and `REDIS_PORT`) and, in case there is no problem with that, it will be pushing the build status codes to the channel named `bscd-${PROJECT_NAME}`.
 
+See the documentation page devoted to the [build status codes server and client](doc/bsc_server_and_client.md) for the details.
+
 ##### ENABLE_MENDER=false
 
 Specifies whether to install the Mender client to provide for OTA updates.
