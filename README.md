@@ -185,18 +185,19 @@ The built image will be located in the `build` directory. By the way, you can sp
 
 ## Documentation
 
-|                                                                                             | Alpine 3.7     | Devuan 1 «Jessie»     | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 18.04 «Bionic Beaver» |
-|---------------------------------------------------------------------------------------------|:--------------:|:---------------------:|:---------------------:|:---------------------------:|:----------------------------:|
-| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) |                |                       | 32bit                 |                             |                              |
-| Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit          | 32bit                 | 32bit                 | 32bit                       | 32bit                        |
-| Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit          | 32bit                 | 32bit                 |                             | 32bit, 64bit                 |
-| Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                |                |                       | 32bit                 |                             |                              |
+|                                                                                             | Alpine 3.7     | Alpine 3.8  | Devuan 1 «Jessie»     | Raspbian 9 «Stretch»  | Ubuntu 16.04 «Xenial Xerus» | Ubuntu 18.04 «Bionic Beaver» |
+|---------------------------------------------------------------------------------------------|:--------------:|:-----------:|:---------------------:|:---------------------:|:---------------------------:|:----------------------------:|
+| Raspberry Pi [Model B and B+](https://www.raspberrypi.org/products/raspberry-pi-1-model-b/) |                | 32bit       |                       | 32bit                 |                             |                              |
+| Raspberry Pi [2 Model B](https://www.raspberrypi.org/products/raspberry-pi-2-model-b/)      | 32bit          |             | 32bit                 | 32bit                 | 32bit                       | 32bit                        |
+| Raspberry Pi [3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)      | 32bit          |             | 32bit                 | 32bit                 |                             | 32bit, 64bit                 |
+| Raspberry Pi [Zero](https://www.raspberrypi.org/products/raspberry-pi-zero/)                |                | 32bit       |                       | 32bit                 |                             |                              |
 
 The operating system of the target image is specified via the `OS` environment variable. The next table maps full names of the supported operating systems to their short name intended for using as values of `OS`.
 
 | Full name                                                                                                            | Short name             |
 |----------------------------------------------------------------------------------------------------------------------|------------------------|
 | Alpine [3.7](https://alpinelinux.org/posts/Alpine-3.7.0-released.html) (32-bit)                                      | alpine-3.7-armhf       |
+| Alpine [3.8](https://alpinelinux.org/posts/Alpine-3.8.0-released.html) (32-bit)                                      | alpine-3.8-armhf       |
 | Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
 | Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)                                      | raspbian-stretch-armhf |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
