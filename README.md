@@ -37,6 +37,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
     + [Image](#image)
     + [Pieman-specific](#pieman-specific)
     + [Extra](#extra)
+- [Running images in emulator](#running-images-in-emulator)
 - [Daily image builds](#daily-image-builds)
 - [Authors](#authors)
 - [Licensing](#licensing)
@@ -468,6 +469,10 @@ Specifies the Redis server host used by the build status codes server (see `ENAB
 ##### REDIS_PORT=6379
 
 Specifies the Redis server port used by the build status codes server (see `ENABLE_BSC_CHANNEL`). 
+
+## Running images in emulator
+
+It's possible to run the images built by Pieman in QEMU. The nearby project [MMB](https://github.com/tolstoyevsky/mmb) simplifies the process. The project is the set of Dockerfiles and assets for building Docker images with different services. Now [QEMU](https://github.com/tolstoyevsky/mmb/tree/master/qemu), which is one of the services, helps running the images based on Ubuntu 18.04 «Bionic Beaver» (64-bit) for Raspberry Pi 3.
 
 ## Daily image builds
 
