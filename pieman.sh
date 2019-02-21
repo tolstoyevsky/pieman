@@ -66,6 +66,8 @@ def_bool_var ENABLE_MENDER false
 
 def_bool_var ENABLE_NONFREE false
 
+def_bool_var ENABLE_UBOOT false
+
 def_bool_var ENABLE_UNATTENDED_INSTALLATION false
 
 def_bool_var ENABLE_UNIVERSE false
@@ -204,7 +206,7 @@ check_required_directories
 check_required_files
 
 info "checking toolset"
-. toolset.sh
+. ./toolset.sh
 
 # shellcheck source=./pieman/pieman/build_status_codes
 . "${PIEMAN_DIR}"/pieman/pieman/build_status_codes
@@ -249,6 +251,15 @@ for param in ${params}; do
     # shellcheck disable=SC2086
     eval ${param}=true
 done
+
+if ${ENABLE_UBOOT}; then
+    if [ ! -d "${TOOLSET_DIR}/u-boot" ]; then
+        fatal "Das U-Boot is not installed." \
+              "Check u-boot dependencies and run Pieman" \
+              "with PREPARE_ONLY_TOOLSET=true."
+        exit 1
+    fi
+fi
 
 run_scripts "bootstrap"
 

@@ -33,6 +33,10 @@ PYTHON_MAJOR_VER=3
 
 PYTHON_MINOR_VER=5
 
+UBOOT_VER="2018.05"
+
+UBOOT_REPO="https://github.com/u-boot/u-boot/archive/v"
+
 UBOOT_MENDOR_BRANCH="mender-rpi-2017.09"
 
 UBOOT_MENDOR_COMMIT="988e0ec54"

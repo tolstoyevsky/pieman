@@ -42,9 +42,26 @@ for f in ${boot}; do
             cp -r ${FILE_NAMES[0]} ${BOOT}/${FILE_NAMES[1]}
         fi
     else
-        info "copying `dirname ${YML_FILE}`/${f} to ${BOOT}"
-        cp ${SOURCE_DIR}/${f} ${BOOT}
+        if [ ! ${ENABLE_UBOOT} ]; then
+            info "copying `dirname ${YML_FILE}`/${f} to ${BOOT}"
+            cp ${SOURCE_DIR}/${f} ${BOOT}
+        else
+            cp ${SOURCE_DIR}/config.txt ${BOOT}
+        fi
     fi
 done
+
+if ${ENABLE_UBOOT}; then
+    arch="${PIECES[2]}"
+    uboot_path="${TOOLSET_DIR}/u-boot/u-boot-${UBOOT_VER}/${DEVICE}/${arch}"
+
+    kernel_name="$(find ${BOOT} -maxdepth 1 -name 'kernel*')"
+    info "${kernel_name}"
+    mv ${kernel_name[0]} ${BOOT}/zImage
+
+    info "copying u-boot loader"
+    cp ${uboot_path}/u-boot.bin ${kernel_name[0]}
+    cp ${uboot_path}/boot.scr ${BOOT}
+fi
 
 send_request_to_bsc_server PREPARED_BOOT_PARTITION_CODE
