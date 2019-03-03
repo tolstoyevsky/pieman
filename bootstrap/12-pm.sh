@@ -28,7 +28,7 @@ fi
 if ${ENABLE_MENDER} || ${CREATE_ONLY_MENDER_ARTIFACT}; then
     add_package_to_includes ca-certificates
     # Need to have the reboot executable file in $PATH
-    add_package_to_includes systemd-sysv
+    # Solved by adding systemd-sysv to pieman.yml
 fi
 
 if ${ENABLE_SUDO}; then

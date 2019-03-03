@@ -21,5 +21,6 @@ raspbian-stretch-armhf:
   - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  includes: systemd-sysv
   kernel:
     package: raspberrypi-kernel
