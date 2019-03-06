@@ -20,6 +20,7 @@ import yaml
 
 TYPES_SCHEME = {
     'repos': (list, ),
+    'codename': (str, ),
     'base': (list, str),
     'includes': (list, str),
     'boot': (list, str),
