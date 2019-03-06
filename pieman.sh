@@ -169,8 +169,6 @@ SOURCE_DIR=devices/${DEVICE}/${OS}
 # shellcheck disable=SC2034
 YML_FILE=${SOURCE_DIR}/pieman.yml
 
-split_os_name_into_pieces
-
 run_scripts "helpers"
 
 check_mutually_exclusive_params \
@@ -202,6 +200,8 @@ check_redis # relevant only if ENABLE_BSC_CHANNEL is set to true
 check_required_directories
 
 check_required_files
+
+split_os_name_into_pieces
 
 info "checking toolset"
 . toolset.sh

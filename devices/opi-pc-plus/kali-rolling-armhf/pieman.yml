@@ -1,0 +1,17 @@
+# Maintainer: Polina Popova <ppopova.wis@gmail.com>
+
+kali-rolling-armhf:
+  codename: kali-rolling
+  repos:
+  - http://http.kali.org/kali/
+  boot:
+  - /boot/initrd.img-*-armmp:initrd.img
+  - /boot/vmlinuz-*-armmp:zImage
+  - /usr/lib/linux-image-*-armmp/sun8i-h3-orangepi-pc-plus.dtb
+  base:
+  - gnupg
+  includes: systemd
+  kernel:
+    package: linux-image-armmp
+  params:
+    - ENABLE_GOOGLE_DNS

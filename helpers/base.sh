@@ -440,7 +440,7 @@ is_alpine() {
 # Returns:
 #     Boolean
 is_debian_based() {
-    if [ "${PIECES[0]}" = "debian" ] || [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+    if [ "${PIECES[0]}" = "debian" ] || [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "kali" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
         true
     else
         false
@@ -471,6 +471,21 @@ is_debian() {
 #     Boolean
 is_devuan() {
     if [ "${PIECES[0]}" = "devuan" ]; then
+        true
+    else
+        false
+    fi
+}
+
+# Checks if the specified OS is Kali.
+# Globals:
+#     PIECES
+# Arguments:
+#     None
+# Returns:
+#     Boolean
+is_kali() {
+    if [ "${PIECES[0]}" = "kali" ]; then
         true
     else
         false
@@ -560,4 +575,23 @@ scan_partition_table() {
 set_traps() {
     trap "cleanup && send_request_to_bsc_server FAILED_CODE && stop_bscd && exit 130" 2
     trap "cleanup && send_request_to_bsc_server FAILED_CODE && stop_bscd" 1 3 6 ERR
+}
+
+# Splits the value of the OS variable into pieces and stores it to the PIECES
+# array. OS must stick to the following naming convention:
+# <distro name>-<codename>-<arch>.
+# Globals:
+#     None
+# Arguments:
+#     OS
+#     PIECES
+# Returns:
+#     None
+split_os_name_into_pieces() {
+    # shellcheck disable=SC2034
+    IFS='-' read -ra PIECES <<< "${OS}"
+    codename="$(get_attr_or_nothing "${OS}" codename)"
+    if [ ! -z "${codename}" ]; then
+        PIECES[1]="${codename}"
+    fi
 }

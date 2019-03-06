@@ -58,7 +58,7 @@ if is_alpine; then
 # By default /etc/apt/sources.list uses only the main section of the archive.
 # However, the ENABLE_NONFREE and ENABLE_UNIVERSE environment variables can
 # change the situation.
-elif is_raspbian || is_devuan; then
+elif is_kali || is_raspbian || is_devuan; then
     if ${ENABLE_NONFREE}; then
         additional_sections=" contrib non-free"
     fi
