@@ -1,4 +1,4 @@
-setenv bootargs earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait init=/bin/systemd
+setenv bootargs earlyprintk console=serial0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait init=/bin/systemd
 setenv fdt_high ffffffff
 fatload mmc 0 ${kernel_addr_r} zImage
 fatload mmc 0 ${fdt_addr_r} sun8i-h3-orangepi-pc-plus.dtb
