@@ -16,6 +16,9 @@ RUN touch .dockerenv \
     bash \
     # for ar
     binutils \
+    # u-boot-sunxi-with-spl.bin needs to be written to images by dd from
+    # GNU Coreutils instead of dd from Busybox
+    coreutils \
     dosfstools \
     dpkg \
     # for tune2fs
@@ -36,15 +39,20 @@ RUN touch .dockerenv \
     wget \
     whois \
     xz \
-    # The following packages are necessary for building Das U-Boot and Mender
-    # client
+    # The following packages are necessary for building 2 different versions of
+    # U-Boot (vanilla and Mender flavour) and Mender client
     bc \
+    bison \
     ca-certificates \
     dtc \
+    flex \
     gcc \
     go \
     make \
     musl-dev \
+    python2-dev \
+    python3 \
+    swig \
  # Provide a compatibility layer for the cross-compiler which is linked
  # against glibc.
  && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
@@ -53,7 +61,6 @@ RUN touch .dockerenv \
  \
  && mkdir /result \
  && /usr/bin/rollout_fixes.sh \
- && rm -r qemu-user-static \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
  && cd pieman \
@@ -61,12 +68,16 @@ RUN touch .dockerenv \
  && env PREPARE_ONLY_TOOLSET=true ./pieman.sh \
  && apk del \
     bc \
+    bison \
     ca-certificates \
     dtc \
+    flex \
     gcc \
     go \
     make \
     musl-dev \
+    python2-dev \
+    swig \
  && rm -rf /var/cache/apk/*
 
 COPY docker-entrypoint.sh /entrypoint.sh
