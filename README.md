@@ -49,58 +49,67 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 #### Mandatary
 
-* dosfstools
-* dpkg
-* GNU Parted
-* GnuPG
-* mkpasswd
-* pandoc
-* Python (3.5 or higher)
-* PyYAML
-* rsync
-* Setuptools
-* uuidgen
-* User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
-* wget
+* Development tools
+  * GNU Bison
+  * C programming language compiler
+  * Flex
+  * Git
+  * Make
+  * SWIG
+* Python
+  * Development libraries and header files related to Python 2.7
+  * Python 2.7
+  * Python 3 (3.5 or higher)
+  * PyYAML
+  * Setuptools
+* Utils
+  * dosfstools
+  * dpkg
+  * GNU Parted
+  * GnuPG
+  * mkpasswd
+  * pandoc
+  * rsync
+  * uuidgen
+  * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
+  * wget
+  * which
+  * xz
 
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
   ```
-  $ sudo apt-get install dosfstools gnupg pandoc parted python3-pip python3-setuptools python3-yaml qemu-user-static rsync uuid-runtime wget whois
+  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools python3-yaml swig qemu-user-static rsync uuid-runtime wget whois xz-utils
   ```
 * on Fedora
   ```
-  $ sudo dnf install dosfstools dpkg expect gpg pandoc parted python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync wget
+  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync swig wget which xz
   ```
 
 #### Optional
 
-* To enable `COMPRESS_WITH_BZIP2` and `COMPRESS_WITH_XZ`:
-  * bzip2
-  * xz
+* To enable `COMPRESS_WITH_BZIP2`: bzip2
 * To enable [Mender](https://mender.io) support:
   * Development libraries and header files related to C standard library (make sure the package, which is going to be installed to satisfy the dependency, includes `/usr/include/sys/types.h`)
-  * C programming language compiler
   * Go programming language compiler
   * bc
   * dtc
-  * make
 
 Here are the commands to install the optional dependencies
 * on Debian or Ubuntu
   ```
-  sudo apt-get install xz-utils bzip2 bc gcc device-tree-compiler golang make libc6-dev-i386
+  sudo apt-get install bzip2 bc gcc device-tree-compiler golang libc6-dev-i386
   ```
 * on Fedora
   ```
-  sudo dnf install xz bzip2 bc gcc dtc golang make
+  sudo dnf install bc bzip2 dtc golang
   ```
 
 ### Supported platforms
 
 Theoretically, Pieman can be run on any GNU/Linux, however, it was very carefully tested only on:
 * Debian 9 «Stretch»
-* Fedora 26
+* Fedora 29
 * Ubuntu 16.04 «Xenial Xerus»
 
 ### Installation
