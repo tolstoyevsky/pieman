@@ -6,7 +6,7 @@
     <img src="/logo/380x400.png" alt="Pieman">
 </p>
 
-Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi. The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
+Pieman is a script for creating custom OS images for single-board computers such as Raspberry Pi and Orange Pi. The authors of Pieman were inspired by the project named [rpi23-gen-image](https://github.com/drtyhlpr/rpi23-gen-image). The main reason why it was decided to create a new project instead of improving the existing one is that rpi23-gen-image is intended for creating images only for Raspberry Pi 2 and 3 based on Debian GNU/Linux. Unfortunately, it doesn't have a way to be extended to support different operating systems and single-board computers. Improving the situation would require significant efforts to rework the codebase of the project.
 
 The project is named after a superhero Pie Man appeared in the Simpsons' episode [Simple Simpson](https://en.wikipedia.org/wiki/Simple_Simpson).
 
