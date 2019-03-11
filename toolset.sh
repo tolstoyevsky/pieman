@@ -91,13 +91,13 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         rm "${toolchain_dir}.tar.xz"
 
         info "fetching Das U-Boot from https://github.com/mendersoftware/uboot-mender.git"
-        git clone https://github.com/mendersoftware/uboot-mender.git -b "${UBOOT_MENDOR_BRANCH}"
+        git clone --depth 1 https://github.com/mendersoftware/uboot-mender.git -b "${UBOOT_MENDOR_BRANCH}"
         git -C "uboot-mender" checkout "${UBOOT_MENDOR_COMMIT}"
 
         mkdir -p "${mendersoftware_dir}"
 
         info "fetching Mender client from https://github.com/mendersoftware/mender.git"
-        git clone https://github.com/mendersoftware/mender.git "${mendersoftware_dir}"/mender
+        git clone --depth 1 https://github.com/mendersoftware/mender.git "${mendersoftware_dir}"/mender
         git -C "${mendersoftware_dir}"/mender checkout "${MENDER_CLIENT_VER}"
 
         info "fetching Mender Artifacts Library from https://github.com/mendersoftware/mender-artifact.git"
