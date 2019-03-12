@@ -110,8 +110,8 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
 
         ARCH=arm CROSS_COMPILE="${cross_compiler}" make --quiet distclean
         ARCH=arm CROSS_COMPILE="${cross_compiler}" make rpi_3_32b_defconfig
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make envtools
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" make -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" make envtools -j $(number_of_cores)
 
         cp "u-boot.bin" "${TOOLSET_DIR}/mender"
         cp tools/env/fw_printenv "${TOOLSET_DIR}/mender"
