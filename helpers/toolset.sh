@@ -54,3 +54,15 @@ init_installation_if_needed() {
 
     return 1
 }
+
+# Figures out the number of CPU cores which are available on the current
+# machine.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     Number of available cores
+number_of_cores() {
+    grep -c ^processor /proc/cpuinfo
+}

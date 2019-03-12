@@ -9,3 +9,4 @@ We thank all the contributors to the project. Here are the full list of the peop
 * [Anton Demushkin](https://github.com/fremail)
 * [Daniil Molotkov](https://github.com/mdanil007)
 * [Denis Gavrilyuk](https://github.com/karpa4o4)
+* [Semyon Suprun](https://github.com/BehindLoader)
