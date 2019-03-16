@@ -1,4 +1,4 @@
-PyYAML
+PyYAML==3.12
 pypandoc  # only for converting README.md
 python-daemon==2.2.*
 redis==3.0.*
