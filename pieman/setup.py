@@ -12,7 +12,7 @@ except ImportError:
 
 
 setup(name='pieman',
-      version='0.7.0',
+      version='0.8.0',
       description='Pieman package',
       long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
@@ -33,5 +33,5 @@ setup(name='pieman',
       include_package_data=True,
       data_files=[('pieman', ['pieman/build_status_codes'])],
       install_requires=[
-          'PyYAML',
+          'PyYAML==3.12',
       ])
