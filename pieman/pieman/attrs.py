@@ -80,7 +80,7 @@ class AttributesList:  # pylint: disable=too-few-public-methods
 
     def __init__(self, attributes_file):
         with open(attributes_file, 'r') as infile:
-            self._attributes = yaml.load(infile)
+            self._attributes = yaml.load(infile, Loader=yaml.FullLoader)
 
     def get_attribute(self, attributes_chain):
         """Gets the value of the attribute. To get the value the full path to

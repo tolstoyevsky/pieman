@@ -33,5 +33,5 @@ setup(name='pieman',
       include_package_data=True,
       data_files=[('pieman', ['pieman/build_status_codes'])],
       install_requires=[
-          'PyYAML==3.12',
+          'PyYAML==5.1',
       ])
