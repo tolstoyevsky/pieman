@@ -59,17 +59,17 @@ class Attribute:  # pylint: disable=too-few-public-methods
     """Class representing a single attribute. """
 
     def __init__(self, attribute, attribute_type):
-        self._attribute, self._attribute_type = attribute, attribute_type
+        self.attribute, self._attribute_type = attribute, attribute_type
 
     def echo(self):
         """Writes the value of the attribute to stdout or raises
         `UnprintableType` if the attribute type is neither str nor list.
         """
         if list in self._attribute_type or str in self._attribute_type:
-            if isinstance(self._attribute, str):
-                self._attribute = [self._attribute]
+            if isinstance(self.attribute, str):
+                self.attribute = [self.attribute]
 
-            for line in self._attribute:
+            for line in self.attribute:
                 print(line)
         else:
             raise UnprintableType
