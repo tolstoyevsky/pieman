@@ -12,7 +12,7 @@ except ImportError:
 
 
 setup(name='pieman',
-      version='0.8.0',
+      version='0.9.0',
       description='Pieman package',
       long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
