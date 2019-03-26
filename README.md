@@ -28,6 +28,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * [Installation](#installation)
     + [Docker](#docker)
     + [Manual](#manual)
+- [Running tests](#running-tests)
 - [Documentation](#documentation)
   * [Parameters](#parameters)
     + [General](#general)
@@ -192,6 +193,35 @@ $ sudo env DEVICE=rpi-2-b OS=ubuntu-xenial-armhf INCLUDES=htop,mc ./pieman.sh
 ```
 
 The built image will be located in the `build` directory. By the way, you can specify the name of your project via the `PROJECT_NAME` environment variable. You can find details on `DEVICE`, `INCLUDES`, `OS`, `PROJECT_NAME` and other environment variables (called parameters) which help customizing images in the Documentation section.
+
+## Running tests
+
+The Pieman tests are divided into two parts: the tests for the package (which contains the utilities written in Python) and the tests for the Pieman script (written in Bash).
+
+To run the tests for the package, create a virtual environment, activate it and install the Pieman requirements to it (suppose you are in the directory which contains the Pieman source code directory).
+
+```
+$ virtualenv -p python3 pieman-env
+$ source ./pieman-env/bin/activate
+$ pip install -r pieman/pieman/requirements.txt
+```
+
+Then run the tests from the Pieman source code directory in the following way:
+
+```
+$ env PYTHONPATH=$(pwd)/pieman python ./pieman/test/runtest.py
+```
+
+Editing the `PYTHONPATH` environment variable is necessary to run the tests, using the latest version of the package.
+
+To run the tests for the Pieman script, you will need both the above-mentioned virtual environment (because the Pieman script tests depends on the package tests) and [shUnit2](https://github.com/kward/shunit2). Install shUnit2 executing `sudo apt-get install shunit2` on Debian/Ubuntu or `sudo dnf install shunit2` on Fedora. Then, go to the `test` directory and run the tests in the following way:
+
+```
+$ env PIEMAN_UTILS_DIR=$(pwd)/../pieman/bin ./test_essentials.sh
+$ env PIEMAN_UTILS_DIR=$(pwd)/../pieman/bin ./test_functions.sh
+```
+
+Editing the `PIEMAN_UTILS_DIR` environment variable is necessary to run the tests, using the latest version of the Pieman utilities.
 
 ## Documentation
 
