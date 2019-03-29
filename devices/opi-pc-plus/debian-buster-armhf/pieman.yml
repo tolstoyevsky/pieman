@@ -4,8 +4,8 @@ debian-buster-armhf:
   repos:
   - http://deb.debian.org/debian
   boot:
-  - /boot/initrd.img-4.19.0-2-armmp:initrd.img
-  - /boot/vmlinuz-4.19.0-2-armmp:zImage
+  - /boot/initrd.img-4.19.0-*-armmp:initrd.img
+  - /boot/vmlinuz-4.19.0-*-armmp:zImage
   - /usr/lib/linux-image-4.19.0-*-armmp/sun8i-h3-orangepi-pc-plus.dtb
   base:
   - gnupg
