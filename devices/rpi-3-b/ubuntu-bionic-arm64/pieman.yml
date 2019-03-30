@@ -7,7 +7,9 @@ ubuntu-bionic-arm64:
   - cmdline.txt
   - config.txt
   - /boot/vmlinuz-4.15.0-*-raspi2:kernel8.img
-  - /lib/firmware/4.15.0-*-raspi2/device-tree/broadcom/bcm2837-rpi-3-b.dtb
+  # bcm2837-rpi-3-b.dtb works in QEMU, but doesn't work on a real device, so
+  # use bcm2710-rpi-3-b.dtb. It works both in the emulator and on a real device.
+  - /lib/firmware/4.15.0-*-raspi2/device-tree/broadcom/bcm2710-rpi-3-b.dtb
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
