@@ -14,12 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 toolchain_dir="gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf"
-cross_compiler="${TOOLSET_DIR}/uboot-${UBOOT_VER}/${toolchain_dir}/bin/arm-linux-gnueabihf-"
+cross_compiler="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${toolchain_dir}/bin/arm-linux-gnueabihf-"
 
 toolchain_for_mender_dir="gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf"
-cross_compiler_for_mender="${TOOLSET_DIR}/mender/${toolchain_for_mender_dir}/bin/arm-linux-gnueabihf-"
-uboot_tools="${TOOLSET_DIR}/mender/uboot-mender/tools"
-mendersoftware_dir="${TOOLSET_DIR}"/mender/client/src/mender/vendor/github.com/mendersoftware
+cross_compiler_for_mender="${TOOLSET_FULL_PATH}/mender/${toolchain_for_mender_dir}/bin/arm-linux-gnueabihf-"
+uboot_tools="${TOOLSET_FULL_PATH}/mender/uboot-mender/tools"
+mendersoftware_dir="${TOOLSET_FULL_PATH}"/mender/client/src/mender/vendor/github.com/mendersoftware
 
 info "checking Mender dependencies"
 
@@ -33,22 +33,22 @@ fi
 
 info "checking Das U-Boot dependencies"
 
-if ! $(are_uboot_dependencies_satisfied) && [[ ! -d "${TOOLSET_DIR}/uboot-${UBOOT_VER}" ]]; then
+if ! $(are_uboot_dependencies_satisfied) && [[ ! -d "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}" ]]; then
     fatal "Das U-Boot dependencies are not satisfied"
     exit 1
 else
     info "Das U-Boot dependencies are satisfied"
 fi
 
-if $(init_installation_if_needed "${TOOLSET_DIR}/apk"); then
+if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/apk"); then
     info "fetching apk.static for Alpine Linux ${ALPINE_VER}"
-    pushd "${TOOLSET_DIR}"/apk
+    pushd "${TOOLSET_FULL_PATH}"/apk
         create_dir "${ALPINE_VER}"
 
         addr=http://dl-cdn.alpinelinux.org/alpine/
         apk_tools_version="$(get_apk_tools_version "${ALPINE_VER}")"
         apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
-        apk_tools_static_path="${TOOLSET_DIR}/apk/${ALPINE_VER}"
+        apk_tools_static_path="${TOOLSET_FULL_PATH}/apk/${ALPINE_VER}"
 
         wget "${addr}/v${ALPINE_VER}/main/armhf/${apk_tools_static}" -O "${apk_tools_static_path}/${apk_tools_static}"
 
@@ -62,9 +62,9 @@ if $(init_installation_if_needed "${TOOLSET_DIR}/apk"); then
     popd
 fi
 
-if [ ! -d "${TOOLSET_DIR}/debootstrap" ]; then
+if [ ! -d "${TOOLSET_FULL_PATH}/debootstrap" ]; then
     info "fetching debootstrap ${DEBOOTSTRAP_VER}"
-    pushd "${TOOLSET_DIR}"
+    pushd "${TOOLSET_FULL_PATH}"
         git clone https://salsa.debian.org/installer-team/debootstrap.git
 
         git -C debootstrap checkout "${DEBOOTSTRAP_VER}"
@@ -73,7 +73,7 @@ else
     info "checking if the debootstrap version is equal to or higher ${DEBOOTSTRAP_VER}"
 
     if ! is_debootstrap_uptodate; then
-        pushd "${TOOLSET_DIR}"/debootstrap
+        pushd "${TOOLSET_FULL_PATH}"/debootstrap
             info "upgrading debootstrap to ${DEBOOTSTRAP_VER}"
 
             git checkout master
@@ -85,8 +85,8 @@ else
     fi
 fi
 
-if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOLSET_DIR}/mender"); then
-    pushd "${TOOLSET_DIR}/mender"
+if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOLSET_FULL_PATH}/mender"); then
+    pushd "${TOOLSET_FULL_PATH}/mender"
         info "downloading inventory & identity scripts"
         wget -q -O mender-device-identity "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-device-identity
         wget -q -O mender-inventory-bootloader-integration "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-bootloader-integration
@@ -117,7 +117,7 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         git -C "${mendersoftware_dir}"/mender-artifact checkout "${MENDER_ARTIFACT_VER}"
     popd
 
-    pushd "${TOOLSET_DIR}/mender/uboot-mender"
+    pushd "${TOOLSET_FULL_PATH}/mender/uboot-mender"
         info "building Das U-Boot (Mender flavour)"
 
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make --quiet distclean
@@ -125,11 +125,11 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make PYTHON=python -j $(number_of_cores)
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make envtools -j $(number_of_cores)
 
-        cp "u-boot.bin" "${TOOLSET_DIR}/mender"
-        cp tools/env/fw_printenv "${TOOLSET_DIR}/mender"
+        cp "u-boot.bin" "${TOOLSET_FULL_PATH}/mender"
+        cp tools/env/fw_printenv "${TOOLSET_FULL_PATH}/mender"
 
         info "generating image for Das U-Boot (Mender flavour)"
-        "${uboot_tools}"/mkimage -A arm -T script -C none -n "Boot script" -d "${PIEMAN_DIR}"/files/mender/boot.cmd "${TOOLSET_DIR}"/mender/boot.scr
+        "${uboot_tools}"/mkimage -A arm -T script -C none -n "Boot script" -d "${PIEMAN_DIR}"/files/mender/boot.cmd "${TOOLSET_FULL_PATH}"/mender/boot.scr
     popd
 
     pushd "${mendersoftware_dir}"/mender
@@ -139,26 +139,26 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
             CC="${cross_compiler_for_mender}"gcc \
             GOARCH=arm \
             GOOS=linux \
-            GOPATH="${TOOLSET_DIR}"/mender/client make build
+            GOPATH="${TOOLSET_FULL_PATH}"/mender/client make build
 
-        cp mender "${TOOLSET_DIR}"/mender
+        cp mender "${TOOLSET_FULL_PATH}"/mender
     popd
 
     pushd "${mendersoftware_dir}"/mender-artifact
         info "building Mender Artifacts Library"
 
-        env GOPATH="${TOOLSET_DIR}"/mender/client make build
+        env GOPATH="${TOOLSET_FULL_PATH}"/mender/client make build
 
-        cp mender-artifact "${TOOLSET_DIR}"/mender
+        cp mender-artifact "${TOOLSET_FULL_PATH}"/mender
     popd
 
-    pushd "${TOOLSET_DIR}/mender"
+    pushd "${TOOLSET_FULL_PATH}/mender"
         finalise_installation "${toolchain_for_mender_dir}" client uboot-mender
     popd
 fi
 
-if $(init_installation_if_needed "${TOOLSET_DIR}/uboot-${UBOOT_VER}"); then
-    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); then
+    pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
         info "fetching cross-toolchain for building Das U-Boot"
         wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
 
@@ -170,7 +170,7 @@ if $(init_installation_if_needed "${TOOLSET_DIR}/uboot-${UBOOT_VER}"); then
         git clone --depth=1 -b "v${UBOOT_VER}" https://github.com/u-boot/u-boot.git "u-boot-${UBOOT_VER}"
     popd
 
-    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"
+    pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"
         info "building Das U-Boot"
 
         ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_pc_plus_defconfig
@@ -180,26 +180,26 @@ if $(init_installation_if_needed "${TOOLSET_DIR}/uboot-${UBOOT_VER}"); then
         # the PYTHON variable.
         ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
 
-        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
 
         ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_zero_defconfig
         ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
 
-        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
 
-        cp tools/mkimage "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+        cp tools/mkimage "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
     popd
 
-    pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
+    pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
         finalise_installation "${toolchain_dir}" "u-boot-${UBOOT_VER}" uboot-env
     popd
 fi
 
 # Correct ownership if needed
 pieman_dir_ownership="$(get_ownership "${PIEMAN_DIR}")"
-if [ "$(get_ownership "${TOOLSET_DIR}")" != "${pieman_dir_ownership}" ]; then
-    info "correcting ownership for ${TOOLSET_DIR}"
-    chown -R "${pieman_dir_ownership}" "${TOOLSET_DIR}"
+if [ "$(get_ownership "${TOOLSET_FULL_PATH}")" != "${pieman_dir_ownership}" ]; then
+    info "correcting ownership for ${TOOLSET_FULL_PATH}"
+    chown -R "${pieman_dir_ownership}" "${TOOLSET_FULL_PATH}"
 fi
 
 if ${PREPARE_ONLY_TOOLSET}; then

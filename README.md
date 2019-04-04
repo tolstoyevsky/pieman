@@ -305,6 +305,12 @@ Restricts Pieman to only preparing or upgrading the toolset which is located in 
 
 Specifies the time zone of the system.
 
+##### TOOLSET_CODENAME="v1-bender"
+
+Specifies the toolset codename. The parameter allows users and developers to switch between different toolsets. Each codename is connected to its directory in `${TOOLSET_DIR}` which, in turn, contains the target toolset. When a codename is passed via `${TOOLSET_CODENAME}` but there is no such directory in `${TOOLSET_DIR}`, the process of creating of the directory and installing the toolset into it will be initiated.
+
+Note that the default codename belongs to the latest toolset which supports all the Pieman features, so if you don't have any particular reason why you should change the codename, it's recommended to use the default one. However, if you decide to change the default codename, you should know how to later distinguish the official toolsets from your own ones. The official toolsets have the following naming convention: `v{n}-{name}` where `{n}` is an order number and `{name}` is a character name from the Futurama/Simpsons universe.
+
 ##### TOOLSET_DIR="${PIEMAN_DIR}/toolset"
 
 Specifies the directory which contains the tools necessary for creating chroot environments based on Alpine Linux and different Debian-based distributions. The toolset consists of [debootstrap](https://wiki.debian.org/Debootstrap) and [apk.static](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management).

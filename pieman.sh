@@ -118,6 +118,8 @@ def_bool_var SUDO_REQUIRE_PASSWORD true
 
 def_var TIME_ZONE "Etc/UTC"
 
+def_var TOOLSET_CODENAME "v1-bender"
+
 def_var TOOLSET_DIR "${PIEMAN_DIR}/toolset"
 
 def_var USER_NAME "cusdeb"
@@ -164,6 +166,8 @@ EXIT_REQUEST="EXIT"
 # shellcheck disable=SC2034
 REDIS_IS_AVAILABLE=true
 
+TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
+
 SOURCE_DIR=devices/${DEVICE}/${OS}
 
 # shellcheck disable=SC2034
@@ -203,14 +207,17 @@ check_required_files
 
 split_os_name_into_pieces
 
-info "checking toolset"
+info "checking toolset ${TOOLSET_CODENAME}"
+if [ ! -d "${TOOLSET_FULL_PATH}" ]; then
+    info "building toolset ${TOOLSET_CODENAME} since it does not exist"
+fi
 . toolset.sh
 
 # shellcheck source=./pieman/pieman/build_status_codes
 . "${PIEMAN_DIR}"/pieman/pieman/build_status_codes
 
 if ${ENABLE_MENDER}; then
-    if [ ! -d "${TOOLSET_DIR}/mender" ]; then
+    if [ ! -d "${TOOLSET_FULL_PATH}/mender" ]; then
         fatal "Mender is not installed." \
               "Check Mender dependencies and run Pieman" \
               "with PREPARE_ONLY_TOOLSET=true."
@@ -291,23 +298,23 @@ case "${BUILD_TYPE}" in
     send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
     if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin" of="${LOOP_DEV}" bs=1024 seek=8
+        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin" of="${LOOP_DEV}" bs=1024 seek=8
         sync
     fi
 
     if [[ "${DEVICE}" == "opi-zero" ]]; then
-        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin" of="${LOOP_DEV}" bs=1024 seek=8
+        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin" of="${LOOP_DEV}" bs=1024 seek=8
         sync
     fi
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
     if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
+        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
     fi
 
     if [[ "${DEVICE}" == "opi-zero" ]]; then
-        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-zero.cmd "${BOOT}"/boot.scr
+        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-zero.cmd "${BOOT}"/boot.scr
     fi
 
     rsync -a "${BOOT}"/ "${MOUNT_POINT}"
@@ -343,8 +350,8 @@ case "${BUILD_TYPE}" in
 
     rsync -a "${BOOT}"/ "${MOUNT_POINT}"
 
-    cp "${TOOLSET_DIR}"/mender/boot.scr "${MOUNT_POINT}"
-    cp "${TOOLSET_DIR}"/mender/u-boot.bin "${MOUNT_POINT}"/kernel7.img
+    cp "${TOOLSET_FULL_PATH}"/mender/boot.scr "${MOUNT_POINT}"
+    cp "${TOOLSET_FULL_PATH}"/mender/u-boot.bin "${MOUNT_POINT}"/kernel7.img
     sed -i -e "s/\b[ ]root=[^ ]*/ root=\${mender_kernel_root}/" "${MOUNT_POINT}"/cmdline.txt
 
     umount "${MOUNT_POINT}"
@@ -393,7 +400,7 @@ case "${BUILD_TYPE}" in
 
     info "converting ${IMAGE} into artifact"
 
-    "${TOOLSET_DIR}"/mender/mender-artifact write rootfs-image \
+    "${TOOLSET_FULL_PATH}"/mender/mender-artifact write rootfs-image \
         --update "${IMAGE}" \
         --output-path "${ARTIFACT}" \
         --artifact-name "${MENDER_ARTIFACT_NAME}" \
