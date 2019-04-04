@@ -43,7 +43,11 @@ setUp() {
 
     SOURCE_DIR="devices/rpi-3-b/raspbian-stretch-armhf"
 
+    TOOLSET_CODENAME="mock_toolset"
+
     TOOLSET_DIR="${PIEMAN_DIR}/toolset"
+
+    TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
     USR_BIN="${R}/usr/bin"
 
@@ -57,7 +61,7 @@ setUp() {
 }
 
 tearDown() {
-    rm -rf "${TOOLSET_DIR}"
+    rm -rf "${TOOLSET_FULL_PATH}"
 }
 
 #
@@ -138,8 +142,8 @@ test_choosing_compressor() {
 }
 
 test_checking_if_debootstrap_is_uptodate() {
-    mkdir -p "${TOOLSET_DIR}"/debootstrap/debian
-    touch "${TOOLSET_DIR}"/debootstrap/debootstrap
+    mkdir -p "${TOOLSET_FULL_PATH}"/debootstrap/debian
+    touch "${TOOLSET_FULL_PATH}"/debootstrap/debootstrap
 
     result=$((is_debootstrap_uptodate) 2>&1)
 
@@ -147,7 +151,7 @@ test_checking_if_debootstrap_is_uptodate() {
     assertNotNull "$(echo ${result} | grep "Could not get its version")"
 
     echo "debootstrap (1.0.90) unstable; " \
-         "urgency=medium" > "${TOOLSET_DIR}"/debootstrap/debian/changelog
+         "urgency=medium" > "${TOOLSET_FULL_PATH}"/debootstrap/debian/changelog
 
     # There must be an error because the version of debootstrap is less than
     # required
@@ -155,7 +159,7 @@ test_checking_if_debootstrap_is_uptodate() {
     assertTrue "[ $? -eq ${SHUNIT_FALSE} ]"
 
     echo "debootstrap (${DEBOOTSTRAP_VER}) unstable; " \
-         "urgency=medium" > "${TOOLSET_DIR}"/debootstrap/debian/changelog
+         "urgency=medium" > "${TOOLSET_FULL_PATH}"/debootstrap/debian/changelog
 
     # Everything must me fine
     is_debootstrap_uptodate

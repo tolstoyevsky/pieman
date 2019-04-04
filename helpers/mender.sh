@@ -51,7 +51,7 @@ are_mender_dependencies_satisfied() {
 #     MENDER_TENANT_TOKEN
 #     MOUNT_POINT
 #     PIEMAN_DIR
-#     TOOLSET_DIR
+#     TOOLSET_FULL_PATH
 # Arguments:
 #     None
 # Returns:
@@ -70,7 +70,7 @@ install_mender() {
     #
 
     # Install the daemon executable and its configuration files
-    install -m 0755 "${TOOLSET_DIR}/mender/mender" "${MOUNT_POINT}"/usr/bin/mender
+    install -m 0755 "${TOOLSET_FULL_PATH}/mender/mender" "${MOUNT_POINT}"/usr/bin/mender
     install -d "${etc_mender_dir}"
     install -m 0644 "${PIEMAN_DIR}"/files/mender/mender.conf.template "${etc_mender_dir}"/mender.conf
     sed -i -e "s#{MENDER_INVENTORY_POLL_INTERVAL}#${MENDER_INVENTORY_POLL_INTERVAL}#" "${etc_mender_dir}"/mender.conf
@@ -86,7 +86,7 @@ install_mender() {
     ln -s "${MOUNT_POINT}"/lib/systemd/system/mender.service "${MOUNT_POINT}"/etc/systemd/system/multi-user.target.wants/mender.service
 
     # Install fw_printenv and fw_setenv
-    install -m 0755 "${TOOLSET_DIR}"/mender/fw_printenv "${MOUNT_POINT}"/sbin/fw_printenv
+    install -m 0755 "${TOOLSET_FULL_PATH}"/mender/fw_printenv "${MOUNT_POINT}"/sbin/fw_printenv
     ln -fs /sbin/fw_printenv "${MOUNT_POINT}"/usr/bin/fw_printenv
     ln -fs /sbin/fw_printenv "${MOUNT_POINT}"/sbin/fw_setenv
     ln -sf /data/u-boot/fw_env.config "${MOUNT_POINT}"/etc/fw_env.config
@@ -101,6 +101,6 @@ install_mender() {
     install -d "${MOUNT_POINT}/${mender_identity_dir}"
     install -d "${MOUNT_POINT}/${mender_inventory_dir}"
 
-    install -t "${MOUNT_POINT}/${mender_identity_dir}" -m 0755 "${TOOLSET_DIR}"/mender/mender-device-identity
-    install -t "${MOUNT_POINT}/${mender_inventory_dir}" -m 0755 "${TOOLSET_DIR}"/mender/mender-inventory-*
+    install -t "${MOUNT_POINT}/${mender_identity_dir}" -m 0755 "${TOOLSET_FULL_PATH}"/mender/mender-device-identity
+    install -t "${MOUNT_POINT}/${mender_inventory_dir}" -m 0755 "${TOOLSET_FULL_PATH}"/mender/mender-inventory-*
 }

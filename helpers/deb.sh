@@ -18,13 +18,13 @@
 # Globals:
 #     DEBOOTSTRAP_DIR
 #     DEBOOTSTRAP_EXEC
-#     TOOLSET_DIR
+#     TOOLSET_FULL_PATH
 # Arguments:
 #     None
 # Returns:
 #     None
 init_debootstrap() {
-    local path_to_debootstrap="${TOOLSET_DIR}/debootstrap"
+    local path_to_debootstrap="${TOOLSET_FULL_PATH}/debootstrap"
     local ver=""
 
     DEBOOTSTRAP_EXEC="env DEBOOTSTRAP_DIR=${path_to_debootstrap} ${path_to_debootstrap}/debootstrap"
@@ -36,13 +36,13 @@ init_debootstrap() {
 # DEBOOTSTRAP_VER environment variable.
 # Globals:
 #     DEBOOTSTRAP_VER
-#     TOOLSET_DIR
+#     TOOLSET_FULL_PATH
 # Arguments:
 #     None
 # Returns:
 #     Boolean
 is_debootstrap_uptodate() {
-    local path_to_debootstrap="${TOOLSET_DIR}/debootstrap"
+    local path_to_debootstrap="${TOOLSET_FULL_PATH}/debootstrap"
 
     # After cloning the debootstrap git repo the program is a fully
     # functional, but does not have a correct version number. However, the

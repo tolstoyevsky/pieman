@@ -35,7 +35,7 @@ get_apk_tools_version() {
 #     OS
 #     PIECES
 #     R
-#     TOOLSET_DIR
+#     TOOLSET_FULL_PATH
 # Arguments:
 #     None
 # Returns:
@@ -51,7 +51,7 @@ run_apk_static() {
 
     # Ignore SC2086 since BASE_PACKAGES shouldn't be double-quoted.
     # shellcheck disable=SC2086
-    "${TOOLSET_DIR}/apk/${PIECES[1]}/apk.static" -X "${primary_repo}/v${PIECES[1]}/main" -U --allow-untrusted --root "${R}" --initdb add alpine-base ${BASE_PACKAGES}
+    "${TOOLSET_FULL_PATH}/apk/${PIECES[1]}/apk.static" -X "${primary_repo}/v${PIECES[1]}/main" -U --allow-untrusted --root "${R}" --initdb add alpine-base ${BASE_PACKAGES}
 
     echo "nameserver 8.8.8.8" > "${ETC}"/resolv.conf
 }
