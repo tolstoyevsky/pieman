@@ -40,6 +40,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
     + [Extra](#extra)
 - [Running images in emulator](#running-images-in-emulator)
 - [Daily image builds](#daily-image-builds)
+- [FAQ](#faq)
 - [Authors](#authors)
 - [Licensing](#licensing)
 - [Contribute](#contribute)
@@ -520,6 +521,17 @@ It's possible to run the images built by Pieman in QEMU. The nearby project [MMB
 ## Daily image builds
 
 You can find the images of all supported operating systems for all supported devices [here](https://cusdeb.com/images-built-by-pieman). Login username is `cusdeb`, password is `secret`.
+
+## FAQ
+
+### DNS resolving is broken in Kali Linux
+
+According to the [Kali Linux Policies](https://kali.training/topic/kali-linux-policies/), network services are disabled by default. To waken the DNS resolving from its sleep, run the following commands
+
+```
+sudo systemctl enable resolvconf
+sudo systemctl start resolvconf
+```
 
 ## Authors
 
