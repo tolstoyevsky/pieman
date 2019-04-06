@@ -14,7 +14,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Features
 
-* The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com/).
+* The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Devuan](https://devuan.org), [Kali](https://kali.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com/).
 * 64-bit images based on Ubuntu.
 * OTA updates via [Mender](https://mender.io/).
 
