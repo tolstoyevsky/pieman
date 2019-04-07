@@ -62,7 +62,6 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * Development libraries and header files related to Python 2.7
   * Python 2.7
   * Python 3 (3.5 or higher)
-  * PyYAML
   * Setuptools
 * Utils
   * dosfstools
@@ -81,11 +80,11 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
   ```
-  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools python3-yaml swig qemu-user-static rsync uuid-runtime wget whois xz-utils
+  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools swig qemu-user-static rsync uuid-runtime wget whois xz-utils
   ```
 * on Fedora
   ```
-  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-PyYAML python3-setuptools qemu-user-static rsync swig wget which xz
+  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig wget which xz
   ```
 
 #### Optional
