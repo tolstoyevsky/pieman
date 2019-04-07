@@ -113,6 +113,7 @@ Theoretically, Pieman can be run on any GNU/Linux, however, it was very carefull
 * Debian 9 «Stretch»
 * Fedora 29
 * Ubuntu 16.04 «Xenial Xerus»
+* macOS 10.13 «High Sierra» (running Pieman in the official Docker container)
 
 ### Installation
 
