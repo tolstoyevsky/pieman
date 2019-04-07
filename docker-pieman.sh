@@ -16,7 +16,7 @@
 
 set -e
 
-if [[ ${BASH_VERSION} != 4.* ]]; then
+if [[ ${BASH_VERSINFO[0]} -lt 4 ]]; then
     >&2 echo "$0 requires bash 4 or higher"
     exit 1
 fi
