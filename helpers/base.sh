@@ -101,13 +101,6 @@ check_dependencies() {
         exit 1
     fi
 
-    if ! ${PYTHON} -c "import yaml"; then
-        fatal "there is no yaml python package." \
-              "Run apt-get install python3-yaml on Debian/Ubuntu or" \
-              "dnf install python3-PyYAML on Fedora"
-        exit 1
-    fi
-
     if ${COMPRESS_WITH_BZIP2}; then
         if [ -z "$(which bzip2)" ]; then
             fatal "there is no bzip2." \

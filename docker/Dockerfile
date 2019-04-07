@@ -30,7 +30,6 @@ RUN touch .dockerenv \
     parted \
     # for pkgdetails
     perl \
-    py3-yaml \
     rsync \
     # for uuidgen
     util-linux \
