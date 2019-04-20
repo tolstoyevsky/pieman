@@ -180,8 +180,14 @@ if $(init_installation_if_needed "${TOOLSET_DIR}/uboot-${UBOOT_VER}"); then
         # the PYTHON variable.
         ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
 
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
+
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_zero_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
+
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
+
         cp tools/mkimage "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
-        cp u-boot-sunxi-with-spl.bin "${TOOLSET_DIR}/uboot-${UBOOT_VER}"
     popd
 
     pushd "${TOOLSET_DIR}/uboot-${UBOOT_VER}"

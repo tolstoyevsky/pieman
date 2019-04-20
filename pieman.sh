@@ -291,14 +291,23 @@ case "${BUILD_TYPE}" in
     send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
     if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl.bin" of="${LOOP_DEV}" bs=1024 seek=8
+        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin" of="${LOOP_DEV}" bs=1024 seek=8
+        sync
+    fi
+
+    if [[ "${DEVICE}" == "opi-zero" ]]; then
+        dd if="${TOOLSET_DIR}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin" of="${LOOP_DEV}" bs=1024 seek=8
         sync
     fi
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
     if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot.cmd "${BOOT}"/boot.scr
+        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
+    fi
+
+    if [[ "${DEVICE}" == "opi-zero" ]]; then
+        "${TOOLSET_DIR}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-zero.cmd "${BOOT}"/boot.scr
     fi
 
     rsync -a "${BOOT}"/ "${MOUNT_POINT}"
