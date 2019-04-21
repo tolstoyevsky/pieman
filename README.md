@@ -254,6 +254,7 @@ The device the target image is created for is specified via the `DEVICE` environ
 | Full name                   | Short name  |
 |-----------------------------|-------------|
 | Orange Pi PC Plus           | opi-pc-plus |
+| Orange Pi Zero              | opi-zero    |
 | Raspberry Pi Model B and B+ | rpi-b       |
 | Raspberry Pi 2 Model B      | rpi-2-b     |
 | Raspberry Pi 3 Model B      | rpi-3-b     |
