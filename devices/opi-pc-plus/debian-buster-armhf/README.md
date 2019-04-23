@@ -1,4 +1,4 @@
-Debian is one of the oldest GNU/Linux distributions, well-known for its stability and its strong devotion to free software principles. `opi-pc-plus/debian-buster-armhf` allows building custom 32-bit Debian [Buster](https://debian.org/releases/buster/) images for [Orange Pi PC Plus](http://orangepi.org/orangepipcplus/).
+Debian is one of the oldest GNU/Linux distributions, well-known for its stability and its strong devotion to free software principles. `opi-pc-plus/debian-buster-armhf` allows building custom 32-bit Debian [Buster](https://debian.org/releases/buster/) images for [Orange Pi PC Plus](http://www.orangepi.org/orangepipcplus/).
 
 ## What's in the distribution?
 
