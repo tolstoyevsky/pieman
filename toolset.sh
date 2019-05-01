@@ -40,6 +40,15 @@ else
     info "Das U-Boot dependencies are satisfied"
 fi
 
+if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/qemu-user-static"); then
+    info "fetching qemu-user-static"
+    pushd "${TOOLSET_FULL_PATH}/qemu-user-static"
+        get_qemu_emulation_binary
+
+        finalise_installation
+    popd
+fi
+
 if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/apk"); then
     info "fetching apk.static for Alpine Linux ${ALPINE_VER}"
     pushd "${TOOLSET_FULL_PATH}"/apk

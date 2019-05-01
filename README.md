@@ -72,7 +72,6 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * pandoc
   * rsync
   * uuidgen
-  * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
   * wget
   * which
   * xz
@@ -80,11 +79,11 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
   ```
-  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools swig qemu-user-static rsync uuid-runtime wget whois xz-utils
+  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools swig rsync uuid-runtime wget whois xz-utils
   ```
 * on Fedora
   ```
-  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig wget which xz
+  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools rsync swig wget which xz
   ```
 
 #### Optional
@@ -305,7 +304,7 @@ Restricts Pieman to only preparing or upgrading the toolset which is located in 
 
 Specifies the time zone of the system.
 
-##### TOOLSET_CODENAME="v1-bender"
+##### TOOLSET_CODENAME="v2-hermes"
 
 Specifies the toolset codename. The parameter allows users and developers to switch between different toolsets. Each codename is connected to its directory in `${TOOLSET_DIR}` which, in turn, contains the target toolset. When a codename is passed via `${TOOLSET_CODENAME}` but there is no such directory in `${TOOLSET_DIR}`, the process of creating of the directory and installing the toolset into it will be initiated.
 

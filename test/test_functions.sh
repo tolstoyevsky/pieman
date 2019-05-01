@@ -171,13 +171,13 @@ test_choosing_user_mode_emulation_binary() {
 
     choose_user_mode_emulation_binary
 
-    assertEquals "/usr/bin/qemu-arm-static" ${EMULATOR}
+    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static ${EMULATOR}
 
     PIECES=(raspbian stretch arm64)
 
     choose_user_mode_emulation_binary
 
-    assertEquals "/usr/bin/qemu-aarch64-static" ${EMULATOR}
+    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static ${EMULATOR}
 
     PIECES=(raspbian stretch mock)
 
