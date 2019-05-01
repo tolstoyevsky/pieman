@@ -57,20 +57,6 @@ check_dependencies() {
         exit 1
     fi
 
-    if [ ! -e /usr/bin/qemu-arm-static ]; then
-        fatal "there is no /usr/bin/qemu-arm-static." \
-              "Run apt-get install qemu-user-static on Debian/Ubuntu or" \
-              "dnf install qemu-user-static on Fedora."
-        exit 1
-    fi
-
-    if [ ! -e /usr/bin/qemu-aarch64-static ]; then
-        fatal "there is no /usr/bin/qemu-aarch64-static."
-              "Run apt-get install qemu-user-static on Debian/Ubuntu or" \
-              "dnf install qemu-user-static on Fedora."
-        exit 1
-    fi
-
     if [ -z "$(which mkpasswd)" ]; then
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
@@ -253,11 +239,11 @@ choose_user_mode_emulation_binary() {
 
     case ${PIECES[2]} in
     armhf)
-        EMULATOR=/usr/bin/qemu-arm-static
+        EMULATOR="${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static
         ;;
     arm64)
         # shellcheck disable=SC2034
-        EMULATOR=/usr/bin/qemu-aarch64-static
+        EMULATOR="${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static
         ;;
     *)
         fatal "Unknown architecture ${PIECES[2]}."
