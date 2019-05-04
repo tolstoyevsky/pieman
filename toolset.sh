@@ -13,8 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-toolchain_dir="gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf"
-cross_compiler="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${toolchain_dir}/bin/arm-linux-gnueabihf-"
+dir_with_32bit_toolchain="gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf"
+cross_compiler_32bit="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${dir_with_32bit_toolchain}/bin/arm-linux-gnueabihf-"
+
+dir_with_64bit_toolchain="gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu"
+cross_compiler_64bit="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${dir_with_64bit_toolchain}/bin/aarch64-linux-gnu-"
 
 toolchain_for_mender_dir="gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf"
 cross_compiler_for_mender="${TOOLSET_FULL_PATH}/mender/${toolchain_for_mender_dir}/bin/arm-linux-gnueabihf-"
@@ -168,12 +171,19 @@ fi
 
 if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); then
     pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
-        info "fetching cross-toolchain for building Das U-Boot"
-        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
+        info "fetching 32-bit cross-toolchain for building Das U-Boot"
+        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${dir_with_32bit_toolchain}.tar.xz" -O "${dir_with_32bit_toolchain}.tar.xz"
 
-        info "unpacking archive with toolchain for building Das U-Boot"
-        tar xJf "${toolchain_dir}.tar.xz"
-        rm "${toolchain_dir}.tar.xz"
+        info "unpacking archive with 32-bit toolchain for building Das U-Boot"
+        tar xJf "${dir_with_32bit_toolchain}.tar.xz"
+        rm "${dir_with_32bit_toolchain}.tar.xz"
+
+        info "fetching 64-bit cross-toolchain for building Das U-Boot"
+        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/aarch64-linux-gnu/${dir_with_64bit_toolchain}.tar.xz" -O "${dir_with_64bit_toolchain}.tar.xz"
+
+        info "unpacking archive with 64-bit toolchain for building Das U-Boot"
+        tar xJf "${dir_with_64bit_toolchain}.tar.xz"
+        rm "${dir_with_64bit_toolchain}.tar.xz"
 
         info "fetching Das U-Boot ${UBOOT_VER} from ${UBOOT_URL}"
         git clone --depth=1 -b "v${UBOOT_VER}" https://github.com/u-boot/u-boot.git "u-boot-${UBOOT_VER}"
@@ -182,25 +192,35 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); the
     pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"
         info "building Das U-Boot"
 
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_pc_plus_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler_32bit}" make orangepi_pc_plus_defconfig
 
         # The host system may have both Python 2 and 3 installed. U-Boot
         # depends on Python 2, so it's necessary to specify it explicitly via
         # the PYTHON variable.
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python2 make -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler_32bit}" PYTHON=python2 make -j $(number_of_cores)
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
 
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_zero_defconfig
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python2 make -j $(number_of_cores)
+        make distclean
+        ARCH=arm CROSS_COMPILE="${cross_compiler_32bit}" make orangepi_zero_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler_32bit}" PYTHON=python2 make -j $(number_of_cores)
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
+
+        make distclean
+        ARCH=aarch64 CROSS_COMPILE="${cross_compiler_64bit}" make nanopi_neo_plus2_defconfig
+        ARCH=aarch64 CROSS_COMPILE="${cross_compiler_64bit}" PYTHON=python2 make -j $(number_of_cores)
+
+        cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-npi-neo-plus2.bin
 
         cp tools/mkimage "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
     popd
 
     pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
-        finalise_installation "${toolchain_dir}" "u-boot-${UBOOT_VER}" uboot-env
+        finalise_installation "${dir_with_32bit_toolchain}" \
+                              "${dir_with_64bit_toolchain}" \
+                              "u-boot-${UBOOT_VER}" \
+                              uboot-env
     popd
 fi
 

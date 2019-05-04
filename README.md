@@ -316,7 +316,7 @@ Restricts Pieman to only preparing or upgrading the toolset which is located in 
 
 Specifies the time zone of the system.
 
-##### TOOLSET_CODENAME="v2-hermes"
+##### TOOLSET_CODENAME="v3-calculon"
 
 Specifies the toolset codename. The parameter allows users and developers to switch between different toolsets. Each codename is connected to its directory in `${TOOLSET_DIR}` which, in turn, contains the target toolset. When a codename is passed via `${TOOLSET_CODENAME}` but there is no such directory in `${TOOLSET_DIR}`, the process of creating of the directory and installing the toolset into it will be initiated.
 
