@@ -39,6 +39,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
     + [Image](#image)
     + [Pieman-specific](#pieman-specific)
     + [Extra](#extra)
+  * [Storing parameters in .env file](#storing-parameters-in-env-file)
 - [Running images in emulator](#running-images-in-emulator)
 - [Daily image builds](#daily-image-builds)
 - [FAQ](#faq)
@@ -526,7 +527,11 @@ Specifies the Redis server host used by the build status codes server (see `ENAB
 
 ##### REDIS_PORT=6379
 
-Specifies the Redis server port used by the build status codes server (see `ENABLE_BSC_CHANNEL`). 
+Specifies the Redis server port used by the build status codes server (see `ENABLE_BSC_CHANNEL`).
+
+### Storing parameters in .env file
+
+You can also specify the parameters in the `.env` file. In this case they will have the higher priority than the parameters provided via the command line.
 
 ## Running images in emulator
 
