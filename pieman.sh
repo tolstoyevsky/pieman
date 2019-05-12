@@ -32,6 +32,11 @@ set -eE
 # User defined params
 #
 
+if [ -f .env ]; then
+    # shellcheck disable=SC1091
+    source .env
+fi
+
 def_bool_var ALLOW_UNAUTHENTICATED false
 
 def_var BASE_DIR ""
