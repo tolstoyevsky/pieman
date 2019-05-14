@@ -288,11 +288,11 @@ Specifies the projects location. By default, the directory named `build` is crea
 
 Restricts Pieman to only creating a chroot environment based on the operating system specified via `OS`. The chroot environment is stored in `build/${PROJECT_NAME}/chroot` and can be used immediately or later to reduce the time of building images. See `BASE_DIR`.
 
+##### DESKTOP_ENV=""
+
 ##### LOCALE="en_US.UTF-8"
 
 Specifies the locale.
-
-##### DESKTOP_ENV=""
 
 ##### PIEMAN_DIR="$(pwd)"
 
