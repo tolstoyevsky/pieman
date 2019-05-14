@@ -86,6 +86,19 @@ install_packages() {
     fi
 }
 
+# Configures the keyboard-configuration package.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     None
+configure_keyboard_configuration() {
+    if is_debian_based; then
+        echo "keyboard-configuration keyboard-configuration/layout select English" | chroot_exec debconf-set-selections
+    fi
+}
+
 # Removes the specified packages with their configuration files from the chroot
 # environment.
 # Globals:

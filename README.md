@@ -317,6 +317,10 @@ Note that the default codename belongs to the latest toolset which supports all 
 
 Specifies the directory which contains the tools necessary for creating chroot environments based on Alpine Linux and different Debian-based distributions. The toolset consists of [debootstrap](https://wiki.debian.org/Debootstrap) and [apk.static](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management).
 
+##### XFCE4="false"
+
+Specifies whether to install xfce4 with lxdm. Available only on Ubuntu 18.04 Bionic Beaver 32-bit or 64-bit.
+
 ---
 
 #### Networking
