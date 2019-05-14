@@ -292,6 +292,8 @@ Restricts Pieman to only creating a chroot environment based on the operating sy
 
 Specifies the locale.
 
+##### DESKTOP_ENV=""
+
 ##### PIEMAN_DIR="$(pwd)"
 
 Specifies the directory into which Pieman is installed.
