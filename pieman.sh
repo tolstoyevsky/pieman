@@ -50,6 +50,8 @@ def_bool_var CREATE_ONLY_CHROOT false
 
 def_var DEVICE "rpi-3-b"
 
+def_var DESKTOP_ENV ""
+
 def_var ENABLE_CUSTOM_DNS ""
 
 def_bool_var ENABLE_BASIC_YANDEX_DNS false
