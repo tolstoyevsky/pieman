@@ -126,6 +126,8 @@ def_var USER_NAME "cusdeb"
 
 def_protected_var USER_PASSWORD "secret"
 
+def_bool_var XFCE4 false
+
 #
 # Internal params
 #
@@ -206,6 +208,13 @@ check_required_directories
 check_required_files
 
 split_os_name_into_pieces
+
+if ${XFCE4}; then
+    if [ "${PIECES[1]}" != "bionic" ]; then
+        fatal "Cannot create image with XFCE4. Check support OS."
+        exit 1
+    fi
+fi
 
 info "checking toolset ${TOOLSET_CODENAME}"
 if [ ! -d "${TOOLSET_FULL_PATH}" ]; then

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Xfce4
+Comment=Use this session to run Xfce4 as your desktop environment
+TryExec=/usr/bin/startxfce4
+Exec=/usr/bin/startxfce4
+Icon=/usr/local/share/pixmaps/xfce4_xicon1.png
+Type=Application
