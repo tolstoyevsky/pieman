@@ -290,6 +290,8 @@ Restricts Pieman to only creating a chroot environment based on the operating sy
 
 ##### DESKTOP_ENV=""
 
+Determines which desktop environment will be delivered with the image.
+
 ##### LOCALE="en_US.UTF-8"
 
 Specifies the locale.
