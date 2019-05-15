@@ -290,7 +290,7 @@ Restricts Pieman to only creating a chroot environment based on the operating sy
 
 ##### DESKTOP_ENV=""
 
-Determines which desktop environment will be delivered with the image.
+Determines which desktop environment will be delivered with the image. If parameter is empty then desktop environmet will not be installed.
 
 ##### LOCALE="en_US.UTF-8"
 
