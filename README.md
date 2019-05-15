@@ -258,6 +258,12 @@ The device the target image is created for is specified via the `DEVICE` environ
 | Raspberry Pi 3 Model B      | rpi-3-b     |
 | Raspberry Pi Zero           | rpi-zero    |
 
+Listed here are the full names of the available desktop environments and their abbreviations, which should be specified in the DESKTOP_ЕNV parameter.
+
+| Full name                   | Short name  |
+|-----------------------------|-------------|
+| XFCE4                       | xfce        |
+
 ### Parameters
 
 #### General
