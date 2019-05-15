@@ -234,6 +234,11 @@ if ${ENABLE_MENDER}; then
     fi
 fi
 
+if [[${DESKTOP_ENV} != "xfce"] || [ - z ${DESKTOP_ENV}]]; then
+    fatal "Desktop environment broken."
+    exit 1
+fi
+
 choose_user_mode_emulation_binary
 
 init_debootstrap
