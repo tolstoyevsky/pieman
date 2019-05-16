@@ -20,6 +20,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Table of Contents
 
+- [Supported Devices and OSes](#supported-devices-and-oses)
 - [Getting Started](#getting-started)
   * [Dependencies](#dependencies)
     + [Mandatary](#mandatary)
@@ -44,6 +45,17 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 - [Authors](#authors)
 - [Licensing](#licensing)
 - [Contribute](#contribute)
+
+## Supported Devices and OSes
+
+|                                                                                                                     | <sub>Alpine 3.9</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 9 «Stretch»</sub> | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
+|---------------------------------------------------------------------------------------------------------------------|:---------------------:|:-----------------------------:|:----------------------------:|:-------------------------------:|:-------------------------------:|:--------------------------------------:|:---------------------------------------:|
+| <sub>Orange Pi <a href="http://orangepi.org/orangepipcplus/">PC Plus</a></sub>                                      |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
+| <sub>Orange Pi <a href="http://www.orangepi.org/orangepizero/">Zero</a></sub>                                       |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
+| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-1-model-b/">Model B and B+</a></sub>   |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
+| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">2 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                | <sub>32bit</sub>                       | <sub>32bit</sub>                        |
+| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">3 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                |                                        | <sub>32bit, 64bit</sub>                 |
+| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-zero/">Zero</a></sub>                  |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
 
 ## Getting Started
 
@@ -224,15 +236,6 @@ $ env PIEMAN_UTILS_DIR=$(pwd)/../pieman/bin ./test_functions.sh
 Editing the `PIEMAN_UTILS_DIR` environment variable is necessary to run the tests, using the latest version of the Pieman utilities.
 
 ## Documentation
-
-|                                                                                                                     | <sub>Alpine 3.9</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 9 «Stretch»</sub> | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
-|---------------------------------------------------------------------------------------------------------------------|:---------------------:|:-----------------------------:|:----------------------------:|:-------------------------------:|:-------------------------------:|:--------------------------------------:|:---------------------------------------:|
-| <sub>Orange Pi <a href="http://orangepi.org/orangepipcplus/">PC Plus</a></sub>                                      |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
-| <sub>Orange Pi <a href="http://www.orangepi.org/orangepizero/">Zero</a></sub>                                       |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
-| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-1-model-b/">Model B and B+</a></sub>   |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
-| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">2 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                | <sub>32bit</sub>                       | <sub>32bit</sub>                        |
-| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">3 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                |                                        | <sub>32bit, 64bit</sub>                 |
-| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-zero/">Zero</a></sub>                  |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
 
 The operating system of the target image is specified via the `OS` environment variable. The next table maps full names of the supported operating systems to their short name intended for using as values of `OS`.
 
