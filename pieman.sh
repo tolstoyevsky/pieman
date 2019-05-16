@@ -50,7 +50,7 @@ def_bool_var CREATE_ONLY_CHROOT false
 
 def_var DEVICE "rpi-3-b"
 
-def_var DESKTOP_ENV ""
+def_bool_var DESKTOP_ENV false
 
 def_var ENABLE_CUSTOM_DNS ""
 
@@ -232,11 +232,6 @@ if ${ENABLE_MENDER}; then
               "DEVICE=rpi-3-b is supported only."
         exit 1
     fi
-fi
-
-if [[${DESKTOP_ENV} != "xfce"] || [ - z ${DESKTOP_ENV}]]; then
-    fatal "Desktop environment broken."
-    exit 1
 fi
 
 choose_user_mode_emulation_binary

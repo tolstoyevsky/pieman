@@ -80,6 +80,11 @@ install_packages() {
             # shellcheck disable=SC2086
             DEBIAN_FRONTEND=noninteractive chroot_exec apt-get -y -q -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ${PM_OPTIONS} install "$@"
         else
+            if  ${DESKTOP_ENV}; then 
+                echo "keyboard-configuration  keyboard-configuration/layout  select  Russian" | chroot_exec debconf-set-selections
+                chroot_exec apt-get -y ${PM_OPTIONS} install "xubuntu-desktop"
+                # chroot_exec systemctl enable xfce4
+            fi
             # shellcheck disable=SC2086
             chroot_exec apt-get -y ${PM_OPTIONS} install "$@"
         fi
