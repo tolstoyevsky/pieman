@@ -1,6 +1,7 @@
 .idea
 .PKGINFO
 .SIGN.RSA.alpine-*
+.vscode
 build
 debootstrap
 dist
