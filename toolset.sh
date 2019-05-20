@@ -57,20 +57,10 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/apk"); then
     pushd "${TOOLSET_FULL_PATH}"/apk
         create_dir "${ALPINE_VER}"
 
-        addr=http://dl-cdn.alpinelinux.org/alpine/
-        apk_tools_version="$(get_apk_tools_version "${ALPINE_VER}")"
-        apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
-        apk_tools_static_path="${TOOLSET_FULL_PATH}/apk/${ALPINE_VER}"
+        get_apk_static 3.9 armhf
+        get_apk_static 3.9 aarch64
 
-        wget "${addr}/v${ALPINE_VER}/main/armhf/${apk_tools_static}" -O "${apk_tools_static_path}/${apk_tools_static}"
-
-        tar -xzf "${apk_tools_static_path}/${apk_tools_static}" -C "${apk_tools_static_path}"
-
-        mv "${apk_tools_static_path}/sbin/apk.static" "${apk_tools_static_path}"
-
-        finalise_installation \
-            "${apk_tools_static_path}/${apk_tools_static}" \
-            "${apk_tools_static_path}/sbin"
+        finalise_installation
     popd
 fi
 
@@ -212,6 +202,8 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); the
         ARCH=aarch64 CROSS_COMPILE="${cross_compiler_64bit}" PYTHON=python2 make -j $(number_of_cores)
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-npi-neo-plus2.bin
+
+        cp "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"/arch/arm/dts/sun50i-h5-nanopi-neo-plus2.dtb "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/sun50i-h5-nanopi-neo-plus2.dtb
 
         cp tools/mkimage "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
     popd

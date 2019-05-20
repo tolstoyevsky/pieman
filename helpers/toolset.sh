@@ -30,6 +30,39 @@ finalise_installation() {
     rm -f .partial
 }
 
+# TODO: describe
+# Globals:
+#     TOOLSET_FULL_PATH
+# Arguments:
+#     Alpine version
+#     Architecture
+# Returns:
+#     None
+get_apk_static() {
+    local ver=$1
+    local arch=$2
+
+    addr=http://dl-cdn.alpinelinux.org/alpine/
+    apk_tools_version="$(get_apk_tools_version "${ver}")"
+    apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
+    apk_tools_static_path="${TOOLSET_FULL_PATH}/apk/${ver}"
+
+    wget "${addr}/v${ver}/main/${arch}/${apk_tools_static}" -O "${apk_tools_static_path}/${apk_tools_static}"
+
+    tar -xzf "${apk_tools_static_path}/${apk_tools_static}" -C "${apk_tools_static_path}"
+
+    if [[ "${arch}" == "aarch64" ]]; then
+        # Pieman has got used to naming the architecture differently.
+        arch="arm64"
+    fi
+
+    mv "${apk_tools_static_path}/sbin/apk.static" "${apk_tools_static_path}/apk-${arch}.static"
+
+    # cleanup
+    rm -r "${apk_tools_static_path:?}/${apk_tools_static}"
+    rm -r "${apk_tools_static_path:?}/sbin"
+}
+
 # Gets qemu-user-static 3.1 from Ubuntu 19.04 "Disco Dingo".
 # Globals:
 #     None
