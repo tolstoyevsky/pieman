@@ -1,0 +1,13 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+alpine-3.9-arm64:
+  repos:
+  - http://dl-cdn.alpinelinux.org/alpine/
+  boot:
+  - /boot/vmlinuz-vanilla:zImage
+  - /boot/initramfs-vanilla:initrd.img
+  base: tzdata
+  params:
+  - ENABLE_GOOGLE_DNS
+  kernel:
+    package: linux-vanilla
