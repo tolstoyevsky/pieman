@@ -38,6 +38,8 @@ finalise_installation() {
 # Returns:
 #     None
 get_qemu_emulation_binary() {
+    local package
+    
     wget http://mirrors.kernel.org/ubuntu/dists/disco/universe/binary-amd64/Packages.xz
 
     xz -d Packages.xz
