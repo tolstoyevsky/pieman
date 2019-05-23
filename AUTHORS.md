@@ -11,3 +11,4 @@ We thank all the contributors to the project. Here are the full list of the peop
 * [Denis Gavrilyuk](https://github.com/karpa4o4)
 * [Semyon Suprun](https://github.com/BehindLoader)
 * [Eduard Lemmer](https://github.com/leocoan)
+* [Aram Grigoryan](https://github.com/Aramgrigoryanwb)
