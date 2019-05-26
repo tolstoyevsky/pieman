@@ -23,6 +23,12 @@ if is_alpine; then
 
     # Of course, none of the supported single board computers has any cdrom.
     sed -i '/cdrom/d' "${ETC}/fstab"
+
+    # Enable the agetty service, otherwise users won't see a login prompt when
+    # accessing the console of their device through serial ports such as
+    # /dev/ttyS0.
+    create_symlink /etc/init.d/agetty /etc/init.d/agetty.ttyS0
+    chroot_exec rc-update add agetty.ttyS0 default
 fi
 
 

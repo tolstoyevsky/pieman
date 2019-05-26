@@ -80,6 +80,21 @@ create_dir() {
     fi
 }
 
+# Creates a symlink inside the chroot environment.
+# Globals:
+#     None
+# Arguments:
+#     Target
+#     Link name
+# Returns:
+#     None
+create_symlink() {
+    local target=$1
+    local link_name=$2
+
+    chroot_exec ln -s "${target}" "${link_name}"
+}
+
 # Creates the temporary directories used while creating an image.
 # Globals:
 #     BUILD_DIR
