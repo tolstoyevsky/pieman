@@ -26,6 +26,7 @@ TYPES_SCHEME = {
     'boot': (list, str),
     'params': (list, ),
     'kernel': {
+        'build_script': (str, ),
         'package': (str, ),
         'rebuild': (bool, ),
         'patches': (str, ),

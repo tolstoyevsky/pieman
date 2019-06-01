@@ -17,13 +17,26 @@ for var in OS SOURCE_DIR; do
     check_if_variable_is_set ${var}
 done
 
-kernel_package="`get_attr ${OS} kernel package`"
-
-info "installing kernel package"
+build_script="$(get_attr_or_nothing ${OS} kernel build_script)"
+kernel_package="$(get_attr_or_nothing ${OS} kernel package)"
 
 run_scripts ${SOURCE_DIR}/pre-kernel-installation
 
-install_packages ${kernel_package}
+if [[ ! -z "${build_script}" ]]; then
+    info "building and installing kernel from source code"
+
+    cp "${SOURCE_DIR}/${build_script}" "${R}"
+
+    chroot_exec sh "${build_script}"
+
+    rm "${R}/${build_script}"
+elif [[ ! -z ${kernel_package} ]]; then
+    info "installing kernel package"
+
+    install_packages ${kernel_package}
+else
+    info "skipping kernel installation because neither build_script nor package was specified in pieman.yml"
+fi
 
 run_scripts ${SOURCE_DIR}/post-kernel-installation
 

@@ -10,4 +10,4 @@ alpine-3.9-arm64:
   params:
   - ENABLE_GOOGLE_DNS
   kernel:
-    package: linux-vanilla
+    build_script: build_kernel.sh
