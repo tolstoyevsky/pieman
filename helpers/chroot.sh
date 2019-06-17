@@ -55,7 +55,7 @@ create_chroot_environment() {
 # Returns:
 #     None
 chroot_exec() {
-    chroot "${R}" "$@" 1>&2
+    LANG=C LC_ALL=C chroot "${R}" "$@" 1>&2
 }
 
 # Executes the specified command in the chroot environment using shell.
@@ -66,5 +66,5 @@ chroot_exec() {
 # Returns:
 #     None
 chroot_exec_sh() {
-    chroot "${R}" sh -c "$@" 1>&2
+    LANG=C LC_ALL=C chroot "${R}" sh -c "$@" 1>&2
 }
