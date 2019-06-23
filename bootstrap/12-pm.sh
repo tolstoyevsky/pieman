@@ -84,6 +84,17 @@ elif is_debian_based; then
         codename=${PIECES[1]}
         echo "deb ${source} ${codename} main${additional_sections}" >> ${ETC}/apt/sources.list
     done
+
+    # Add a channel that provides security updates. Debian and Ubuntu have
+    # different approaches of adding the channel to /etc/apt/sources.list.
+
+    if is_debian; then
+        echo "deb ${source}-security ${codename}/updates main${additional_sections}" >> ${ETC}/apt/sources.list
+    fi
+
+    if is_ubuntu; then
+        echo "deb ${source} ${codename}-security main${additional_sections}" >> ${ETC}/apt/sources.list
+    fi
 fi
 
 run_scripts ${SOURCE_DIR}/pre-update-indexes
