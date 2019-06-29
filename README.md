@@ -133,7 +133,12 @@ Theoretically, Pieman can be run on any GNU/Linux, however, it was very carefull
 
 #### Docker
 
-First, get the latest Pieman Docker image from Docker Hub.
+First, make sure that the following requirements are satisfied:
+* Bash 4 or higher;
+* `qemu-user-static` and `binfmt-support` on Debian or Ubuntu;
+* `qemu-user-static` on Fedora.
+
+Next, get the latest Pieman Docker image from Docker Hub.
 
 ```
 $ docker pull cusdeb/pieman
@@ -151,7 +156,7 @@ or using `curl`
 $ curl -O https://raw.githubusercontent.com/tolstoyevsky/pieman/master/docker-pieman.sh
 ```
 
-Note, that the script requires bash 4 or higher, so macOS users should upgrade their bash if they haven't done it yet.
+Finally, go to the next section to know how to use the script.
 
 ##### Usage
 
