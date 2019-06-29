@@ -90,10 +90,12 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * which
   * xz
 
+Note that installing `qemu-user-static` is not enough in Debain/Ubuntu. You also have to install `binfmt-support`.
+
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
   ```
-  $ sudo apt-get install bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools qemu-user-static swig rsync uuid-runtime wget whois xz-utils
+  $ sudo apt-get install binfmt-support bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools qemu-user-static swig rsync uuid-runtime wget whois xz-utils
   ```
 * on Fedora
   ```
