@@ -90,7 +90,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * which
   * xz
 
-Note that installing `qemu-user-static` is not enough in Debain/Ubuntu. You also have to install `binfmt-support`.
+Note that installing `qemu-user-static` is not enough in Debian/Ubuntu. You also have to install `binfmt-support`.
 
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
