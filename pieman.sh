@@ -113,7 +113,7 @@ def_bool_var PREPARE_ONLY_TOOLSET false
 
 def_var PROJECT_NAME "$(uuidgen)"
 
-def_var PYTHON "$(which python3)"
+def_var PYTHON "$(command -v python3)"
 
 def_var REDIS_HOST "127.0.0.1"
 
@@ -436,7 +436,7 @@ cleanup
 
 compressor="$(choose_compressor)"
 
-if [ ! -z "${compressor}" ]; then
+if [ -n "${compressor}" ]; then
     executable="$(echo "${compressor}" | cut -d' ' -f1)"
     extension="$(echo "${compressor}" | cut -d' ' -f2)"
 

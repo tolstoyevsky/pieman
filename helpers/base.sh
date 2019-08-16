@@ -50,21 +50,21 @@ add_item_to_list() {
 # Returns:
 #     None
 check_dependencies() {
-    if [ -z "$(which dpkg)" ]; then
+    if [ -z "$(command -v dpkg)" ]; then
         # Do not mention Debian or Ubuntu since dpkg is a part of
         # the base system there.
         fatal "there is no dpkg. Run dnf install dpkg on Fedora to fix it."
         exit 1
     fi
 
-    if [ -z "$(which mkpasswd)" ]; then
+    if [ -z "$(command -v mkpasswd)" ]; then
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
               "dnf install expect on Fedora."
         exit 1
     fi
 
-    if [ -z "$(which uuidgen)" ]; then
+    if [ -z "$(command -v uuidgen)" ]; then
         # Do not mention Fedora since uuidgen belongs to the util-linux package
         # which is a key component of the system.
         fatal "there is no uuidgen." \
@@ -88,7 +88,7 @@ check_dependencies() {
     fi
 
     if ${COMPRESS_WITH_BZIP2}; then
-        if [ -z "$(which bzip2)" ]; then
+        if [ -z "$(command -v bzip2)" ]; then
             fatal "there is no bzip2." \
                   "Run apt-get install bzip2 on Debian/Ubuntu or" \
                   "dnf install bzip2 on Fedora."
@@ -97,7 +97,7 @@ check_dependencies() {
     fi
 
     if ${COMPRESS_WITH_XZ}; then
-        if [ -z "$(which xz)" ]; then
+        if [ -z "$(command -v xz)" ]; then
             fatal "there is no xz." \
                   "Run apt-get install xz-utils on Debian/Ubuntu or" \
                   "dnf install xz on Fedora."
@@ -570,7 +570,7 @@ split_os_name_into_pieces() {
     # shellcheck disable=SC2034
     IFS='-' read -ra PIECES <<< "${OS}"
     codename="$(get_attr_or_nothing "${OS}" codename)"
-    if [ ! -z "${codename}" ]; then
+    if [ -n "${codename}" ]; then
         PIECES[1]="${codename}"
     fi
 }

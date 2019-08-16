@@ -77,7 +77,7 @@ is_debootstrap_uptodate() {
 run_first_stage() {
     local additional_opts=""
 
-    if [ ! -z "${BASE_PACKAGES}" ]; then
+    if [ -n "${BASE_PACKAGES}" ]; then
         additional_opts="--include=${BASE_PACKAGES}"
     fi
 
