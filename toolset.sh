@@ -131,7 +131,7 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
 
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make --quiet distclean
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make rpi_3_32b_defconfig
-        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make PYTHON=python -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make PYTHON=python2 -j $(number_of_cores)
         ARCH=arm CROSS_COMPILE="${cross_compiler_for_mender}" make envtools -j $(number_of_cores)
 
         cp "u-boot.bin" "${TOOLSET_FULL_PATH}/mender"
@@ -187,12 +187,12 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); the
         # The host system may have both Python 2 and 3 installed. U-Boot
         # depends on Python 2, so it's necessary to specify it explicitly via
         # the PYTHON variable.
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python2 make -j $(number_of_cores)
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
 
         ARCH=arm CROSS_COMPILE="${cross_compiler}" make orangepi_zero_defconfig
-        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python make -j $(number_of_cores)
+        ARCH=arm CROSS_COMPILE="${cross_compiler}" PYTHON=python2 make -j $(number_of_cores)
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
 
