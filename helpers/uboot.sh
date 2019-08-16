@@ -27,29 +27,29 @@ are_uboot_dependencies_satisfied() {
     yes_or_no "[ -f /usr/include/python2.7/Python.h ]" || ret=1
 
     >&2 echo -n "checking bison... "
-    yes_or_no "[ ! -z $(which bison) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v bison) ]" || ret=1
 
     >&2 echo -n "checking cc... "
-    yes_or_no "[ ! -z $(which cc) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v cc) ]" || ret=1
 
     >&2 echo -n "checking flex... "
-    yes_or_no "[ ! -z $(which flex) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v flex) ]" || ret=1
 
     >&2 echo -n "checking git... "
-    yes_or_no "[ ! -z $(which git) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v git) ]" || ret=1
 
     >&2 echo -n "checking make... "
-    yes_or_no "[ ! -z $(which make) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v make) ]" || ret=1
 
     >&2 echo -n "checking python... "
-    yes_or_no "[ ! -z $(which python) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v python) ]" || ret=1
 
     >&2 echo -n "checking swig... "
-    yes_or_no "[ ! -z $(which swig) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v swig) ]" || ret=1
 
     # Required by the toolchain which is going to be used for building U-Boot.
     >&2 echo -n "checking xz... "
-    yes_or_no "[ ! -z $(which xz) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v xz) ]" || ret=1
 
     return "${ret}"
 }

@@ -27,19 +27,19 @@ are_mender_dependencies_satisfied() {
     yes_or_no "[ -f /usr/include/sys/types.h ]" || ret=1
 
     >&2 echo -n "checking bc... "
-    yes_or_no "[ ! -z $(which bc) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v bc) ]" || ret=1
 
     >&2 echo -n "checking cc... "
-    yes_or_no "[ ! -z $(which cc) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v cc) ]" || ret=1
 
     >&2 echo -n "checking dtc... "
-    yes_or_no "[ ! -z $(which dtc) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v dtc) ]" || ret=1
 
     >&2 echo -n "checking go... "
-    yes_or_no "[ ! -z $(which go) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v go) ]" || ret=1
 
     >&2 echo -n "checking make... "
-    yes_or_no "[ ! -z $(which make) ]" || ret=1
+    yes_or_no "[ ! -z $(command -v make) ]" || ret=1
 
     return "${ret}"
 }

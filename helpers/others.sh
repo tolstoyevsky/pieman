@@ -81,7 +81,7 @@ add_option_to_pm_options() {
 # Returns:
 #     None
 create_keyring() {
-    for key in keys/${PIECES[0]}/*; do
+    for key in keys/"${PIECES[0]}"/*; do
         gpg --no-default-keyring --keyring="${KEYRING}" --import "${key}"
     done
 }
@@ -96,7 +96,7 @@ create_keyring() {
 # Returns:
 #     None
 mark_keys_as_trusted() {
-    for key in keys/${PIECES[0]}/*; do
+    for key in keys/"${PIECES[0]}"/*; do
         local key_name=""
 
         key_name=$(basename "${key}")
