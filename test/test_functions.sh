@@ -139,6 +139,12 @@ test_choosing_compressor() {
     compressor="$(choose_compressor)"
 
     assertNull "${compressor}"
+
+    assertTrue "[ -n "${compressor}" ]"
+
+    assertFalse "[ ! -z "${compressor}" ]"
+
+    assertFalse "[[ -n ${compressor} ]]"
 }
 
 test_checking_if_debootstrap_is_uptodate() {
