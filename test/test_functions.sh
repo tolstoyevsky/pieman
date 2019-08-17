@@ -19,7 +19,11 @@
 #
 
 setUp() {
+    ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)/.."
+
     BUILD_DIR="build"
+
+    DEBOOTSTRAP_EXEC="debootstrap_mock"
 
     IMAGE="${BUILD_DIR}/mock_image.img"
 
@@ -43,7 +47,7 @@ setUp() {
 
     R=${BUILD_DIR}/${PROJECT_NAME}/chroot
 
-    SOURCE_DIR="devices/rpi-3-b/${OS}"
+    SOURCE_DIR="${ROOT_DIR}/devices/rpi-3-b/${OS}"
 
     TOOLSET_CODENAME="mock_toolset"
 
@@ -60,6 +64,9 @@ setUp() {
     for script in ../helpers/*.sh; do
         . ${script}
     done
+
+    # Mock some of the helpers loaded above.
+    . ./mocks.sh
 }
 
 tearDown() {
@@ -196,21 +203,34 @@ test_choosing_user_mode_emulation_binary() {
         "${result}"
 }
 
+test_running_first_stage() {
+    run_first_stage
+
+    assertEquals \
+        "${DEBOOTSTRAP_CMD_LINE}" \
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} ${PIECES[1]} build/${PROJECT_NAME}/chroot http://archive.raspbian.org/raspbian"
+
+    BASE_PACKAGES=mc,htop
+    run_first_stage
+
+    assertEquals \
+        "${DEBOOTSTRAP_CMD_LINE}" \
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} --include=${BASE_PACKAGES} ${PIECES[1]} build/${PROJECT_NAME}/chroot http://archive.raspbian.org/raspbian"
+}
+
 test_splitting_os_name_into_pieces() {
     split_os_name_into_pieces
 
-    PIEMAN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)/.."
-
-    YML_FILE="${PIEMAN_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
+    YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
     assertEquals "raspbian stretch armhf" "${PIECES[*]}"
 
     OS="ubuntu-bionic-arm64"
-    YML_FILE="${PIEMAN_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
+    YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
     split_os_name_into_pieces
     assertEquals "ubuntu bionic arm64" "${PIECES[*]}"
 
     OS="kali-rolling-armhf"
-    YML_FILE="${PIEMAN_DIR}/devices/opi-pc-plus/${OS}/pieman.yml"
+    YML_FILE="${ROOT_DIR}/devices/opi-pc-plus/${OS}/pieman.yml"
     split_os_name_into_pieces
     assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
 }
