@@ -27,6 +27,8 @@ setUp() {
 
     MOUNT_POINT=${BUILD_DIR}/mount_point
 
+    OS="raspbian-stretch-armhf"
+
     PIECES=(raspbian stretch armhf)
 
     PIEMAN_DIR="."
@@ -37,11 +39,11 @@ setUp() {
 
     PROJECT_NAME="mock_project"
 
-    PYTHON="/usr/bin/python3"
+    PYTHON="$(command -v python3)"
 
     R=${BUILD_DIR}/${PROJECT_NAME}/chroot
 
-    SOURCE_DIR="devices/rpi-3-b/raspbian-stretch-armhf"
+    SOURCE_DIR="devices/rpi-3-b/${OS}"
 
     TOOLSET_CODENAME="mock_toolset"
 
@@ -192,6 +194,25 @@ test_choosing_user_mode_emulation_binary() {
     assertEquals \
         "${text_in_red_color}Fatal${reset}: Unknown architecture mock." \
         "${result}"
+}
+
+test_splitting_os_name_into_pieces() {
+    split_os_name_into_pieces
+
+    PIEMAN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)/.."
+
+    YML_FILE="${PIEMAN_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
+    assertEquals "raspbian stretch armhf" "${PIECES[*]}"
+
+    OS="ubuntu-bionic-arm64"
+    YML_FILE="${PIEMAN_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
+    split_os_name_into_pieces
+    assertEquals "ubuntu bionic arm64" "${PIECES[*]}"
+
+    OS="kali-rolling-armhf"
+    YML_FILE="${PIEMAN_DIR}/devices/opi-pc-plus/${OS}/pieman.yml"
+    split_os_name_into_pieces
+    assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
 }
 
 . $(which shunit2)
