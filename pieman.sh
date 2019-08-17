@@ -436,7 +436,7 @@ cleanup
 
 compressor="$(choose_compressor)"
 
-if [ -n "${compressor}" ]; then
+if [[ -n ${compressor} ]]; then
     executable="$(echo "${compressor}" | cut -d' ' -f1)"
     extension="$(echo "${compressor}" | cut -d' ' -f2)"
 
