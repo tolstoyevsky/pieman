@@ -17,6 +17,6 @@ if ${XFCE4}; then
     install_exec files/desktop/06xfce4.desktop "${R}"/usr/share/xsessions/06xfce4.desktop
 fi
 
-if {XFCE4}; then
+if ${XFCE4}; then
     install_exec files/desktop/lxdm.conf "${R}"/etc/lxdm.conf
 fi
