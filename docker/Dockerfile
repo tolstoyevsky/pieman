@@ -4,6 +4,8 @@ ENV BRANCH master
 
 ENV TERM linux
 
+ENV TOOLSET_VER v2-hermes
+
 ARG VCS_REF
 
 LABEL org.label-schema.vcs-ref=$VCS_REF \
@@ -65,6 +67,8 @@ RUN touch .dockerenv \
  && cd pieman \
  && pip3 install pieman \
  && env PREPARE_ONLY_TOOLSET=true ./pieman.sh \
+ && cp toolset/$TOOLSET_VER/qemu-user-static/qemu-arm-static /usr/bin \
+ && cp toolset/$TOOLSET_VER/qemu-user-static/qemu-aarch64-static /usr/bin \
  && apk del \
     bc \
     bison \
