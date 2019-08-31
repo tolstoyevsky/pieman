@@ -37,9 +37,9 @@ UBOOT_VER="2019.01"
 
 UBOOT_URL="ftp://ftp.denx.de/pub/u-boot/"
 
-UBOOT_MENDOR_BRANCH="mender-rpi-2017.09"
+UBOOT_MENDER_BRANCH="mender-rpi-2017.09"
 
-UBOOT_MENDOR_COMMIT="988e0ec54"
+UBOOT_MENDER_COMMIT="988e0ec54"
 
 text_in_red_color=$(tput setaf 1)
 
