@@ -41,6 +41,10 @@ UBOOT_MENDER_BRANCH="mender-rpi-2017.09"
 
 UBOOT_MENDER_COMMIT="988e0ec54"
 
+UBOOT_FRIENDLYARM_H5_BRANCH="sunxi-v2017.x"
+
+UBOOT_FRIENDLYARM_H5_COMMIT="1ee53f5"
+
 text_in_red_color=$(tput setaf 1)
 
 text_in_green_color=$(tput setaf 2)

@@ -17,7 +17,7 @@ dir_with_32bit_toolchain="gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf"
 cross_compiler_32bit="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${dir_with_32bit_toolchain}/bin/arm-linux-gnueabihf-"
 
 dir_with_64bit_toolchain="gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu"
-cross_compiler_64bit="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/${dir_with_64bit_toolchain}/bin/aarch64-linux-gnu-"
+cross_compiler_64bit="${TOOLSET_FULL_PATH}/toolchain/${dir_with_64bit_toolchain}/bin/aarch64-linux-gnu-"
 
 toolchain_for_mender_dir="gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf"
 cross_compiler_for_mender="${TOOLSET_FULL_PATH}/mender/${toolchain_for_mender_dir}/bin/arm-linux-gnueabihf-"
@@ -86,6 +86,8 @@ else
         popd
     fi
 fi
+
+mkdir -p "${TOOLSET_FULL_PATH}/toolchain"
 
 if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOLSET_FULL_PATH}/mender"); then
     pushd "${TOOLSET_FULL_PATH}/mender"
@@ -168,13 +170,6 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); the
         tar xJf "${dir_with_32bit_toolchain}.tar.xz"
         rm "${dir_with_32bit_toolchain}.tar.xz"
 
-        info "fetching 64-bit cross-toolchain for building Das U-Boot"
-        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/aarch64-linux-gnu/${dir_with_64bit_toolchain}.tar.xz" -O "${dir_with_64bit_toolchain}.tar.xz"
-
-        info "unpacking archive with 64-bit toolchain for building Das U-Boot"
-        tar xJf "${dir_with_64bit_toolchain}.tar.xz"
-        rm "${dir_with_64bit_toolchain}.tar.xz"
-
         info "fetching Das U-Boot ${UBOOT_VER} from ${UBOOT_URL}"
         git clone --depth=1 -b "v${UBOOT_VER}" https://github.com/u-boot/u-boot.git "u-boot-${UBOOT_VER}"
     popd
@@ -197,24 +192,54 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); the
 
         cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-opi-zero.bin
 
-        make distclean
-        ARCH=aarch64 CROSS_COMPILE="${cross_compiler_64bit}" make nanopi_neo_plus2_defconfig
-        ARCH=aarch64 CROSS_COMPILE="${cross_compiler_64bit}" PYTHON=python2 make -j $(number_of_cores)
-
-        cp u-boot-sunxi-with-spl.bin "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/u-boot-sunxi-with-spl-for-npi-neo-plus2.bin
-
-        cp "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-${UBOOT_VER}"/arch/arm/dts/sun50i-h5-nanopi-neo-plus2.dtb "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/sun50i-h5-nanopi-neo-plus2.dtb
-
         cp tools/mkimage "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
     popd
 
     pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
         finalise_installation "${dir_with_32bit_toolchain}" \
-                              "${dir_with_64bit_toolchain}" \
                               "u-boot-${UBOOT_VER}" \
                               uboot-env
     popd
 fi
+
+if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/friendlyarm"); then
+    pushd "${TOOLSET_FULL_PATH}/toolchain"
+        info "fetching 64-bit cross-toolchain for building Das U-Boot (FriendlyARM flavour)"
+        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/aarch64-linux-gnu/${dir_with_64bit_toolchain}.tar.xz" -O "${dir_with_64bit_toolchain}.tar.xz"
+
+        info "unpacking archive with 64-bit toolchain for building Das U-Boot (FriendlyARM flavour)"
+        tar xJf "${dir_with_64bit_toolchain}.tar.xz"
+        rm "${dir_with_64bit_toolchain}.tar.xz"
+    popd
+
+    pushd "${TOOLSET_FULL_PATH}/friendlyarm"
+        info "fetching Das U-Boot (FriendlyARM flavour) ${UBOOT_FRIENDLYARM_H5_BRANCH}"
+        git clone -b "${UBOOT_FRIENDLYARM_H5_BRANCH}" https://github.com/friendlyarm/u-boot.git "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
+        git -C "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}" checkout "${UBOOT_FRIENDLYARM_H5_COMMIT}"
+    popd
+
+    pushd "${TOOLSET_FULL_PATH}/friendlyarm/u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
+        info "building Das U-Boot (FriendlyARM flavour) ${UBOOT_FRIENDLYARM_H5_BRANCH}"
+
+        ARCH=arm CROSS_COMPILE="${cross_compiler_64bit}" make nanopi_h5_defconfig
+        ARCH=arm CROSS_COMPILE="${cross_compiler_64bit}" PYTHON=python2 make -j $(number_of_cores)
+
+        cp spl/sunxi-spl.bin "${TOOLSET_FULL_PATH}/friendlyarm"/sunxi-spl-for-npi-core-plus2.bin
+        cp u-boot.itb "${TOOLSET_FULL_PATH}/friendlyarm"/u-boot-for-npi-core-plus2.itb
+
+        cp arch/arm/dts/sun50i-h5-nanopi-neo2.dtb "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb
+
+        cp tools/mkimage "${TOOLSET_FULL_PATH}/friendlyarm"
+    popd
+
+    pushd "${TOOLSET_FULL_PATH}/friendlyarm"
+        finalise_installation "${dir_with_64bit_toolchain}" \
+                              "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}" \
+                              uboot-env
+    popd
+fi
+
+rm -rf "${TOOLSET_FULL_PATH}/toolchain"
 
 # Correct ownership if needed
 pieman_dir_ownership="$(get_ownership "${PIEMAN_DIR}")"
