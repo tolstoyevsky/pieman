@@ -101,7 +101,7 @@ def_var MENDER_TENANT_TOKEN ""
 
 def_int_var MENDER_UPDATE_POLL_INTERVAL 1800
 
-def_var OS "raspbian-stretch-armhf"
+def_var OS "raspbian-buster-armhf"
 
 def_protected_var PASSWORD "secret"
 
@@ -238,9 +238,9 @@ if ${ENABLE_MENDER}; then
         exit 1
     fi
 
-    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-stretch-armhf" ]; then
+    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-buster-armhf" ]; then
         fatal "cannot create Mender compatible image for the specified" \
-              "device and operating system. OS=raspbian-stretch-armhf and" \
+              "device and operating system. OS=raspbian-buster-armhf and" \
               "DEVICE=rpi-3-b is supported only."
         exit 1
     fi
