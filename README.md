@@ -49,7 +49,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Supported Devices and OSes
 
-|                                                                                                                     | <sub>Alpine 3.9</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 9 «Stretch»</sub> | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
+|                                                                                                                     | <sub>Alpine 3.9</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 10 «Buster»</sub>  | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
 |---------------------------------------------------------------------------------------------------------------------|:---------------------:|:-----------------------------:|:----------------------------:|:-------------------------------:|:-------------------------------:|:--------------------------------------:|:---------------------------------------:|
 | <sub>Orange Pi <a href="http://orangepi.org/orangepipcplus/">PC Plus</a></sub>                                      |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
 | <sub>Orange Pi <a href="http://www.orangepi.org/orangepizero/">Zero</a></sub>                                       |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
@@ -160,7 +160,7 @@ Finally, go to the next section to know how to use the script.
 
 ##### Usage
 
-Simply run `docker-pieman.sh` to create an image based on Raspbian Stretch for Raspberry Pi 3.
+Simply run `docker-pieman.sh` to create an image based on Raspbian Buster for Raspberry Pi 3.
 
 ```
 $ chmod +x docker-pieman.sh
@@ -201,7 +201,7 @@ $ sudo pip3 install pieman
 
 ##### Usage
 
-Go to the project directory and execute the following command to create an image based on Raspbian Stretch for Raspberry Pi 3:
+Go to the project directory and execute the following command to create an image based on Raspbian Buster for Raspberry Pi 3:
 
 ```
 $ sudo ./pieman.sh
@@ -254,7 +254,7 @@ The operating system of the target image is specified via the `OS` environment v
 | Debian 10 «[Buster](https://debian.org/releases/buster/)» (32-bit)                                                   | debian-buster-armhf    |
 | Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
 | Kali Linux Rolling (32-bit)                                                                                          | kali-rolling-armhf     |
-| Raspbian 9 «[Stretch](https://raspberrypi.org/blog/raspbian-stretch/)» (32-bit)                                      | raspbian-stretch-armhf |
+| Raspbian 10 «[Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/)» (32-bit)                | raspbian-buster-armhf  |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
 | Ubuntu 18.04 «[Bionic Beaver](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)» (32-bit)                           | ubuntu-bionic-armhf    |
 | Ubuntu 18.04 «[Bionic Beaver](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)» (64-bit)                           | ubuntu-bionic-arm64    |
@@ -274,7 +274,7 @@ The device the target image is created for is specified via the `DEVICE` environ
 
 #### General
 
-##### OS="raspbian-stretch-armhf"
+##### OS="raspbian-buster-armhf"
 
 Specifies the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column).
 

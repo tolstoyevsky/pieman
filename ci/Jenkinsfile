@@ -15,9 +15,9 @@ node {
             params = "-e OS=devuan-jessie-armhf"
             project_name = "devuan-jessie-armhf_for_rpi1-2"
             break
-        case "Raspbian Stretch (32bit)":
+        case "Raspbian Buster (32bit)":
             params = ""
-            project_name = "raspbian_stretch_armhf_for_rpi1-2-3-zero"
+            project_name = "raspbian_buster_armhf_for_rpi1-2-3-zero"
             break
         case "Ubuntu Xenial (32bit)":
             params = "-e OS=ubuntu-xenial-armhf -e DEVICE=rpi-2-b"

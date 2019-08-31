@@ -1,4 +1,4 @@
-Raspbian is an official operating system for Raspberry Pi. It's based on Debian GNU/Linux and supports all models of the single-board computer. `rpi-b/raspbian-stretch-armhf` allows building custom 32-bit Raspbian [Stretch](https://www.raspberrypi.org/blog/raspbian-stretch/) images for
+Raspbian is an official operating system for Raspberry Pi. It's based on Debian GNU/Linux and supports all models of the single-board computer. `rpi-b/raspbian-buster-armhf` allows building custom 32-bit Raspbian [Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/) images for
 
 * [Raspberry Pi B and B+](https://raspberrypi.org/products/raspberry-pi-1-model-b/)
 * [Raspberry Pi 2 B](https://raspberrypi.org/products/raspberry-pi-2-model-b/)
@@ -17,56 +17,56 @@ Raspbian is an official operating system for Raspberry Pi. It's based on Debian 
   </tr>
   <tr>
     <td>Linux kernel</td>
-    <td>4.9</td>
+    <td>4.19</td>
   </tr>
   <tr>
     <td>glibc</td>
-    <td>2.24</td>
+    <td>2.28</td>
   </tr>
   <tr>
     <td>GCC</td>
-    <td>6.3</td>
+    <td>8.3.0</td>
   </tr>
   <tr>
     <td>systemd</td>
-    <td>232</td>
+    <td>241</td>
   </tr>
   <tr>
     <td colspan="2"><b>Development tools</b></td>
   </tr>
   <tr>
     <td>Go</td>
-    <td>1.7</td>
+    <td>1.11</td>
   </tr>
   <tr>
     <td>PHP</td>
-    <td>7.0</td>
+    <td>7.3</td>
   </tr>
   <tr>
     <td>Python</td>
-    <td>3.5.3</td>
+    <td>3.7.3</td>
   </tr>
   <tr>
     <td>Ruby</td>
-    <td>2.3</td>
+    <td>2.5.1</td>
   </tr>
   <tr>
     <td colspan="2"><b>Server software</b></td>
   </tr>
   <tr>
     <td>Apache HTTP Server</td>
-    <td>2.4.25</td>
+    <td>2.4.38</td>
   </tr>
   <tr>
     <td>Nginx</td>
-    <td>1.10</td>
+    <td>1.14</td>
   </tr>
   <tr>
     <td>PostgreSQL</td>
-    <td>9.6</td>
+    <td>11</td>
   </tr>
   <tr>
     <td>MariaDB</td>
-    <td>10.1</td>
+    <td>10.3</td>
   </tr>
 </table>

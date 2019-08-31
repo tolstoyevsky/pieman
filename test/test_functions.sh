@@ -31,9 +31,9 @@ setUp() {
 
     MOUNT_POINT=${BUILD_DIR}/mount_point
 
-    OS="raspbian-stretch-armhf"
+    OS="raspbian-buster-armhf"
 
-    PIECES=(raspbian stretch armhf)
+    PIECES=(raspbian buster armhf)
 
     PIEMAN_DIR="."
 
@@ -182,19 +182,19 @@ test_checking_if_debootstrap_is_uptodate() {
 }
 
 test_choosing_user_mode_emulation_binary() {
-    PIECES=(raspbian stretch armhf)
+    PIECES=(raspbian buster armhf)
 
     choose_user_mode_emulation_binary
 
     assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static ${EMULATOR}
 
-    PIECES=(raspbian stretch arm64)
+    PIECES=(raspbian buster arm64)
 
     choose_user_mode_emulation_binary
 
     assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static ${EMULATOR}
 
-    PIECES=(raspbian stretch mock)
+    PIECES=(raspbian buster mock)
 
     local result=$((choose_user_mode_emulation_binary) 2>&1)
 
@@ -222,7 +222,7 @@ test_splitting_os_name_into_pieces() {
     split_os_name_into_pieces
 
     YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
-    assertEquals "raspbian stretch armhf" "${PIECES[*]}"
+    assertEquals "raspbian buster armhf" "${PIECES[*]}"
 
     OS="ubuntu-bionic-arm64"
     YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"

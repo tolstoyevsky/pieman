@@ -5,7 +5,7 @@ Here is the Jenkins Pipeline script for building on a daily basis the images of 
 First, the job is run with one of the following parameters:
 
 * `Devuan Jessie (32bit)`
-* `Raspbian Stretch (32bit)`
+* `Raspbian Buster (32bit)`
 * `Ubuntu Xenial (32bit)`
 * `Ubuntu Artful (32bit)`
 * `Ubuntu Artful (64bit)`
