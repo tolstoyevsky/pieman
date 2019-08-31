@@ -112,8 +112,8 @@ if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOL
         rm "${toolchain_for_mender_dir}.tar.xz"
 
         info "fetching Das U-Boot (Mender flavour) from https://github.com/mendersoftware/uboot-mender.git"
-        git clone https://github.com/mendersoftware/uboot-mender.git -b "${UBOOT_MENDOR_BRANCH}"
-        git -C "uboot-mender" checkout "${UBOOT_MENDOR_COMMIT}"
+        git clone https://github.com/mendersoftware/uboot-mender.git -b "${UBOOT_MENDER_BRANCH}"
+        git -C "uboot-mender" checkout "${UBOOT_MENDER_COMMIT}"
 
         mkdir -p "${mendersoftware_dir}"
 
