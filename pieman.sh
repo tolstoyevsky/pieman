@@ -41,6 +41,8 @@ def_bool_var ALLOW_UNAUTHENTICATED false
 
 def_var BASE_DIR ""
 
+def_var BOOT_DIR ""
+
 def_var BUILD_DIR "build"
 
 def_bool_var COMPRESS_WITH_BZIP2 false
@@ -323,15 +325,7 @@ case "${BUILD_TYPE}" in
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
-    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
-    fi
-
-    if [[ "${DEVICE}" == "opi-zero" ]]; then
-        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-zero.cmd "${BOOT}"/boot.scr
-    fi
-
-    rsync -a "${BOOT}"/ "${MOUNT_POINT}"
+    rsync -a --no-o --no-g "${BOOT}"/ "${MOUNT_POINT}"
 
     umount "${MOUNT_POINT}"
 
