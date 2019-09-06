@@ -22,7 +22,7 @@ check_if_variable_is_set SOURCE_DIR
 
 if [ ! -z ${BOOT_DIR} ] && [ -d ${BOOT_DIR} ]; then
     info "using ${BOOT_DIR} as a source for the boot partition."
-    cp -r --preserve "${BOOT_DIR}"/. ${BOOT}
+    rsync -a "${BOOT_DIR}"/ ${BOOT}
 else
     # Get the files, which must present on the boot partition, from different
     # sources and put them in the directory specified via BOOT.
