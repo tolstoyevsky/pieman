@@ -371,9 +371,27 @@ Enables a custom DNS server specified via this parameter.
 
 Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDEX_DNS`, and `ENABLE_FAMILY_YANDEX_DNS`.
 
+##### ENABLE_WIRELESS=false
+
+Enables built-in WiFi (only for Raspbian Buster on Raspberry Pi 3 so far).
+
 ##### HOST_NAME="pieman-${DEVICE}"
 
 Specifies the hostname of a device.
+
+##### WPA_SSID=""
+
+Specifies the name of the wireless access point. The access point is considered as **private** or **public** depending on whether `WPA_PSK` (see below) is specified or not.
+
+Note that the parameter depends on `ENABLE_WIRELESS` (see above).
+
+##### WPA_PSK=""
+
+Specifies the passphrase for connecting to the wireless access point, specified via `WPA_SSID` (see above).
+
+Leave `WPA_PSK` empty if the access point is public.
+
+Note that the parameter depends on `ENABLE_WIRELESS` and `WPA_SSID` (see above).
 
 ---
 
