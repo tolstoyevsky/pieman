@@ -77,6 +77,8 @@ def_bool_var ENABLE_UNIVERSE false
 
 def_bool_var ENABLE_USER true
 
+def_bool_var ENABLE_WIRELESS false
+
 def_var HOST_NAME "pieman-${DEVICE}"
 
 def_var IMAGE_OWNERSHIP "$(get_ownership "$0")"
@@ -130,6 +132,10 @@ def_var TOOLSET_DIR "${PIEMAN_DIR}/toolset"
 def_var USER_NAME "cusdeb"
 
 def_protected_var USER_PASSWORD "secret"
+
+def_var WPA_SSID ""
+
+def_protected_var WPA_PSK ""
 
 def_bool_var XFCE4 false
 
@@ -201,6 +207,24 @@ check_mutually_exclusive_params \
     CREATE_ONLY_MENDER_ARTIFACT \
     CREATE_ONLY_CHROOT \
     ENABLE_MENDER
+
+depend_on WPA_SSID ENABLE_WIRELESS
+
+depend_on WPA_PSK ENABLE_WIRELESS WPA_SSID
+
+if [[ -n ${WPA_PSK} ]]; then
+    check_if_wpa_psk_is_valid
+fi
+
+# TODO: come up with a better solution.
+if ${ENABLE_WIRELESS}; then
+    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-buster-armhf" ]; then
+        fatal "ENABLE_WIRELESS is not available for the specified device and" \
+              "operating system. OS=raspbian-buster-armhf and" \
+              "DEVICE=rpi-3-b are supported only."
+        exit 1
+    fi
+fi
 
 check_dependencies
 

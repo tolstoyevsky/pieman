@@ -91,6 +91,36 @@ test_adding_package_pm_options() {
     assertEquals " --allow-unauthenticated --assume-yes" "${PM_OPTIONS}"
 }
 
+test_checking_if_wpa_psk_is_valid() {
+    local result=""
+
+    export WPA_PSK="secret"
+    result=$((check_if_wpa_psk_is_valid) 2>&1)
+
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: passphrase must be 8..63 characters" \
+        "${result}"
+
+    export WPA_PSK="42 is the answer to the Ultimate Question of Life, the Universe and Everything"
+    result=$((check_if_wpa_psk_is_valid) 2>&1)
+
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: passphrase must be 8..63 characters" \
+        "${result}"
+
+    export WPA_PSK="$(printf "42 is the\nanswer")"
+    result=$((check_if_wpa_psk_is_valid) 2>&1)
+
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: invalid passphrase character" \
+        "${result}"
+
+    export WPA_PSK="42 is the answer"
+    result=$((check_if_wpa_psk_is_valid) 2>&1)
+
+    assertNull "${result}"
+}
+
 test_checking_mutually_exclusive_params() {
     export PARAM1="true"
 
@@ -200,6 +230,67 @@ test_choosing_user_mode_emulation_binary() {
 
     assertEquals \
         "${text_in_red_color}Fatal${reset}: Unknown architecture mock." \
+        "${result}"
+}
+
+test_creating_dependent_params() {
+    local result=""
+    local error_msg="${text_in_red_color}Fatal${reset}: A depends on B, so the latter must be set to true (if bool) or simply specified (in other cases)."
+
+    export A="value1"
+    result=$((depend_on A B) 2>&1)
+
+    assertEquals "${error_msg}" "${result}"
+
+    export A=false
+    result=$((depend_on A B) 2>&1)
+
+    # There is no need to check the dependency param if the dependent param is
+    # set to false or not simply specified.
+    assertNull "${result}"
+
+    export A="value1"
+    export B=false
+    result=$((depend_on A B) 2>&1)
+
+    # Check the case when the dependency param is set to false. It must be
+    # considered as not specified.
+    assertEquals "${error_msg}" "${result}"
+    #assertNull "${result}"
+
+    export A="value1"
+    export B="value2"
+    result=$((depend_on A B) 2>&1)
+
+    assertNull "${result}"
+}
+
+test_rendering() {
+    local result=""
+
+    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/files/hosts") 2>&1)
+
+    assertNull "${result}"
+
+    assertEquals "$(<"${PIEMAN_DIR}"/files/hosts)" "127.0.1.1 default"
+
+    export HOST_NAME="pieman"
+    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/files/hosts") 2>&1)
+
+    assertNull "${result}"
+
+    assertEquals "$(<"${PIEMAN_DIR}"/files/hosts)" "127.0.1.1 ${HOST_NAME}"
+
+    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/some-non-existent-path/hosts") 2>&1)
+
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: rendering error: ./some-non-existent-path does not exist" \
+        "${result}"
+
+    result=$((render "${PIEMAN_DIR}/stub.j2" "${PIEMAN_DIR}/stub") 2>&1)
+
+    assertEquals \
+        "${text_in_red_color}Fatal${reset}: rendering error: ./stub.j2 does not exist" \
         "${result}"
 }
 

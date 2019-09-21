@@ -12,7 +12,7 @@ except ImportError:
 
 
 setup(name='pieman',
-      version='0.10.0',
+      version='0.11.0',
       description='Pieman package',
       long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
@@ -26,12 +26,16 @@ setup(name='pieman',
           'bin/bscd.py',
           'bin/check_mutually_exclusive_params.py',
           'bin/check_redis.py',
+          'bin/check_wpa_passphrase.py',
+          'bin/depend_on.py',
           'bin/du.py',
           'bin/image_attrs.py',
+          'bin/render.py',
       ],
       packages=['pieman'],
       include_package_data=True,
       data_files=[('pieman', ['pieman/build_status_codes'])],
       install_requires=[
+          'Jinja2==2.10.1',
           'PyYAML==5.1',
       ])

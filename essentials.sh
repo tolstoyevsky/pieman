@@ -27,7 +27,7 @@ MENDER_CLIENT_REVISION="1.7.x"
 
 PIEMAN_MAJOR_VER=0
 
-PIEMAN_MINOR_VER=10
+PIEMAN_MINOR_VER=11
 
 PYTHON_MAJOR_VER=3
 
@@ -180,7 +180,7 @@ def_protected_var() {
         fi
     fi
 
-    eval ${var_name}="\"${value}\""
+    eval export ${var_name}="\"${value}\""
 
     >&2 echo "+ ${var_name}=*****"
 }

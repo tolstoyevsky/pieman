@@ -357,6 +357,37 @@ create_image() {
     echo "${image_size}"
 }
 
+# Checks if the dependency environment variables are set to true (if bool) or
+# simply specified (in other cases) when the dependent environment variable is
+# set to true (if bool) or simply specified (in other cases).
+# Globals:
+#     None
+# Arguments:
+#     Dependent parameter
+#     Dependency parameter1
+#     Dependency parameterN
+#     ...
+# Returns:
+#     0 or None in case of success
+depend_on() {
+    local var=$1
+
+    if ! check_if_variable_is_set "$1"; then
+        return 0
+    fi
+
+    for dependency in "$@"; do
+        if [[ "${var}" == "${dependency}" ]]; then
+            continue
+        fi
+
+        if ! ${PYTHON} "${PIEMAN_UTILS_DIR}"/depend_on.py "${var}" "${dependency}"; then
+            fatal "${var} depends on ${dependency}, so the latter must be set to true (if bool) or simply specified (in other cases)."
+            exit 1
+        fi
+    done
+}
+
 # Formats the the partitions of the image. The number of the specified
 # filesystem types should match the number of the partitions in the image.
 # The supported filesystem types are fat (or vfat) and ext4.

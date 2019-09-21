@@ -50,6 +50,12 @@ elif is_debian_based; then
     add_package_to_includes inetutils-ping
 fi
 
+if ${ENABLE_WIRELESS}; then
+    if is_debian_based; then
+        add_package_to_includes wpasupplicant
+    fi
+fi
+
 if is_alpine; then
     if ${ENABLE_COMMUNITY}; then
         additional_sections="community"
