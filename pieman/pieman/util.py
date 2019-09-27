@@ -18,11 +18,22 @@
 import logging
 import os
 import sys
+from curses import tparm, tigetstr, setupterm
 from urllib.request import urlretrieve
 
 import redis
 
+
+setupterm()
+
+
 LOGGING_FORMATTER = '%(asctime)s %(levelname)-5.5s %(message)s'
+
+RED = tparm(tigetstr('setaf'), 1).decode('utf8')
+
+YELLOW = tparm(tigetstr('setaf'), 3).decode('utf8')
+
+RESET = tparm(tigetstr('sgr0')).decode('utf8')
 
 
 def _reporthook(chunk_number, buffer_size, total_size):
@@ -71,6 +82,14 @@ def download(url, dst, quiet=False):
                              .format(filename))
 
 
+def fatal(text):
+    sys.stderr.write('{}fatal{}: {}\n'.format(RED, RESET, text))
+
+
+def info(text):
+    sys.stderr.write('{}info{}: {}\n'.format(YELLOW, RESET, text))
+
+
 def init_logger(logger, log_level, log_file_prefix='',
                 logging_formatter=LOGGING_FORMATTER):
     """Initializes the logger. """
@@ -88,3 +107,12 @@ def init_logger(logger, log_level, log_file_prefix='',
         file_handler.setFormatter(formatter)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
+
+
+def mkdir(dir_name):
+    """Creates the specified directory, making parent directories
+    as needed.
+    """
+
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)

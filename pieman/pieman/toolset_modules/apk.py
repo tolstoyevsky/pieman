@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-# Copyright (C) 2018 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,29 +13,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Utility intended to fetch the latest version of the apk-tools-static package
-in the specified version of Alpine Linux. The point is that the
-apk-tools-static version is not frozen in the stable release of Alpine Linux
-and may vary.
-"""
-
-import os
+import os.path
 import sys
 import time
-from argparse import ArgumentParser
 from html.parser import HTMLParser
 from urllib.error import URLError, HTTPError
 from urllib.parse import urljoin
 from urllib.request import urlopen
 
+from pieman import util
 
-ARCH = 'armhf'
 
 ALPINE_VERSION = '3.12'
 
+FLAVOURS_ENABLED = True
+
 MIRROR = 'http://dl-cdn.alpinelinux.org'
 
-NAP = 1
+REQUIRED_FIELDS = ('arch', 'version', 'dst', )
 
 RETRIES_NUMBER = 5
 
@@ -68,21 +62,14 @@ class CustomHTMLParser(HTMLParser):  # pylint: disable=abstract-method
                     break
 
 
-def main():
-    """The main entry point. """
+def run(**kwargs):
+    arch = kwargs['arch']
+    version = kwargs['version']
+    dst = os.path.join(os.environ['TOOLSET_FULL_PATH'], kwargs['dst'])
 
-    parser = ArgumentParser()
-    parser.add_argument('--alpine-version', default=ALPINE_VERSION,
-                        help='alpine version', metavar='ALPINE_VERSION')
-    parser.add_argument('--arch', default=ARCH,
-                        help='target architecture', metavar='ARCH')
-    parser.add_argument('--mirror', default=MIRROR,
-                        help='mirror', metavar='MIRROR')
-    args = parser.parse_args()
+    util.mkdir(os.path.dirname(dst))
 
-    address = urljoin(args.mirror,
-                      os.path.join('alpine', 'v' + args.alpine_version,
-                                   'main', args.arch))
+    address = urljoin(MIRROR, os.path.join('alpine', 'v' + version, 'main', arch))
 
     content = b''
     for attempt in range(1, RETRIES_NUMBER + 1):
@@ -90,28 +77,26 @@ def main():
             content = urlopen(address).read()
             break
         except HTTPError as exc:
-            sys.stderr.write('{}: request failed (error code {})\n'.
-                             format(sys.argv[0], exc.code))
+            util.fatal('{}: request failed '
+                       '(error code {})'.format(sys.argv[0], exc.code))
         except URLError as exc:
-            sys.stderr.write('{}: {}\n'.format(sys.argv[0], exc.reason))
+            util.fatal('{}: {}'.format(sys.argv[0], exc.reason))
 
         if attempt != RETRIES_NUMBER:
-            sys.stderr.write('Retrying in {} seconds...\n'.format(NAP))
-            time.sleep(NAP)
+            util.info('{}: retrying in 1 second...'.format(sys.argv[0]))
+            time.sleep(1)
 
     if content == b'' and attempt == RETRIES_NUMBER:
-        sys.stderr.write('Could not request {} after {} attempts\n'.
-                         format(address, RETRIES_NUMBER))
+        util.fatal('{}: could not request {} after {} '
+                   'attempts'.format(sys.argv[0], address, RETRIES_NUMBER))
         sys.exit(1)
 
     parser = CustomHTMLParser(content.decode('utf8'))
     apk_tools_version = parser.get_apk_tools_version()
     if not apk_tools_version:
-        sys.stderr.write('Could not get apk tools version\n')
+        util.fatal('{}: could not get apk tools version'.format(sys.argv[0]))
         sys.exit(1)
 
-    print(apk_tools_version)
-
-
-if __name__ == '__main__':
-    main()
+    download_link = urljoin(address + '/', 'apk-tools-static-{}.apk'.format(apk_tools_version))
+    util.info('Downloading {}'.format(download_link))
+    util.download(download_link, dst)
