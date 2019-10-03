@@ -29,7 +29,7 @@ def fail(message):
     """Writes the specified message to stderr and exits with a non-zero exit
     code. """
     sys.stderr.write(message + '\n')
-    exit(1)
+    sys.exit(1)
 
 
 def main():
