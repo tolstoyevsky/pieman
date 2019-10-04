@@ -87,7 +87,6 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * rsync
   * uuidgen
   * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
-  * wget
   * which
   * xz
 
@@ -96,11 +95,11 @@ Note that installing `qemu-user-static` is not enough in Debian/Ubuntu. You also
 Here are the commands to install the mandatory dependencies
 * on Debian or Ubuntu
   ```
-  $ sudo apt-get install binfmt-support bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools qemu-user-static swig rsync uuid-runtime wget whois xz-utils
+  $ sudo apt-get install binfmt-support bison dosfstools flex gcc git gnupg make pandoc parted python-dev python3-pip python3-setuptools qemu-user-static swig rsync uuid-runtime whois xz-utils
   ```
 * on Fedora
   ```
-  $ sudo dnf install bison dosfstools dpkg expect e2fsprogs flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig wget which xz
+  $ sudo dnf install bison dosfstools dpkg expect e2fsprogs flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig which xz
   ```
 
 #### Optional

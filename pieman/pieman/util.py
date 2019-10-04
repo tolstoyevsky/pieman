@@ -16,10 +16,31 @@
 """Miscellaneous utility functions. """
 
 import logging
+import os
+import sys
+from urllib.request import urlretrieve
 
 import redis
 
 LOGGING_FORMATTER = '%(asctime)s %(levelname)-5.5s %(message)s'
+
+
+def _reporthook(chunk_number, buffer_size, total_size):
+    """It must accept three numeric parameters:
+    - a chunk number;
+    - the maximum size chunks are read in;
+    - the total size of the download (-1 if unknown).
+    """
+
+    readsofar = chunk_number * buffer_size
+    readsofar = total_size if readsofar > total_size else readsofar
+    if total_size:
+        percent = readsofar * 100 / total_size
+        status = '\r{:>5.1f}% {:>{n}} / {}'.format(
+            percent, readsofar, total_size, n=len(str(total_size)))
+        sys.stderr.write(status)
+    else:  # total size is unknown
+        sys.stderr.write('\rread {}'.format(readsofar))
 
 
 def connect_to_redis(host, port):
@@ -30,6 +51,24 @@ def connect_to_redis(host, port):
     conn.ping()
 
     return conn
+
+
+def download(url, dst, quiet=False):
+    """Downloads the specified document from the Web,
+    (optionally) displaying a progress bar.
+    """
+    _, msg = urlretrieve(url, dst + '.part',
+                         _reporthook if not quiet else None)
+
+    os.rename(dst + '.part', dst)
+
+    size = os.stat(dst).st_size
+    if not quiet:
+        sys.stderr.write('\n')
+        if int(msg['Content-Length']) == size:
+            filename = os.path.basename(dst)
+            sys.stderr.write('{} was downloaded successfully\n'
+                             .format(filename))
 
 
 def init_logger(logger, log_level, log_file_prefix='',

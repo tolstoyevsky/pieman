@@ -9,6 +9,7 @@ The package contains the utilities which are used by [Pieman](https://github.com
 * `du.py`: provides the disk usage of the specified directory. It was developed primarily for estimating chroot environments disk usage. In some cases the utility provides more accurate result than `du` from GNU [coreutils](https://gnu.org/software/coreutils/).
 * `image_attrs.py`: allows getting image attributes which are stored in the `pieman.yml` files. The utility is more high-level tool than [PyYAML](https://pyyaml.org) because it's aware of the `pieman.yml` specifics.
 * `render.py`: renders config templates (which are [Jinja2](https://jinja.palletsprojects.com) templates under the hood).
+* `wget.py`: very limited GNU [Wget](https://www.gnu.org/software/wget/) alternative.
 
 ## Installation
 
