@@ -59,7 +59,7 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/apk"); then
         apk_tools_static="apk-tools-static-${apk_tools_version}.apk"
         apk_tools_static_path="${TOOLSET_FULL_PATH}/apk/${ALPINE_VER}"
 
-        wget "${addr}/v${ALPINE_VER}/main/armhf/${apk_tools_static}" -O "${apk_tools_static_path}/${apk_tools_static}"
+        do_wget "${addr}/v${ALPINE_VER}/main/armhf/${apk_tools_static}" -O "${apk_tools_static_path}/${apk_tools_static}"
 
         tar -xzf "${apk_tools_static_path}/${apk_tools_static}" -C "${apk_tools_static_path}"
 
@@ -97,15 +97,15 @@ fi
 if ${mender_dependencies_are_satisfied} && $(init_installation_if_needed "${TOOLSET_FULL_PATH}/mender"); then
     pushd "${TOOLSET_FULL_PATH}/mender"
         info "downloading inventory & identity scripts"
-        wget -q -O mender-device-identity "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-device-identity
-        wget -q -O mender-inventory-bootloader-integration "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-bootloader-integration
-        wget -q -O mender-inventory-hostinfo "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-hostinfo
-        wget -q -O mender-inventory-network "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-network
-        wget -q -O mender-inventory-os "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-os
-        wget -q -O mender-inventory-rootfs-type "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-rootfs-type
+        do_wget -q -O mender-device-identity "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-device-identity
+        do_wget -q -O mender-inventory-bootloader-integration "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-bootloader-integration
+        do_wget -q -O mender-inventory-hostinfo "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-hostinfo
+        do_wget -q -O mender-inventory-network "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-network
+        do_wget -q -O mender-inventory-os "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-os
+        do_wget -q -O mender-inventory-rootfs-type "${MENDER_CLIENT_REPO}"/"${MENDER_CLIENT_REVISION}"/support/mender-inventory-rootfs-type
 
         info "fetching cross-toolchain for building Das U-Boot (Mender flavour) and Mender client"
-        wget "https://releases.linaro.org/components/toolchain/binaries/6.3-2017.05/arm-linux-gnueabihf/${toolchain_for_mender_dir}.tar.xz" -O "${toolchain_for_mender_dir}.tar.xz"
+        do_wget "https://releases.linaro.org/components/toolchain/binaries/6.3-2017.05/arm-linux-gnueabihf/${toolchain_for_mender_dir}.tar.xz" -O "${toolchain_for_mender_dir}.tar.xz"
 
         info "unpacking archive with toolchain for building Das U-Boot (Mender flavour)"
         tar xJf "${toolchain_for_mender_dir}.tar.xz"
@@ -169,7 +169,7 @@ fi
 if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"); then
     pushd "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"
         info "fetching cross-toolchain for building Das U-Boot"
-        wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
+        do_wget "https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/${toolchain_dir}.tar.xz" -O "${toolchain_dir}.tar.xz"
 
         info "unpacking archive with toolchain for building Das U-Boot"
         tar xJf "${toolchain_dir}.tar.xz"

@@ -40,13 +40,13 @@ finalise_installation() {
 get_qemu_emulation_binary() {
     local package
     
-    wget http://mirrors.kernel.org/ubuntu/dists/disco/universe/binary-amd64/Packages.xz
+    do_wget http://mirrors.kernel.org/ubuntu/dists/disco/universe/binary-amd64/Packages.xz
 
     xz -d Packages.xz
 
     package="$(grep "Filename: pool/universe/q/qemu/qemu-user-static" Packages | awk '{print $2}')"
 
-    wget http://security.ubuntu.com/ubuntu/"${package}"
+    do_wget http://security.ubuntu.com/ubuntu/"${package}"
 
     ar x "$(basename "${package}")"
 

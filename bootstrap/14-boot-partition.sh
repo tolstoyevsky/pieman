@@ -26,7 +26,7 @@ boot="`get_attr ${OS} boot`"
 for f in ${boot}; do
     if [ ! -z `echo ${f} | egrep "^https://|^http://|^ftp://"` ]; then
         info "downloading ${f} to ${BOOT}"
-        wget -q -O ${BOOT}/`basename ${f}` ${f}
+        do_wget -q -O ${BOOT}/`basename ${f}` ${f}
     elif [[ ${f:0:1} == "/" ]]; then
         # Split the name of the target file or directory into two parts:
         # original name and copy name.
