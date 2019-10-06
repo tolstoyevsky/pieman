@@ -4,8 +4,15 @@ alpine-3.9-arm64:
   repos:
   - http://dl-cdn.alpinelinux.org/alpine/
   boot:
-  - /boot/vmlinuz-vanilla:zImage
-  - /boot/initramfs-vanilla:initrd.img
+  - boot.cmd
+  - boot.scr
+  - Image
+  - rootfs.cpio.gz
+  # - sun50i-h5-nanopi-k1-plus.dtb
+  # - sun50i-h5-nanopi-neo-core2.dtb
+  # - sun50i-h5-nanopi-m1-plus2.dtb
+  - sun50i-h5-nanopi-neo-plus2.dtb
+  # - sun50i-h5-nanopi-neo2.dtb
   base: tzdata
   params:
   - ENABLE_GOOGLE_DNS

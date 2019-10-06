@@ -47,8 +47,8 @@ for f in ${boot}; do
     fi
 done
 
-if [[ "${DEVICE}" == "npi-neo-plus2" ]]; then
-    cp "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb ${BOOT}/sun50i-h5-nanopi-neo-plus2.dtb
-fi
+# if [[ "${DEVICE}" == "npi-neo-plus2" ]]; then
+#     cp "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb ${BOOT}/sun50i-h5-nanopi-neo-plus2.dtb
+# fi
 
 send_request_to_bsc_server PREPARED_BOOT_PARTITION_CODE

@@ -25,11 +25,7 @@ run_scripts ${SOURCE_DIR}/pre-kernel-installation
 if [[ ! -z "${build_script}" ]]; then
     info "building and installing kernel from source code"
 
-    cp "${SOURCE_DIR}/${build_script}" "${R}"
-
-    chroot_exec sh "${build_script}"
-
-    rm "${R}/${build_script}"
+    . "${SOURCE_DIR}/${build_script}"
 elif [[ ! -z ${kernel_package} ]]; then
     info "installing kernel package"
 

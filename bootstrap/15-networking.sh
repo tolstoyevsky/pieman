@@ -67,14 +67,18 @@ if is_alpine; then
     info "Adding the hostname service to the default runlevel"
     chroot_exec rc-update add hostname default
 
-    info "Adding the networking service to the default runlevel"
-    chroot_exec rc-update add networking default
+    if [[ "${DEVICE}" != "npi-neo-plus2" ]]; then
+        info "Adding the networking service to the default runlevel"
+        chroot_exec rc-update add networking default
 
-    install_exec files/etc/local.d/11-up_eth0.start ${ETC}/local.d/11-up_eth0.start
+        install_exec files/etc/local.d/11-up_eth0.start ${ETC}/local.d/11-up_eth0.start
 
-    # The networking service should depend on the local service since one of
-    # the scripts from /etc/local.d raises the network interface.
-    sed -i '/^\tneed/ s/$/ local/' "${ETC}/init.d/networking"
+        # The networking service should depend on the local service since one of
+        # the scripts from /etc/local.d raises the network interface.
+        sed -i '/^\tneed/ s/$/ local/' "${ETC}/init.d/networking"
+    fi
 fi
+
+run_scripts ${SOURCE_DIR}/post-networking
 
 send_request_to_bsc_server DONE_WITH_NETWORKING_CODE

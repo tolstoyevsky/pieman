@@ -132,9 +132,9 @@ create_temporary_dirs() {
 remove_temporary_dirs() {
     local target=${BUILD_DIR}/${PROJECT_NAME}
 
-    if ! ${CREATE_ONLY_CHROOT}; then
-        rm -rf "${target}"
-    fi
+    # if ! ${CREATE_ONLY_CHROOT}; then
+    #     rm -rf "${target}"
+    # fi
 }
 
 # Installs the specified file to the specified directory and changes
