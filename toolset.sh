@@ -216,6 +216,8 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/friendlyarm"); then
         info "fetching Das U-Boot (FriendlyARM flavour) ${UBOOT_FRIENDLYARM_H5_BRANCH}"
         git clone -b "${UBOOT_FRIENDLYARM_H5_BRANCH}" https://github.com/friendlyarm/u-boot.git "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
         git -C "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}" checkout "${UBOOT_FRIENDLYARM_H5_COMMIT}"
+        info "applying patch"
+        git apply "${PIEMAN_DIR}"/devices/npi-neo-plus2/alpine-3.9-arm64/uboot-disable-memtest.patch
     popd
 
     pushd "${TOOLSET_FULL_PATH}/friendlyarm/u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"

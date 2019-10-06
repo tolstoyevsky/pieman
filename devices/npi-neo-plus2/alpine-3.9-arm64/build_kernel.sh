@@ -19,11 +19,11 @@ if [[ ! -f "${SOURCE_DIR}"/Image ]]; then # fixme: temporary solution
     make Image dtbs ARCH=arm64 CROSS_COMPILE=$(pwd)/../gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
 
     cp arch/arm64/boot/Image ../Image
-    cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-k1-plus.dtb ../sun50i-h5-nanopi-k1-plus.dtb
-    cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dtb ../sun50i-h5-nanopi-neo-core2.dtb
-    cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dtb ../sun50i-h5-nanopi-m1-plus2.dtb
-    cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dtb ../sun50i-h5-nanopi-neo-plus2.dtb
-    cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dtb ../sun50i-h5-nanopi-neo2.dtb
+    # cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-k1-plus.dtb ../sun50i-h5-nanopi-k1-plus.dtb
+    # cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dtb ../sun50i-h5-nanopi-neo-core2.dtb
+    # cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-core2.dtb ../sun50i-h5-nanopi-m1-plus2.dtb
+    # cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dtb ../sun50i-h5-nanopi-neo-plus2.dtb
+    # cp arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dtb ../sun50i-h5-nanopi-neo2.dtb
 
     make modules ARCH=arm64 CROSS_COMPILE=$(pwd)/../gcc-linaro-6.3.1-2017.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
   popd

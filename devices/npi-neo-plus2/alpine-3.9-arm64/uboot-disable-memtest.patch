@@ -1,0 +1,33 @@
+diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
+index 8599834..e93683c 100644
+--- a/arch/arm/mach-sunxi/board.c
++++ b/arch/arm/mach-sunxi/board.c
+@@ -268,7 +268,7 @@ u32 spl_boot_mode(const u32 boot_device)
+ 
+ #ifdef CONFIG_SPL_BUILD
+ #define SPL_MEM_TEST
+-#define SPL_MEM_TEST_ITERATION (1)
++#define SPL_MEM_TEST_ITERATION (0)
+ #define SPL_MEM_TEST_START (0x49000000)
+ #define SPL_MEM_TEST_STOP (0x4A000000)
+ #define SPL_MEM_TEST_PATTERN (0x55aa)
+diff --git a/configs/nanopi_h5_defconfig b/configs/nanopi_h5_defconfig
+index 13f24cb..fb0aec4 100644
+--- a/configs/nanopi_h5_defconfig
++++ b/configs/nanopi_h5_defconfig
+@@ -11,12 +11,12 @@ CONFIG_R_I2C_ENABLE=y
+ # CONFIG_VIDEO_DE2 is not set
+ CONFIG_DEFAULT_DEVICE_TREE="sun50i-h5-nanopi-neo2"
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+-CONFIG_BOOTDELAY=1
++CONFIG_BOOTDELAY=0
+ CONFIG_CONSOLE_MUX=y
+ CONFIG_SPL=y
+ # CONFIG_CMD_BOOTEFI_HELLO_COMPILE is not set
+-CONFIG_CMD_MEMINFO=y
+-CONFIG_CMD_MEMTEST=y
++CONFIG_CMD_MEMINFO=n
++CONFIG_CMD_MEMTEST=n
+ # CONFIG_CMD_FLASH is not set
+ # CONFIG_CMD_FPGA is not set
+ # CONFIG_SPL_DOS_PARTITION is not set

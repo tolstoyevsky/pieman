@@ -6,3 +6,6 @@ add_package_to_includes udev
 add_package_to_includes wireless-tools
 add_package_to_includes wpa_supplicant
 add_package_to_includes hostapd
+add_package_to_includes alsa-utils
+add_package_to_includes mpd
+add_package_to_includes busybox-extras
