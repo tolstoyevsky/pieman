@@ -227,7 +227,7 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/friendlyarm"); then
         cp spl/sunxi-spl.bin "${TOOLSET_FULL_PATH}/friendlyarm"/sunxi-spl-for-npi-core-plus2.bin
         cp u-boot.itb "${TOOLSET_FULL_PATH}/friendlyarm"/u-boot-for-npi-core-plus2.itb
 
-        cp arch/arm/dts/sun50i-h5-nanopi-neo2.dtb "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb
+#        cp arch/arm/dts/sun50i-h5-nanopi-neo2.dtb "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb
 
         cp tools/mkimage "${TOOLSET_FULL_PATH}/friendlyarm"
     popd

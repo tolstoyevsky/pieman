@@ -330,9 +330,9 @@ case "${BUILD_TYPE}" in
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
-    if [[ "${DEVICE}" == "npi-neo-plus2" ]]; then
-        "${TOOLSET_FULL_PATH}/friendlyarm"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/npi/boot-neo-plus2.cmd "${BOOT}"/boot.scr
-    fi
+    # if [[ "${DEVICE}" == "npi-neo-plus2" ]]; then
+    #     "${TOOLSET_FULL_PATH}/friendlyarm"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/npi/boot-neo-plus2.cmd "${BOOT}"/boot.scr
+    # fi
 
     if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
         "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
