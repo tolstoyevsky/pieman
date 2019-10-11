@@ -113,9 +113,9 @@ def_var PIEMAN_UTILS_DIR "${PIEMAN_DIR}/pieman/bin"
 
 def_bool_var PREPARE_ONLY_TOOLSET false
 
-def_var PROJECT_NAME "$(uuidgen)"
-
 def_var PYTHON "$(command -v python3)"
+
+def_var PROJECT_NAME "$(do_uuidgen)"
 
 def_var REDIS_HOST "127.0.0.1"
 
