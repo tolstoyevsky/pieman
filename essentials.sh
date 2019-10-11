@@ -252,3 +252,14 @@ yes_or_no() {
         return 1
     fi
 }
+
+# Creates a new UUID value.
+# Globals:
+#     PYTHON
+# Arguments:
+#     None
+# Returns:
+#     UUID value.
+do_uuidgen() {
+    ${PYTHON} -c "import uuid; print(uuid.uuid4())"
+}

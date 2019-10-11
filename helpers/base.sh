@@ -64,14 +64,6 @@ check_dependencies() {
         exit 1
     fi
 
-    if [ -z "$(command -v uuidgen)" ]; then
-        # Do not mention Fedora since uuidgen belongs to the util-linux package
-        # which is a key component of the system.
-        fatal "there is no uuidgen." \
-              "Run apt-get install uuid-runtime on Debian/Ubuntu to fix it."
-        exit 1
-    fi
-
     if ! check_pieman_version; then
         fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or " \
               "higher is required." \
