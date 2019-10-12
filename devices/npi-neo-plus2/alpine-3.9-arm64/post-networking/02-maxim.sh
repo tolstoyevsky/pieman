@@ -89,16 +89,25 @@ nameserver 8.8.8.8
 nameserver 8.8.4.4
 EOF
 
-info "Configuring /etc/mpd.conf"
+info "Configuring mpd"
 cat << 'EOF' > ${ETC}/mpd.conf
 user            "mpd"
 group           "audio"
 music_directory "/srv/music"
 db_file         "/srv/db/mpd"
-log_file        "/var/log/mpd.log"
+log_file        "syslog"
 pid_file        "/var/run/mpd/mpd.pid"
-log_level       "verbose"
+log_level       "default"
 EOF
+
+chroot_exec mkdir -p /srv/db
+chroot_exec mkdir -p /srv/music
+
+chroot_exec chown mpd:audio /srv/db
+chroot_exec chown mpd:audio /srv/music
+
+info "Copy sample.wav"
+install_exec ${SOURCE_DIR}/sample.wav ${R}/srv/sample.wav
 
 info "Configuring /etc/local.d/01-snd-permissions.start"
 cat << 'EOF' > ${ETC}/local.d/01-snd-permissions.start
@@ -111,16 +120,14 @@ EOF
 
 chmod +x ${ETC}/local.d/01-snd-permissions.start
 
-# info "Configuring /etc/local.d/20-mpd.start"
-# cat << 'EOF' > ${ETC}/local.d/20-mpd.start
-# #!/bin/sh
+info "Configuring /etc/local.d/20-mpd.start"
+cat << 'EOF' > ${ETC}/local.d/20-mpd.start
+#!/bin/sh
 
-# /etc/init.d/mpd start
-# EOF
+/etc/init.d/mpd start
+EOF
 
-# chmod +x ${ETC}/local.d/20-mpd.start
+chmod +x ${ETC}/local.d/20-mpd.start
 
-info "Adding mpd to default runlevel"
-chroot_exec rc-update add mpd default
-
-info "Samples"
+# info "Adding mpd to default runlevel"
+# chroot_exec rc-update add mpd default
