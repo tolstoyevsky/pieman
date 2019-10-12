@@ -128,6 +128,3 @@ cat << 'EOF' > ${ETC}/local.d/20-mpd.start
 EOF
 
 chmod +x ${ETC}/local.d/20-mpd.start
-
-# info "Adding mpd to default runlevel"
-# chroot_exec rc-update add mpd default

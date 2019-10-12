@@ -216,8 +216,10 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/friendlyarm"); then
         info "fetching Das U-Boot (FriendlyARM flavour) ${UBOOT_FRIENDLYARM_H5_BRANCH}"
         git clone -b "${UBOOT_FRIENDLYARM_H5_BRANCH}" https://github.com/friendlyarm/u-boot.git "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
         git -C "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}" checkout "${UBOOT_FRIENDLYARM_H5_COMMIT}"
-        info "applying patch"
-        git apply "${PIEMAN_DIR}"/devices/npi-neo-plus2/alpine-3.9-arm64/uboot-disable-memtest.patch
+        pushd "u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
+            info "applying patch"
+            git apply "${PIEMAN_DIR}"/devices/npi-neo-plus2/alpine-3.9-arm64/uboot-disable-memtest.patch
+        popd
     popd
 
     pushd "${TOOLSET_FULL_PATH}/friendlyarm/u-boot-${UBOOT_FRIENDLYARM_H5_BRANCH}"
@@ -228,10 +230,6 @@ if $(init_installation_if_needed "${TOOLSET_FULL_PATH}/friendlyarm"); then
 
         cp spl/sunxi-spl.bin "${TOOLSET_FULL_PATH}/friendlyarm"/sunxi-spl-for-npi-core-plus2.bin
         cp u-boot.itb "${TOOLSET_FULL_PATH}/friendlyarm"/u-boot-for-npi-core-plus2.itb
-
-#        cp arch/arm/dts/sun50i-h5-nanopi-neo2.dtb "${TOOLSET_FULL_PATH}/friendlyarm"/sun50i-h5-nanopi-neo-plus2.dtb
-
-        cp tools/mkimage "${TOOLSET_FULL_PATH}/friendlyarm"
     popd
 
     pushd "${TOOLSET_FULL_PATH}/friendlyarm"

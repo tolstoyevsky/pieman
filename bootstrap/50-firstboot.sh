@@ -26,6 +26,13 @@ touch "${FIRSTBOOT}"
 chmod +x "${FIRSTBOOT}"
 
 for script in files/firstboot/*.sh; do
+    echo "${script}"
+    if [ "$IMAGE_ROOTFS_SIZE" -gt "0" ]; then
+        if [ "$script" == "files/firstboot/20-expandroot.sh" ]; then
+            echo "${script}"
+            continue
+        fi
+    fi
     cat ${script} >> "${FIRSTBOOT}"
 done
 
