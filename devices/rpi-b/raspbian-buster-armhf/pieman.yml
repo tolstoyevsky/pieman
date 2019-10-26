@@ -11,16 +11,26 @@ raspbian-buster-armhf:
   - /boot/bcm2708-rpi-b-plus.dtb
   - /boot/bcm2709-rpi-2-b.dtb
   - /boot/bcm2710-rpi-3-b.dtb
+  - /boot/bcm2711-rpi-4-b.dtb
   - /boot/overlays
   - /boot/kernel.img
   - /boot/kernel7.img
+  - /boot/kernel7l.img
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup4.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup4cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup4db.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup4x.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
   - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start4.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start4cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start4db.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start4x.elf
   includes: systemd-sysv
   kernel:
     package: raspberrypi-kernel
