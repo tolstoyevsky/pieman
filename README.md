@@ -81,6 +81,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * dpkg
   * GNU Parted
   * GnuPG
+  * mkfs.ext4 
   * mkpasswd
   * pandoc
   * rsync
@@ -99,7 +100,7 @@ Here are the commands to install the mandatory dependencies
   ```
 * on Fedora
   ```
-  $ sudo dnf install bison dosfstools dpkg expect flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig wget which xz
+  $ sudo dnf install bison dosfstools dpkg expect e2fsprogs flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig wget which xz
   ```
 
 #### Optional
