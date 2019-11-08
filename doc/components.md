@@ -16,3 +16,5 @@ The larger part of Pieman is written in Bash. The main task of Pieman is to run 
 * written in Python;
 * distributed in the Python package named [pieman](https://pypi.org/project/pieman/);
 * built in the best tradition of Unix – do one thing and do it well (there is one particular program for one particular task).
+
+Since Pieman depends on Python it tries to make the most of the interpreter. Thus, the pieman package contains alternatives written in Python for well-known programs, such as `uuidgen` and GNU [Wget](https://gnu.org/software/wget/). It helps keeping the Pieman dependencies list as compact as possible.
