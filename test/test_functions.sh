@@ -326,5 +326,5 @@ test_splitting_os_name_into_pieces() {
     assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
 }
 
-. $(which shunit2)
+. $(command -v shunit2)
 
