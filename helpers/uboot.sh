@@ -41,8 +41,8 @@ are_uboot_dependencies_satisfied() {
     >&2 echo -n "checking make... "
     yes_or_no "[ ! -z $(command -v make) ]" || ret=1
 
-    >&2 echo -n "checking python... "
-    yes_or_no "[ ! -z $(command -v python) ]" || ret=1
+    >&2 echo -n "checking python2... "
+    yes_or_no "[ ! -z $(command -v python2) ]" || ret=1
 
     >&2 echo -n "checking swig... "
     yes_or_no "[ ! -z $(command -v swig) ]" || ret=1
