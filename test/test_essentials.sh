@@ -99,4 +99,4 @@ EOF
     assertNull "${EMPTY}"
 }
 
-. $(which shunit2)
+. $(command -v shunit2)

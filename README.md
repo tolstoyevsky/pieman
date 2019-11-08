@@ -86,7 +86,6 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
   * pandoc
   * rsync
   * User mode emulation binaries such as `/usr/bin/qemu-arm-static` and `/usr/bin/qemu-aarch64-static`
-  * which
   * xz
 
 Note that installing `qemu-user-static` is not enough in Debian/Ubuntu. You also have to install `binfmt-support`.
@@ -98,7 +97,7 @@ Here are the commands to install the mandatory dependencies
   ```
 * on Fedora
   ```
-  $ sudo dnf install bison dosfstools dpkg expect e2fsprogs flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig which xz
+  $ sudo dnf install bison dosfstools dpkg expect e2fsprogs flex gcc git gpg make pandoc parted python2-devel python3-pip python3-setuptools qemu-user-static rsync swig xz
   ```
 
 #### Optional
@@ -490,7 +489,7 @@ Specifies the rootfs partition size in megabytes. Beware! Build will fail if roo
 
 #### Pieman-specific
 
-##### PYTHON="$(which python3)"
+##### PYTHON="$(command -v python3)"
 
 Specifies the Python 3 interpreter to be used when calling the Pieman-specific utilities.
 
