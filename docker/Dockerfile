@@ -37,7 +37,6 @@ RUN touch .dockerenv \
     util-linux \
     # debootstrap needs GNU tar instead of tar from Busybox
     tar \
-    whois \
     xz \
     # The following packages are necessary for building 2 different versions of
     # U-Boot (vanilla and Mender flavour) and Mender client
