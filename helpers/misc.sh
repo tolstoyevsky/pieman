@@ -1,4 +1,5 @@
 # Copyright (C) 2019 Denis Gavrilyuk <karpa4o4@gmail.com>
+# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,6 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Encrypts the specified password using the SHA-512 method.
+# Globals:
+#     PYTHON
+# Arguments:
+#     Password
+# Returns:
+#     Encrypted password
+do_mkpasswd() {
+    ${PYTHON} -c "import crypt; print(crypt.crypt('$1', crypt.mksalt(crypt.METHOD_SHA512)))"
+}
+
 # Downloads files from the Web non-interactively.
 # Globals:
 #     PIEMAN_UTILS_DIR
@@ -25,3 +37,4 @@
 do_wget() {
     ${PYTHON} "${PIEMAN_UTILS_DIR}"/wget.py "$@"
 }
+

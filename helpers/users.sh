@@ -34,7 +34,7 @@ EOF
     elif is_debian_based; then
         chroot_exec useradd -m "${username}" -s /bin/bash
 
-        encrypted_password="$(mkpasswd -m sha-512 "${password}")"
+        encrypted_password="$(do_mkpasswd "${password}")"
 
         chroot_exec usermod -p "${encrypted_password}" "${username}"
     fi
@@ -57,7 +57,7 @@ ${password}
 ${password}
 EOF
     elif is_debian_based; then
-        encrypted_password="$(mkpasswd -m sha-512 "${password}")"
+        encrypted_password="$(do_mkpasswd "${password}")"
 
         chroot_exec usermod -p "${encrypted_password}" root
     fi
