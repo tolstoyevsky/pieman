@@ -2,6 +2,8 @@ FROM alpine:3.10
 
 ENV BRANCH master
 
+ENV PYTHONPATH "/root/pieman/pieman"
+
 ENV TERM linux
 
 ENV TOOLSET_VER v2-hermes
@@ -63,7 +65,7 @@ RUN touch .dockerenv \
  && cd \
  && git clone -b $BRANCH --depth 1 https://github.com/tolstoyevsky/pieman.git \
  && cd pieman \
- && pip3 install pieman \
+ && pip3 install -r "${PYTHONPATH}"/requirements.txt \
  && env PREPARE_ONLY_TOOLSET=true ./pieman.sh \
  && cp toolset/$TOOLSET_VER/qemu-user-static/qemu-arm-static /usr/bin \
  && cp toolset/$TOOLSET_VER/qemu-user-static/qemu-aarch64-static /usr/bin \
