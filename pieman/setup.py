@@ -16,7 +16,7 @@ with open('requirements.txt') as outfile:
 
 
 setup(name='pieman',
-      version='0.12.0',
+      version='0.13.0',
       description='Pieman package',
       long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
@@ -38,5 +38,8 @@ setup(name='pieman',
       ],
       packages=['pieman'],
       include_package_data=True,
-      data_files=[('pieman', ['pieman/build_status_codes'])],
+      data_files=[
+          ('', ['requirements.txt']),
+          ('pieman', ['pieman/build_status_codes']),
+      ],
       install_requires=REQUIREMENTS_LIST)
