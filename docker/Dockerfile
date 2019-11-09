@@ -33,11 +33,10 @@ RUN touch .dockerenv \
     # for pkgdetails
     perl \
     rsync \
-    # for uuidgen
+    # for losetup
     util-linux \
     # debootstrap needs GNU tar instead of tar from Busybox
     tar \
-    wget \
     whois \
     xz \
     # The following packages are necessary for building 2 different versions of
