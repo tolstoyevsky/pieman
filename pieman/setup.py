@@ -11,6 +11,10 @@ except ImportError:
                         'single-board computers.')
 
 
+with open('requirements.txt') as outfile:
+    REQUIREMENTS_LIST = outfile.read().splitlines()
+
+
 setup(name='pieman',
       version='0.12.0',
       description='Pieman package',
@@ -35,7 +39,4 @@ setup(name='pieman',
       packages=['pieman'],
       include_package_data=True,
       data_files=[('pieman', ['pieman/build_status_codes'])],
-      install_requires=[
-          'Jinja2==2.10.1',
-          'PyYAML==5.1',
-      ])
+      install_requires=REQUIREMENTS_LIST)
