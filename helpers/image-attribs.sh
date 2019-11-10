@@ -27,7 +27,7 @@
 get_attr() {
     local output=""
 
-    output="$(${PYTHON} "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"
+    output="$("${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"
     # TODO: check exit code directly with e.g. 'if mycmd;'
     # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
@@ -50,5 +50,5 @@ get_attr() {
 # Returns:
 #     Image attribute value
 get_attr_or_nothing() {
-    ${PYTHON} "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
+    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
 }

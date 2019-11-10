@@ -31,7 +31,7 @@ check_redis() {
         info "checking if it is possible to connect to the Redis server" \
              "${REDIS_HOST}:${REDIS_PORT}"
 
-        if ! ${PYTHON} "${PIEMAN_UTILS_DIR}"/check_redis.py -H "${REDIS_HOST}" -P "${REDIS_PORT}"; then
+        if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_redis.py -H "${REDIS_HOST}" -P "${REDIS_PORT}"; then
             fatal "could not connect to Redis"
 
             REDIS_IS_AVAILABLE=false
@@ -60,7 +60,7 @@ send_request_to_bsc_server() {
         local request=$1
         local unix_socket_path="/var/run/bscd-${PROJECT_NAME}.sock"
 
-        ${PYTHON} "${PIEMAN_UTILS_DIR}"/bsc.py \
+        "${PYTHON}" "${PIEMAN_UTILS_DIR}"/bsc.py \
             --unix-socket-name "${unix_socket_path}" \
             "${!request}" > /dev/null 2>&1
     fi
@@ -87,7 +87,7 @@ start_bscd() {
         local unix_socket_path="/var/run/bscd-${PROJECT_NAME}.sock"
 
         info "starting the Build Status Codes server"
-        ${PYTHON} "${PIEMAN_UTILS_DIR}"/bscd.py \
+        "${PYTHON}" "${PIEMAN_UTILS_DIR}"/bscd.py \
             --channel-name "bscd-${PROJECT_NAME}" \
             --daemonize \
             --log-file-prefix "${log_file}" \

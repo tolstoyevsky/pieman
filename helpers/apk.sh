@@ -25,7 +25,7 @@
 get_apk_tools_version() {
     local alpine_version=$1
 
-    ${PYTHON} "${PIEMAN_UTILS_DIR}"/apk_tools_version.py --alpine-version="${alpine_version}"
+    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/apk_tools_version.py --alpine-version="${alpine_version}"
 }
 
 # Runs apk.static to build a chroot environment.

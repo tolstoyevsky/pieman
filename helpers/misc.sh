@@ -22,7 +22,7 @@
 # Returns:
 #     Encrypted password
 do_mkpasswd() {
-    ${PYTHON} -c "import crypt; print(crypt.crypt('$1', crypt.mksalt(crypt.METHOD_SHA512)))"
+    "${PYTHON}" -c "import crypt; print(crypt.crypt('$1', crypt.mksalt(crypt.METHOD_SHA512)))"
 }
 
 # Downloads files from the Web non-interactively.
@@ -35,6 +35,6 @@ do_mkpasswd() {
 # Returns:
 #     None
 do_wget() {
-    ${PYTHON} "${PIEMAN_UTILS_DIR}"/wget.py "$@"
+    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/wget.py "$@"
 }
 

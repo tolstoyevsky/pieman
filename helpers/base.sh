@@ -75,7 +75,7 @@ check_dependencies() {
     if ! check_python_version; then
         fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or "\
               "higher is required." \
-              "$(${PYTHON} -V) is used instead."
+              "$("${PYTHON}" -V) is used instead."
         exit 1
     fi
 
@@ -112,7 +112,7 @@ check_mutually_exclusive_params() {
             if [[ "${a}" == "${b}" ]]; then
                 continue
             fi
-            if ! ${PYTHON} "${PIEMAN_UTILS_DIR}"/check_mutually_exclusive_params.py "${a}" "${b}"; then
+            if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_mutually_exclusive_params.py "${a}" "${b}"; then
                 fatal "${a} and ${b} conflict with each other."
                 exit 1
             fi
@@ -151,7 +151,7 @@ check_pieman_version() {
     local pieman_version=(0 0)
     local output=""
 
-    output="$(${PYTHON} -c "import pieman; print(pieman.__version__)" 2>&1)"
+    output="$("${PYTHON}" -c "import pieman; print(pieman.__version__)" 2>&1)"
     # Pieman package 0.1 doesn't have the __version__ module attribute, so we
     # have to provide for backwards compatibility.
     # TODO: check exit code directly with e.g. 'if mycmd;'
@@ -179,7 +179,7 @@ check_pieman_version() {
 check_python_version() {
     local current_python_version=()
 
-    IFS='.' read -ra current_python_version <<< "$(${PYTHON} -V | cut -d' ' -f2)"
+    IFS='.' read -ra current_python_version <<< "$("${PYTHON}" -V | cut -d' ' -f2)"
 
     if (("${current_python_version[0]}" >= "${PYTHON_MAJOR_VER}")) && (("${current_python_version[1]}" >= "${PYTHON_MINOR_VER}")); then
         true
@@ -373,7 +373,7 @@ depend_on() {
             continue
         fi
 
-        if ! ${PYTHON} "${PIEMAN_UTILS_DIR}"/depend_on.py "${var}" "${dependency}"; then
+        if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/depend_on.py "${var}" "${dependency}"; then
             fatal "${var} depends on ${dependency}, so the latter must be set to true (if bool) or simply specified (in other cases)."
             exit 1
         fi

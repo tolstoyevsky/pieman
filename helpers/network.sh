@@ -25,7 +25,7 @@
 check_if_wpa_psk_is_valid() {
     local error_msg="WPA_PSK is not valid: "
 
-    { ${PYTHON} "${PIEMAN_UTILS_DIR}"/check_wpa_passphrase.py "${WPA_PSK}"; exit_code="$?"; } || true
+    { "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_wpa_passphrase.py "${WPA_PSK}"; exit_code="$?"; } || true
     case "${exit_code}" in
     0)
         ;;
