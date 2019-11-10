@@ -13,7 +13,7 @@ addons:
     - debian-sid
 
 install:
-  - sudo apt-get install -y --allow-unauthenticated bash pandoc shellcheck shunit2
+  - sudo apt-get install -y --allow-unauthenticated bash shellcheck shunit2
   - pip install -r pieman/requirements.txt
   - pip install pylint
 

@@ -5,7 +5,8 @@ from setuptools import setup
 try:
     import pypandoc
     LONG_DESCRIPTION = pypandoc.convert('README.md', 'rst')
-except ImportError:
+except (ImportError, OSError):
+    # OSError is raised when pandoc is not installed.
     LONG_DESCRIPTION = ('Utilities written in Python which are used by '
                         'Pieman, script for creating custom OS images for '
                         'single-board computers.')
