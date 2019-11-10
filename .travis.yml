@@ -25,5 +25,6 @@ script:
   - bash -c 'cd test && ./test_functions.sh'
   - bash -c 'shellcheck -x pieman.sh'
   - bash -c 'shellcheck -e SC2148 helpers/*.sh'
+  - bash -c 'shellcheck -e SC2148,SC2153 bootstrap/*.sh'
   - python pieman/test/runtest.py
 

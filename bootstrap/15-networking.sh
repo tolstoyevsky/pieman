@@ -36,7 +36,7 @@ elif ${ENABLE_FAMILY_YANDEX_DNS}; then
     dns_addr1="77.88.8.7"
     dns_addr2="77.88.8.3"
     dns_is_set=true
-elif [ ! -z ${ENABLE_CUSTOM_DNS} ]; then
+elif [[ -n ${ENABLE_CUSTOM_DNS} ]]; then
     dns_addr1="${ENABLE_CUSTOM_DNS}"
     dns_is_set=true
 fi
@@ -47,7 +47,7 @@ if is_alpine; then
     echo -e "dns=\"${addrs}\"" > "${ETC}/udhcpc/udhcpc.conf"
 elif is_debian_based; then
     for i in ${dns_addr1} ${dns_addr2}; do
-        echo "nameserver ${i}" >> ${ETC}/resolvconf/resolv.conf.d/base
+        echo "nameserver ${i}" >> "${ETC}"/resolvconf/resolv.conf.d/base
     done
 
     if ${dns_is_set}; then
@@ -55,13 +55,13 @@ elif is_debian_based; then
     fi
 fi
 
-install_readonly files/etc/hostname.template ${ETC}/hostname
+install_readonly files/etc/hostname.template "${ETC}"/hostname
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hostname"
 
-install_readonly files/etc/hosts.template ${ETC}/hosts
+install_readonly files/etc/hosts.template "${ETC}"/hosts
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
 
-render "${PIEMAN_DIR}"/files/network/interfaces.j2 ${ETC}/network/interfaces
+render "${PIEMAN_DIR}"/files/network/interfaces.j2 "${ETC}"/network/interfaces
 
 if ${ENABLE_WIRELESS}; then
     if is_debian_based; then
@@ -87,7 +87,7 @@ if is_alpine; then
     info "Adding the networking service to the default runlevel"
     chroot_exec rc-update add networking default
 
-    install_exec files/etc/local.d/11-up_eth0.start ${ETC}/local.d/11-up_eth0.start
+    install_exec files/etc/local.d/11-up_eth0.start "${ETC}"/local.d/11-up_eth0.start
 
     # The networking service should depend on the local service since one of
     # the scripts from /etc/local.d raises the network interface.

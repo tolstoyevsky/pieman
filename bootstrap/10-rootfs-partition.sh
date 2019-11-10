@@ -21,16 +21,16 @@ if is_debian_based; then
     add_package_to_base_packages locales
 fi
 
-base_packages="$(get_attr_or_nothing ${OS} base)"
-if [ ! -z "${base_packages}" ]; then
+base_packages="$(get_attr_or_nothing "${OS}" base)"
+if [[ -n ${base_packages} ]]; then
     for package in ${base_packages}; do
         add_package_to_base_packages "${package}"
     done
 fi
 
-if [ ! -z ${BASE_DIR} ] && [ -d ${BASE_DIR} ]; then
+if [[ -n ${BASE_DIR} ]] && [[ -n ${BASE_DIR} ]]; then
     info "using ${BASE_DIR} instead of creating chroot environment."
-    cp -r --preserve ${BASE_DIR} ${R}
+    cp -r --preserve "${BASE_DIR}" "${R}"
 else
     info "BASE_DIR is not specified or does not exist. Creating chroot environment."
 

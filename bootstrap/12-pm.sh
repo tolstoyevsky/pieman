@@ -76,39 +76,39 @@ fi
 
 if is_alpine; then
     primary_repo="$(get_attr "${OS}" repos | head -n1)"
-    echo "${primary_repo}/v${PIECES[1]}/main" > ${ETC}/apk/repositories
+    echo "${primary_repo}/v${PIECES[1]}/main" > "${ETC}"/apk/repositories
 
-    if [ ! -z "${additional_sections}" ]; then
-        echo "${primary_repo}/v${PIECES[1]}/${additional_sections}" >> ${ETC}/apk/repositories
+    if [[ -n ${additional_sections} ]]; then
+        echo "${primary_repo}/v${PIECES[1]}/${additional_sections}" >> "${ETC}"/apk/repositories
     fi
 elif is_debian_based; then
     # If /etc/apt/sources.list exists, remove the content.
-    echo "" > ${ETC}/apt/sources.list
+    echo "" > "${ETC}"/apt/sources.list
 
     # Form the content of /etc/apt/sources.list.
-    for source in `get_attr ${OS} repos`; do
+    for source in $(get_attr "${OS}" repos); do
         codename=${PIECES[1]}
-        echo "deb ${source} ${codename} main${additional_sections}" >> ${ETC}/apt/sources.list
+        echo "deb ${source} ${codename} main${additional_sections}" >> "${ETC}"/apt/sources.list
     done
 
     # Add a channel that provides security updates. Debian and Ubuntu have
     # different approaches of adding the channel to /etc/apt/sources.list.
 
     if is_debian; then
-        echo "deb ${source}-security ${codename}/updates main${additional_sections}" >> ${ETC}/apt/sources.list
+        echo "deb ${source}-security ${codename}/updates main${additional_sections}" >> "${ETC}"/apt/sources.list
     fi
 
     if is_ubuntu; then
-        echo "deb ${source} ${codename}-security main${additional_sections}" >> ${ETC}/apt/sources.list
+        echo "deb ${source} ${codename}-security main${additional_sections}" >> "${ETC}"/apt/sources.list
     fi
 fi
 
-run_scripts ${SOURCE_DIR}/pre-update-indexes
+run_scripts "${SOURCE_DIR}"/pre-update-indexes
 
 info "updating indexes"
 update_indexes
 
-run_scripts ${SOURCE_DIR}/post-update-indexes
+run_scripts "${SOURCE_DIR}"/post-update-indexes
 
 send_request_to_bsc_server UPDATED_CODE
 
@@ -118,8 +118,8 @@ dns_params=(
     ENABLE_FAMILY_YANDEX_DNS
     ENABLE_CUSTOM_DNS
 )
-for param in ${dns_params[@]}; do
-    if ${!param} && [ ! -z ${!param} ]; then
+for param in "${dns_params[@]}"; do
+    if ${!param} && [[ -n ${!param} ]]; then
         if is_debian_based; then
             add_package_to_includes resolvconf
         fi
@@ -129,10 +129,10 @@ done
 # Install the packages recommended by the maintainer of the image, specified by
 # the user and required by some parameters.
 
-includes="`get_attr_or_nothing ${OS} includes`"
-if [ ! -z "${includes}" ]; then
+includes="$(get_attr_or_nothing "${OS}" includes)"
+if [[ -n ${includes} ]]; then
     for i in ${includes}; do
-        add_package_to_includes ${i}
+        add_package_to_includes "${i}"
     done
 fi
 
@@ -143,25 +143,33 @@ if ${XFCE4}; then
     configure_keyboard_configuration
 fi
 
-if [ ! -z ${INCLUDES} ]; then
-    packages_list=`echo ${INCLUDES} | sed -r 's/,/ /g'`
+if [[ -n ${INCLUDES} ]]; then
+    packages_list=$(echo "${INCLUDES}" | sed -r 's/,/ /g')
 
-    run_scripts ${SOURCE_DIR}/pre-install
+    run_scripts "${SOURCE_DIR}"/pre-install
 
     info "installing ${packages_list}"
+
+    # ${packages_list} mustn't be quoted.
+    # For example, ${packages_list} stores "nginx mariadb-server-10.3". If you
+    # invoke install_packages "${packages_list}", the package manager will try
+    # to find and install the package named "nginx mariadb-server-10.3" but not
+    # nginx and mariadb-server-10.3 separately. However, shellcheck doesn't
+    # like when variables are unquoted, so
+    # shellcheck disable=SC2086
     install_packages ${packages_list}
 
-    run_scripts ${SOURCE_DIR}/post-install
+    run_scripts "${SOURCE_DIR}"/post-install
 
     send_request_to_bsc_server INSTALLED_PACKAGES_CODE
 fi
 
-run_scripts ${SOURCE_DIR}/pre-upgrade
+run_scripts "${SOURCE_DIR}"/pre-upgrade
 
 info "upgrading chroot environment"
 upgrade
 
-run_scripts ${SOURCE_DIR}/post-upgrade
+run_scripts "${SOURCE_DIR}"/post-upgrade
 
 send_request_to_bsc_server UPGRADED_CODE
 

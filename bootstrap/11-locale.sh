@@ -22,14 +22,14 @@ fi
 info "setting up locale"
 
 if is_debian_based; then
-    if [ -z "$(grep "${LOCALE}" ${ETC}/locale.gen)" ]; then
+    if ! grep -q "${LOCALE}" "${ETC}"/locale.gen; then
         fatal "could not find locale ${LOCALE}"
         do_exit
     fi
 fi
 
 if is_debian || is_devuan || is_raspbian; then
-    sed -i "s/^# *\($LOCALE\)/\1/" ${ETC}/locale.gen
+    sed -i "s/^# *\($LOCALE\)/\1/" "${ETC}"/locale.gen
 
     chroot_exec locale-gen
 elif is_ubuntu; then
@@ -41,11 +41,11 @@ send_request_to_bsc_server SET_UP_LOCALE_CODE
 info "setting up timezone"
 # Set timezone
 # https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1554806
-chroot_exec ln -fs /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
+chroot_exec ln -fs /usr/share/zoneinfo/"${TIME_ZONE}" /etc/localtime
 
 
 if is_alpine; then
-    echo "${TIME_ZONE}" > ${ETC}/timezone
+    echo "${TIME_ZONE}" > "${ETC}"/timezone
 elif is_debian_based; then
     chroot_exec dpkg-reconfigure -f noninteractive tzdata
 fi
