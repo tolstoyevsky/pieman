@@ -17,14 +17,14 @@ for var in OS SOURCE_DIR; do
     check_if_variable_is_set ${var}
 done
 
-kernel_package="`get_attr ${OS} kernel package`"
+kernel_package="$(get_attr "${OS}" kernel package)"
 
 info "installing kernel package"
 
-run_scripts ${SOURCE_DIR}/pre-kernel-installation
+run_scripts "${SOURCE_DIR}"/pre-kernel-installation
 
-install_packages ${kernel_package}
+install_packages "${kernel_package}"
 
-run_scripts ${SOURCE_DIR}/post-kernel-installation
+run_scripts "${SOURCE_DIR}"/post-kernel-installation
 
 send_request_to_bsc_server INSTALLED_KERNEL_CODE

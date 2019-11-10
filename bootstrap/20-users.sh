@@ -17,7 +17,7 @@ check_if_variable_is_set ENABLE_USER PASSWORD USER_NAME USER_PASSWORD
 
 if ${ENABLE_USER}; then
     info "creating regular user ${USER_NAME}"
-    add_user ${USER_NAME} ${USER_PASSWORD}
+    add_user "${USER_NAME}" "${USER_PASSWORD}"
 
     if ${ENABLE_SUDO}; then
         info "add regular user ${USER_NAME} to /etc/sudoers"
@@ -28,7 +28,7 @@ if ${ENABLE_USER}; then
             permission="ALL=(ALL) NOPASSWD: ALL"
         fi
 
-        echo "${USER_NAME} ${permission}" > ${ETC}/sudoers.d/01_allow_executing_any_command
+        echo "${USER_NAME} ${permission}" > "${ETC}"/sudoers.d/01_allow_executing_any_command
     fi
 fi
 

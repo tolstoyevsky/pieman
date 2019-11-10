@@ -22,11 +22,11 @@ check_if_variable_is_set SOURCE_DIR
 
 # Get the files, which must present on the boot partition, from different
 # sources and put them in the directory specified via BOOT.
-boot="`get_attr ${OS} boot`"
+boot="$(get_attr "${OS}" boot)"
 for f in ${boot}; do
-    if [ ! -z `echo ${f} | egrep "^https://|^http://|^ftp://"` ]; then
+    if echo "${f}" | grep -Eq "^https://|^http://|^ftp://"; then
         info "downloading ${f} to ${BOOT}"
-        do_wget -q -O ${BOOT}/`basename ${f}` ${f}
+        do_wget -q -O "${BOOT}/$(basename "${f}")" "${f}"
     elif [[ ${f:0:1} == "/" ]]; then
         # Split the name of the target file or directory into two parts:
         # original name and copy name.
@@ -34,16 +34,21 @@ for f in ${boot}; do
 
         info "copying ${FILE_NAMES[0]} to ${BOOT}"
 
-        if [ -z ${FILE_NAMES[1]} ]; then
+        if [ -z "${FILE_NAMES[1]}" ]; then
             # If the name of the copy is not specified, use the original one.
-            cp -r ${FILE_NAMES[0]} ${BOOT}
+
+            # globbing doesn't work when quoted, so
+            # shellcheck disable=SC2086
+            cp -r ${FILE_NAMES[0]} "${BOOT}"
         else
-            info "`basename ${FILE_NAMES[0]}` was renamed into ${FILE_NAMES[1]}"
-            cp -r ${FILE_NAMES[0]} ${BOOT}/${FILE_NAMES[1]}
+            info "$(basename "${FILE_NAMES[0]}") was renamed into ${FILE_NAMES[1]}"
+
+            # shellcheck disable=SC2086
+            cp -r ${FILE_NAMES[0]} "${BOOT}/${FILE_NAMES[1]}"
         fi
     else
-        info "copying `dirname ${YML_FILE}`/${f} to ${BOOT}"
-        cp ${SOURCE_DIR}/${f} ${BOOT}
+        info "copying $(dirname "${YML_FILE}")/${f} to ${BOOT}"
+        cp "${SOURCE_DIR}/${f}" "${BOOT}"
     fi
 done
 
