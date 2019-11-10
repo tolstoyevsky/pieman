@@ -276,5 +276,5 @@ yes_or_no() {
 # Returns:
 #     UUID value.
 do_uuidgen() {
-    ${PYTHON} -c "import uuid; print(uuid.uuid4())"
+    "${PYTHON}" -c "import uuid; print(uuid.uuid4())"
 }

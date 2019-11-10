@@ -27,7 +27,7 @@ render() {
     local template_path=$1
     local result_path=$2
 
-    { ${PYTHON} "${PIEMAN_UTILS_DIR}"/render.py "${template_path}" "${result_path}"; exit_code="$?"; } || true
+    { "${PYTHON}" "${PIEMAN_UTILS_DIR}"/render.py "${template_path}" "${result_path}"; exit_code="$?"; } || true
     case "${exit_code}" in
     0)
         ;;
