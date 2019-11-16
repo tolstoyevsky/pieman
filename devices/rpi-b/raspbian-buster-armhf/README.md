@@ -4,6 +4,7 @@ Raspbian is an official operating system for Raspberry Pi. It's based on Debian 
 * [Raspberry Pi 2 B](https://raspberrypi.org/products/raspberry-pi-2-model-b/)
 * [Raspberry Pi 3 B](https://raspberrypi.org/products/raspberry-pi-3-model-b/)
 * [Raspberry Pi Zero](https://raspberrypi.org/products/raspberry-pi-zero/)
+* [Raspberry Pi Zero W](https://raspberrypi.org/products/raspberry-pi-zero-w/)
 
 ## What's in the distribution?
 
