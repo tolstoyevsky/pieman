@@ -9,6 +9,7 @@ raspbian-buster-armhf:
   - config.txt
   # For RPi B Plus and RPi Zero
   - /boot/bcm2708-rpi-b-plus.dtb
+  - /boot/bcm2708-rpi-zero-w.dtb
   - /boot/bcm2709-rpi-2-b.dtb
   - /boot/bcm2710-rpi-3-b.dtb
   - /boot/overlays

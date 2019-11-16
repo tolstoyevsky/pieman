@@ -218,11 +218,12 @@ fi
 
 # TODO: come up with a better solution.
 if ${ENABLE_WIRELESS}; then
-    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-buster-armhf" ]; then
-        fatal "ENABLE_WIRELESS is not available for the specified device and" \
-              "operating system. OS=raspbian-buster-armhf and" \
-              "DEVICE=rpi-3-b are supported only."
-        exit 1
+    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${DEVICE}" != "rpi-zero-w" ]; then
+        if [ "${OS}" != "raspbian-buster-armhf" ]; then
+            fatal "ENABLE_WIRELESS is available only for Raspbian Buster on" \
+                  "Raspberry Pi 3 Model B or Raspberry Zero W."
+            exit 1
+        fi
     fi
 fi
 
