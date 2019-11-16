@@ -57,6 +57,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 | <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-2-model-b/">2 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                | <sub>32bit</sub>                       | <sub>32bit</sub>                        |
 | <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/">3 Model B</a></sub>        | <sub>32bit</sub>      |                               | <sub>32bit</sub>             |                                 | <sub>32bit</sub>                |                                        | <sub>32bit, 64bit</sub>                 |
 | <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-zero/">Zero</a></sub>                  |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
+| <sub>Raspberry Pi <a href="https://www.raspberrypi.org/products/raspberry-pi-zero-w/">Zero W</a></sub>              |                       |                               |                              |                                 | <sub>32bit</sub>                |                                        |                                         |
 
 ## Getting Started
 
@@ -265,6 +266,7 @@ The device the target image is created for is specified via the `DEVICE` environ
 | Raspberry Pi 2 Model B      | rpi-2-b     |
 | Raspberry Pi 3 Model B      | rpi-3-b     |
 | Raspberry Pi Zero           | rpi-zero    |
+| Raspberry Pi Zero W         | rpi-zero-w  |
 
 ### Parameters
 
@@ -369,7 +371,7 @@ Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDE
 
 ##### ENABLE_WIRELESS=false
 
-Enables built-in WiFi (only for Raspbian Buster on Raspberry Pi 3 so far).
+Enables built-in WiFi (only for Raspbian Buster on Raspberry Pi 3 and Raspberry Pi Zero W so far).
 
 ##### HOST_NAME="pieman-${DEVICE}"
 
