@@ -13,3 +13,4 @@ We thank all the contributors to the project. Here are the full list of the peop
 * [Eduard Lemmer](https://github.com/leocoan)
 * [Aram Grigoryan](https://github.com/Aramgrigoryanwb)
 * [Anton Maksimovich](https://github.com/ABSLord)
+* [Dmitriy Ivanko](https://github.com/Themanwhosmellslikesugar)
