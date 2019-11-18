@@ -479,7 +479,7 @@ fi
 if ${CREATE_ONLY_MENDER_ARTIFACT}; then
     success "${image} was built. Upload it to hosted.mender.io to provide for OTA updates."
 else
-    success "${image} was built. Use Etcher (https://etcher.io) to burn it to your SD card."
+    success "${image} was built. Use balenaEtcher (https://balena.io/etcher/) to burn it to your SD card."
 fi
 
 send_request_to_bsc_server SUCCESSFUL_CODE
