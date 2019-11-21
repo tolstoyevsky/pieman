@@ -583,10 +583,10 @@ set_traps() {
 # array. OS must stick to the following naming convention:
 # <distro name>-<codename>-<arch>.
 # Globals:
-#     None
-# Arguments:
 #     OS
 #     PIECES
+# Arguments:
+#     None
 # Returns:
 #     None
 split_os_name_into_pieces() {
