@@ -185,6 +185,21 @@ def_protected_var() {
     >&2 echo "+ ${var_name}=*****"
 }
 
+# Defines a private variable. The function helps avoid using shellcheck disable=SC2034
+# Globals:
+#     None
+# Arguments:
+#     Variable name
+#     Value by default
+# Returns:
+#     None
+def_private_var() {
+    local var=$1
+    local val=$2
+
+    eval ${var}="\"${val}\""
+}
+
 # Acts like def_var but additionally requires that the target value is Boolean.
 # Globals:
 #     None

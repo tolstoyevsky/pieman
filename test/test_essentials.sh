@@ -26,6 +26,19 @@ setUp() {
 # Let the test begin
 #
 
+test_defining_private_variables() {
+    priv="test"
+
+    def_private_var priv "default"
+    assertEquals "default" "${priv}"
+
+    def_private_var priv2 "default"
+    assertEquals "default" "${priv2}"
+
+    def_private_var EMPTY ""
+    assertNull "${EMPTY}"
+}
+
 test_defining_variables() {
     S1="test"
     def_var S1 "value by default"

@@ -143,48 +143,39 @@ def_bool_var XFCE4 false
 # Internal params
 #
 
-R=${BUILD_DIR}/${PROJECT_NAME}/chroot
+def_private_var R "${BUILD_DIR}/${PROJECT_NAME}/chroot"
 
-BOOT=${BUILD_DIR}/${PROJECT_NAME}/boot
+def_private_var BOOT "${BUILD_DIR}/${PROJECT_NAME}/boot"
 
-MOUNT_POINT=${BUILD_DIR}/${PROJECT_NAME}/mount_point
+def_private_var MOUNT_POINT "${BUILD_DIR}/${PROJECT_NAME}/mount_point"
 
-# shellcheck disable=SC2034
-ETC=${R}/etc
+def_private_var ETC "${R}/etc"
 
-# shellcheck disable=SC2034
-USR_BIN=${R}/usr/bin
+def_private_var USR_BIN "${R}/usr/bin"
 
-ARTIFACT="${PIEMAN_DIR}/${BUILD_DIR}/${PROJECT_NAME}.mender"
+def_private_var ARTIFACT "${PIEMAN_DIR}/${BUILD_DIR}/${PROJECT_NAME}.mender"
 
-# shellcheck disable=SC2034
-BASE_PACKAGES=""
+def_private_var BASE_PACKAGES ""
 
-BUILD_TYPE="${IMAGE_CLASSIC}"
+def_private_var BUILD_TYPE "${IMAGE_CLASSIC}"
 
-# shellcheck disable=SC2034
-FIRSTBOOT="/tmp/firstboot-${PROJECT_NAME}.sh"
+def_private_var FIRSTBOOT "/tmp/firstboot-${PROJECT_NAME}.sh"
 
-IMAGE=${BUILD_DIR}/${PROJECT_NAME}.img
+def_private_var IMAGE "${BUILD_DIR}/${PROJECT_NAME}.img"
 
-# shellcheck disable=SC2034
-KEYRING="/tmp/atomatically-generated-keyring-for-${PROJECT_NAME}.gpg"
+def_private_var KEYRING "/tmp/atomatically-generated-keyring-for-${PROJECT_NAME}.gpg"
 
-# shellcheck disable=SC2034
-PM_OPTIONS=""
+def_private_var PM_OPTIONS ""
 
-# shellcheck disable=SC2034
-EXIT_REQUEST="EXIT"
+def_private_var EXIT_REQUEST "EXIT"
 
-# shellcheck disable=SC2034
-REDIS_IS_AVAILABLE=true
+def_private_var REDIS_IS_AVAILABLE true
 
-TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
+def_private_var TOOLSET_FULL_PATH "${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-SOURCE_DIR=devices/${DEVICE}/${OS}
+def_private_var SOURCE_DIR "devices/${DEVICE}/${OS}"
 
-# shellcheck disable=SC2034
-YML_FILE=${SOURCE_DIR}/pieman.yml
+def_private_var YML_FILE "${SOURCE_DIR}/pieman.yml"
 
 run_scripts "helpers"
 
