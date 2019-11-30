@@ -31,36 +31,3 @@ run_preprocessor_against_toolset_yml() {
     preprocessor.py ${PIEMAN_DIR}/toolset.yml ${PIEMAN_DIR}/.toolset.yml
 }
 
-# Gets qemu-user-static 3.1 from Ubuntu 19.04 "Disco Dingo".
-# Globals:
-#     None
-# Arguments:
-#     None
-# Returns:
-#     None
-get_qemu_emulation_binary() {
-    local package
-    
-    do_wget http://mirrors.kernel.org/ubuntu/dists/focal/universe/binary-amd64/Packages.xz
-
-    xz -d Packages.xz
-
-    package="$(grep "Filename: pool/universe/q/qemu/qemu-user-static" Packages | awk '{print $2}')"
-
-    do_wget http://security.ubuntu.com/ubuntu/"${package}"
-
-    ar x "$(basename "${package}")"
-
-    tar xJf data.tar.xz
-
-    cp usr/bin/qemu-aarch64-static .
-    cp usr/bin/qemu-arm-static .
-
-    # cleanup
-    rm    control.tar.xz
-    rm    data.tar.xz
-    rm    debian-binary
-    rm    Packages
-    rm    "$(basename "${package}")"
-    rm -r usr
-}
