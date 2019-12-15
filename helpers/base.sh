@@ -442,7 +442,7 @@ is_alpine() {
 # Returns:
 #     Boolean
 is_debian_based() {
-    if [ "${PIECES[0]}" = "debian" ] || [ "${PIECES[0]}" = "devuan" ] || [ "${PIECES[0]}" = "kali" ] || [ "${PIECES[0]}" = "raspbian" ] || [ "${PIECES[0]}" = "ubuntu" ]; then
+    if is_debian || is_devuan || is_kali || is_raspbian || is_ubuntu; then
         true
     else
         false
