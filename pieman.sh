@@ -179,29 +179,9 @@ def_private_var YML_FILE "${SOURCE_DIR}/pieman.yml"
 
 run_scripts "helpers"
 
-check_mutually_exclusive_params \
-    BASE_DIR \
-    CREATE_ONLY_CHROOT
+. ./mutually_exclusive_params.sh
 
-check_mutually_exclusive_params \
-    ENABLE_GOOGLE_DNS \
-    ENABLE_BASIC_YANDEX_DNS \
-    ENABLE_FAMILY_YANDEX_DNS \
-    ENABLE_CUSTOM_DNS
-
-check_mutually_exclusive_params \
-    COMPRESS_WITH_BZIP2 \
-    COMPRESS_WITH_GZIP \
-    COMPRESS_WITH_XZ
-
-check_mutually_exclusive_params \
-    CREATE_ONLY_MENDER_ARTIFACT \
-    CREATE_ONLY_CHROOT \
-    ENABLE_MENDER
-
-depend_on WPA_SSID ENABLE_WIRELESS
-
-depend_on WPA_PSK ENABLE_WIRELESS WPA_SSID
+. ./depend_on.sh
 
 if [[ -n ${WPA_PSK} ]]; then
     check_if_wpa_psk_is_valid
