@@ -59,6 +59,10 @@ setUp() {
 
     YML_FILE="${SOURCE_DIR}/pieman.yml"
 
+    cp $YML_FILE $TOOLSET_DIR
+
+    sed -n "s/repos/repos/" "${TOOLSET_DIR}/pieman.yml"
+
     . ../essentials.sh
 
     for script in ../helpers/*.sh; do
@@ -71,6 +75,7 @@ setUp() {
 
 tearDown() {
     rm -rf "${TOOLSET_FULL_PATH}"
+    rm -rf "$TOOLSET_DIR/pieman.yml"
 }
 
 #
@@ -263,6 +268,13 @@ test_creating_dependent_params() {
     result=$((depend_on A B) 2>&1)
 
     assertNull "${result}"
+}
+
+test_get_attr() {
+    YML_FILE="${TOOLSET_DIR}/pieman.yml"
+    (get_attr)
+
+    assertEquals $? 1
 }
 
 test_rendering() {

@@ -27,11 +27,9 @@
 get_attr() {
     local output=""
 
-    output="$("${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"
-    # TODO: check exit code directly with e.g. 'if mycmd;'
-    # shellcheck disable=SC2181
-    if [ $? -ne 0 ]; then
-        fatal "while getting the specified attribute from ${YML_FILE} " \
+    { output="$("${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"; exit_code="$?"; } || true
+    if [ "${exit_code}" -ne 0 ]; then
+        fatal "while getting the specified attribute from ${YML_FILE}" \
               "occurred the following error: ${output}."
         do_exit
     fi
