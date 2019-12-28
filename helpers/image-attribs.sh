@@ -29,7 +29,7 @@ get_attr() {
 
     { output="$("${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1)"; exit_code="$?"; } || true
     if [ "${exit_code}" -ne 0 ]; then
-        fatal "while getting the specified attribute from ${YML_FILE} " \
+        fatal "while getting the specified attribute from ${YML_FILE}" \
               "occurred the following error: ${output}."
         do_exit
     fi
