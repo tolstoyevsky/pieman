@@ -323,37 +323,20 @@ case "${BUILD_TYPE}" in
 
     info "formatting partitions"
 
-    format_partitions vfat ext4
+    format_partitions vfat luks
 
     send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
-    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin" of="${LOOP_DEV}" bs=1024 seek=8
-        sync
-    fi
-
-    if [[ "${DEVICE}" == "opi-zero" ]]; then
-        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin" of="${LOOP_DEV}" bs=1024 seek=8
-        sync
-    fi
-
-    mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
-
-    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-pc-plus.cmd "${BOOT}"/boot.scr
-    fi
-
-    if [[ "${DEVICE}" == "opi-zero" ]]; then
-        "${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}"/mkimage -C none -A arm -T script -d "${PIEMAN_DIR}"/files/opi/boot-zero.cmd "${BOOT}"/boot.scr
-    fi
-
-    rsync -a "${BOOT}"/ "${MOUNT_POINT}"
-
-    umount "${MOUNT_POINT}"
-
-    mount "${LOOP_DEV}p2" "${MOUNT_POINT}"
+    mount /dev/mapper/sdcard "${MOUNT_POINT}"
 
     rsync -apS "${R}"/ "${MOUNT_POINT}"
+
+    mount "${LOOP_DEV}p1" "${MOUNT_POINT}"/boot
+
+    rsync -a "${BOOT}"/ "${MOUNT_POINT}"/boot
+
+    chroot_exec env CRYPTSETUP=y mkinitramfs -o /boot/initramfs.gz 4.19.97-v7+
+    umount "${MOUNT_POINT}"/boot
 
     send_request_to_bsc_server SYNCED_CODE
 
