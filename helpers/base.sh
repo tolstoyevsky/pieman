@@ -411,6 +411,11 @@ format_partitions() {
         ext4)
             ${mkfs} "${LOOP_DEV}p${i}" 1>&2-
             ;;
+        luks)
+            cryptsetup --cipher aes-cbc-essiv:sha256 luksFormat "${LOOP_DEV}p${i}" 1>&2-
+            cryptsetup luksOpen "${LOOP_DEV}p2" sdcard 1>&2-
+            mkfs.ext4 /dev/mapper/sdcard 1>&2-
+            ;;
         *)
             fatal "unknown filesystem type"
             exit 1

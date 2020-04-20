@@ -67,11 +67,6 @@ if ${ENABLE_WIRELESS}; then
     if is_debian_based; then
         echo brcmfmac > "${ETC}"/modules-load.d/networking.conf
 
-        mkdir -p "${R}"/lib/firmware/brcm
-
-        wget https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/86e88fbf0345da49555d0ec34c80b4fbae7d0cd3/brcm/brcmfmac43430-sdio.bin -O "${R}"/lib/firmware/brcm/brcmfmac43430-sdio.bin
-        wget https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/86e88fbf0345da49555d0ec34c80b4fbae7d0cd3/brcm/brcmfmac43430-sdio.txt -O "${R}"/lib/firmware/brcm/brcmfmac43430-sdio.txt
-
         install_readonly files/network/wpa_supplicant.conf "${ETC}"/wpa_supplicant/wpa_supplicant.conf
 
         if [[ -n ${WPA_SSID} ]]; then

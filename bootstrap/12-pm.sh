@@ -52,6 +52,7 @@ fi
 
 if ${ENABLE_WIRELESS}; then
     if is_debian_based; then
+        add_package_to_includes firmware-brcm80211
         add_package_to_includes wpasupplicant
     fi
 fi
