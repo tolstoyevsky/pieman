@@ -265,6 +265,17 @@ test_creating_dependent_params() {
     assertNull "${result}"
 }
 
+test_getting_attr() {
+    output="$(get_attr "${OS}" kernel package)"
+    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
+    assertEquals "raspberrypi-kernel" "${output}"
+
+    { output="$(get_attr "${OS}" some_attr 2>&1)"; exit_code="$?"; } || true
+    assertTrue "[ ${exit_code} -eq ${SHUNIT_FALSE} ]"
+    [[ "${output}" =~ "raspbian-buster-armhf does not have attribute some_attr." ]]
+    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
+}
+
 test_rendering() {
     local result=""
 
