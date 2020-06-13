@@ -125,7 +125,7 @@ def_bool_var SUDO_REQUIRE_PASSWORD true
 
 def_var TIME_ZONE "Etc/UTC"
 
-def_var TOOLSET_CODENAME "v2-hermes"
+def_var TOOLSET_CODENAME "v3-calculon"
 
 def_var TOOLSET_DIR "${PIEMAN_DIR}/toolset"
 

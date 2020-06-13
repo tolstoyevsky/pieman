@@ -1,6 +1,6 @@
 # Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
 
-alpine-3.9-armhf:
+alpine-3.12-armhf:
   repos:
   - http://dl-cdn.alpinelinux.org/alpine/
   boot:
@@ -8,10 +8,10 @@ alpine-3.9-armhf:
   - config.txt
   - /boot/initramfs-rpi2
   - /boot/vmlinuz-rpi2
-  - /usr/lib/linux-*-rpi2/bcm2709-rpi-2-b.dtb
-  - /usr/lib/linux-*-rpi2/bcm2836-rpi-2-b.dtb
-  - /usr/lib/linux-*-rpi2/bcm2710-rpi-3-b.dtb
-  - /usr/lib/linux-*-rpi2/overlays
+  - /boot/dtbs-rpi2/bcm2709-rpi-2-b.dtb
+  - /boot/dtbs-rpi2/bcm2836-rpi-2-b.dtb
+  - /boot/dtbs-rpi2/bcm2710-rpi-3-b.dtb
+  - /boot/dtbs-rpi2/overlays
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
