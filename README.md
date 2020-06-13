@@ -49,7 +49,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Supported Devices and OSes
 
-|                                                                                                                     | <sub>Alpine 3.9</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 10 «Buster»</sub>  | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
+|                                                                                                                     | <sub>Alpine 3.12</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Devuan 1 «Jessie»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 10 «Buster»</sub>  | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> |
 |---------------------------------------------------------------------------------------------------------------------|:---------------------:|:-----------------------------:|:----------------------------:|:-------------------------------:|:-------------------------------:|:--------------------------------------:|:---------------------------------------:|
 | <sub>Orange Pi <a href="http://orangepi.org/orangepipcplus/">PC Plus</a></sub>                                      |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
 | <sub>Orange Pi <a href="http://www.orangepi.org/orangepizero/">Zero</a></sub>                                       |                       | <sub>32bit</sub>              |                              | <sub>32bit</sub>                |                                 |                                        |                                         |
@@ -248,7 +248,7 @@ The operating system of the target image is specified via the `OS` environment v
 
 | Full name                                                                                                            | Short name             |
 |----------------------------------------------------------------------------------------------------------------------|------------------------|
-| Alpine [3.9](https://alpinelinux.org/posts/Alpine-3.9.0-released.html) (32-bit)                                      | alpine-3.9-armhf       |
+| Alpine [3.12](https://alpinelinux.org/posts/Alpine-3.12.0-released.html) (32-bit)                                    | alpine-3.12-armhf      |
 | Debian 10 «[Buster](https://debian.org/releases/buster/)» (32-bit)                                                   | debian-buster-armhf    |
 | Devuan 1 «[Jessie](https://lists.dyne.org/lurker/message/20170525.180739.f86cd310.en.html#devuan-announce)» (32-bit) | devuan-jessie-armhf    |
 | Kali Linux Rolling (32-bit)                                                                                          | kali-rolling-armhf     |
@@ -316,7 +316,7 @@ Restricts Pieman to only preparing or upgrading the toolset which is located in 
 
 Specifies the time zone of the system.
 
-##### TOOLSET_CODENAME="v2-hermes"
+##### TOOLSET_CODENAME="v3-calculon"
 
 Specifies the toolset codename. The parameter allows users and developers to switch between different toolsets. Each codename is connected to its directory in `${TOOLSET_DIR}` which, in turn, contains the target toolset. When a codename is passed via `${TOOLSET_CODENAME}` but there is no such directory in `${TOOLSET_DIR}`, the process of creating of the directory and installing the toolset into it will be initiated.
 
