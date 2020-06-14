@@ -50,14 +50,14 @@ add_item_to_list() {
 # Returns:
 #     None
 check_dependencies() {
-    if [ -z "$(command -v dpkg)" ]; then
+    if ! command -v dpkg > /dev/null; then
         # Do not mention Debian or Ubuntu since dpkg is a part of
         # the base system there.
         fatal "there is no dpkg. Run dnf install dpkg on Fedora to fix it."
         exit 1
     fi
 
-    if [ -z "$(command -v mkpasswd)" ]; then
+    if ! command -v mkpasswd > /dev/null; then
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
               "dnf install expect on Fedora."
@@ -80,7 +80,7 @@ check_dependencies() {
     fi
 
     if ${COMPRESS_WITH_BZIP2}; then
-        if [ -z "$(command -v bzip2)" ]; then
+        if ! command -v bzip2 > /dev/null; then
             fatal "there is no bzip2." \
                   "Run apt-get install bzip2 on Debian/Ubuntu or" \
                   "dnf install bzip2 on Fedora."
@@ -89,7 +89,7 @@ check_dependencies() {
     fi
 
     if ${COMPRESS_WITH_XZ}; then
-        if [ -z "$(command -v xz)" ]; then
+        if ! command -v xz > /dev/null; then
             fatal "there is no xz." \
                   "Run apt-get install xz-utils on Debian/Ubuntu or" \
                   "dnf install xz on Fedora."
