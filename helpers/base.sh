@@ -41,7 +41,6 @@ add_item_to_list() {
 # Checks if all required dependencies are installed on the system.
 # Globals:
 #     COMPRESS_WITH_BZIP2
-#     COMPRESS_WITH_XZ
 #     PIEMAN_MAJOR_VER
 #     PIEMAN_MINOR_VER
 #     PYTHON
@@ -61,6 +60,13 @@ check_dependencies() {
         fatal "there is no mkpasswd." \
               "Run apt-get install whois on Debian/Ubuntu or" \
               "dnf install expect on Fedora."
+        exit 1
+    fi
+
+    if ! command -v xz > /dev/null; then
+        fatal "there is no xz." \
+              "Run apt-get install xz-utils on Debian/Ubuntu or" \
+              "dnf install xz on Fedora."
         exit 1
     fi
 
@@ -84,15 +90,6 @@ check_dependencies() {
             fatal "there is no bzip2." \
                   "Run apt-get install bzip2 on Debian/Ubuntu or" \
                   "dnf install bzip2 on Fedora."
-            exit 1
-        fi
-    fi
-
-    if ${COMPRESS_WITH_XZ}; then
-        if ! command -v xz > /dev/null; then
-            fatal "there is no xz." \
-                  "Run apt-get install xz-utils on Debian/Ubuntu or" \
-                  "dnf install xz on Fedora."
             exit 1
         fi
     fi
