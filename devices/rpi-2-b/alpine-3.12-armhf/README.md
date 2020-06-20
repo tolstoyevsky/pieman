@@ -1,4 +1,4 @@
-Alpine Linux is a lightweight, independently developed and non-commercial Linux distribution. `rpi-2-b/alpine-3.12-armhf` allows building custom 32-bit Alpine [3.12](https://alpinelinux.org/posts/Alpine-3.12.0-released.html) images for [Raspberry Pi 2 B](https://raspberrypi.org/products/raspberry-pi-2-model-b/) and [Raspberry Pi 3 B](https://raspberrypi.org/products/raspberry-pi-3-model-b/).
+Alpine Linux is a lightweight, independently developed and non-commercial Linux distribution. `rpi-2-b/alpine-3.12-armhf` allows building custom 32-bit Alpine [3.12](https://alpinelinux.org/posts/Alpine-3.12.0-released.html) images for [Raspberry Pi 2 B](https://raspberrypi.org/products/raspberry-pi-2-model-b/), [Raspberry Pi 3 B](https://raspberrypi.org/products/raspberry-pi-3-model-b/) and [Raspberry Pi 3 B+](https://raspberrypi.org/products/raspberry-pi-3-model-b-plus/).
 
 ## What's in the distribution?
 

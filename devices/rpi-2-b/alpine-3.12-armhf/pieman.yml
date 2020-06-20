@@ -11,6 +11,7 @@ alpine-3.12-armhf:
   - /boot/dtbs-rpi2/bcm2709-rpi-2-b.dtb
   - /boot/dtbs-rpi2/bcm2836-rpi-2-b.dtb
   - /boot/dtbs-rpi2/bcm2710-rpi-3-b.dtb
+  - /boot/dtbs-rpi2/bcm2710-rpi-3-b-plus.dtb
   - /boot/dtbs-rpi2/overlays
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
