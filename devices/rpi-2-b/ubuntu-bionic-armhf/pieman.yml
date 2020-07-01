@@ -9,6 +9,7 @@ ubuntu-bionic-armhf:
   - /boot/vmlinuz-4.15.0-*-raspi2:kernel7.img
   - /lib/firmware/4.15.0-*-raspi2/device-tree/bcm2709-rpi-2-b.dtb
   - /lib/firmware/4.15.0-*-raspi2/device-tree/bcm2710-rpi-3-b.dtb
+  - /lib/firmware/4.15.0-*-raspi2/device-tree/bcm2710-rpi-3-b-plus.dtb
   - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
   - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
