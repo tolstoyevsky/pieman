@@ -19,11 +19,6 @@ if [ "$(id -u)" -ne "0" ]; then
     exit 1
 fi
 
-if [ ! -r ./essentials.sh ] ; then
-    >&2 echo "'./essentials.sh' required script not found!"
-    exit 1
-fi
-
 . ./essentials.sh
 
 set -eE
