@@ -6,7 +6,7 @@ ENV PYTHONPATH "/root/pieman/pieman"
 
 ENV TERM linux
 
-ENV TOOLSET_VER v3-calculon
+ENV TOOLSET_VER v4-amy
 
 ARG VCS_REF
 
