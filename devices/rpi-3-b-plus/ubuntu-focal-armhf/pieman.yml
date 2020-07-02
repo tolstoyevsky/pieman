@@ -1,0 +1,32 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+ubuntu-focal-armhf:
+  repos:
+  - http://ports.ubuntu.com/ubuntu-ports/
+  boot:
+  - cmdline.txt
+  - config.txt
+  - /boot/vmlinuz-5.4.0-*-raspi:kernel7.img
+  - /lib/firmware/5.4.0-*-raspi/device-tree/bcm2709-rpi-2-b.dtb
+  - /lib/firmware/5.4.0-*-raspi/device-tree/bcm2710-rpi-3-b.dtb
+  - /lib/firmware/5.4.0-*-raspi/device-tree/bcm2710-rpi-3-b-plus.dtb
+  - https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/fixup_x.dat
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_cd.elf
+  - https://github.com/raspberrypi/firmware/raw/master/boot/start_x.elf
+  base:
+  - gnupg
+  - tzdata
+  includes:
+  # /usr/share/initramfs-tools/hooks/flash_kernel_set_root will be looking for
+  # systemd-detect-virt during installation of the kernel.
+  - systemd
+  - tzdata
+  params:
+  # The kernel package is available in the universe archive area.
+  - ENABLE_UNIVERSE
+  kernel:
+    package: linux-image-raspi2
