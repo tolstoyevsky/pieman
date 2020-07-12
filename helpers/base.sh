@@ -109,7 +109,7 @@ check_mutually_exclusive_params() {
             if [[ "${a}" == "${b}" ]]; then
                 continue
             fi
-            if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_mutually_exclusive_params.py "${a}" "${b}"; then
+            if ! check_mutually_exclusive_params.py "${a}" "${b}"; then
                 fatal "${a} and ${b} conflict with each other."
                 exit 1
             fi
@@ -367,7 +367,7 @@ depend_on() {
             continue
         fi
 
-        if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/depend_on.py "${var}" "${dependency}"; then
+        if ! depend_on.py "${var}" "${dependency}"; then
             fatal "${var} depends on ${dependency}, so the latter must be set to true (if bool) or simply specified (in other cases)."
             exit 1
         fi

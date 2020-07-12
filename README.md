@@ -237,11 +237,9 @@ Editing the `PYTHONPATH` environment variable is necessary to run the tests, usi
 To run the tests for the Pieman script, you will need both the above-mentioned virtual environment (because the Pieman script tests depends on the package tests) and [shUnit2](https://github.com/kward/shunit2). Install shUnit2 executing `sudo apt-get install shunit2` on Debian/Ubuntu or `sudo dnf install shunit2` on Fedora. Then, go to the `test` directory and run the tests in the following way:
 
 ```
-$ env PIEMAN_UTILS_DIR=$(pwd)/../pieman/bin ./test_essentials.sh
-$ env PIEMAN_UTILS_DIR=$(pwd)/../pieman/bin ./test_functions.sh
+$ ./test_essentials.sh
+$ ./test_functions.sh
 ```
-
-Editing the `PIEMAN_UTILS_DIR` environment variable is necessary to run the tests, using the latest version of the Pieman utilities.
 
 ## Documentation
 

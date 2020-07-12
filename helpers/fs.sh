@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
 
 # Calculates the size of the specified directory.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
+#     None
 # Arguments:
 #     Directory name
 #     Options to be passed to du.py
@@ -30,7 +29,7 @@ calc_size() {
     block_size="$(grep "blocksize" /etc/mke2fs.conf | head -n1 | cut -d'=' -f2 | xargs)"
 
     # shellcheck disable=SC2086
-    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/du.py --block-size="${block_size}" ${opts} "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
+    du.py --block-size="${block_size}" ${opts} "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
 # Checks if the required directories exist.

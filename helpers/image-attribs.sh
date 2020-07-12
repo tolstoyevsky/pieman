@@ -17,8 +17,6 @@
 # exit code is different from 0, interrupt the execution of the script and
 # exit.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
 #     YML_FILE
 # Arguments:
 #     Image attribute
@@ -27,7 +25,7 @@
 get_attr() {
     local output=""
 
-    if ! output=$("${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2>&1); then
+    if ! output=$(image_attrs.py --file="${YML_FILE}" "$@" 2>&1); then
         fatal "while getting the specified attribute from ${YML_FILE}" \
               "occurred the following error: ${output}."
         do_exit
@@ -39,13 +37,11 @@ get_attr() {
 # Gets the values the specified image attribute using image_attrs.py.
 # If image_attrs.py could not succeed, the function does nothing.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
 #     YML_FILE
 # Arguments:
 #     Image attribute
 # Returns:
 #     Image attribute value
 get_attr_or_nothing() {
-    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
+    image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
 }

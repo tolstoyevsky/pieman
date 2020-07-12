@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,8 +15,6 @@
 
 # Checks if the specified WPA passphrase is valid.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
 #     WPA_PSK
 # Arguments:
 #     Name of the environment variable, containing the WPA passphrase
@@ -25,7 +23,7 @@
 check_if_wpa_psk_is_valid() {
     local error_msg="WPA_PSK is not valid: "
 
-    { "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_wpa_passphrase.py "${WPA_PSK}"; exit_code="$?"; } || true
+    { check_wpa_passphrase.py "${WPA_PSK}"; exit_code="$?"; } || true
     case "${exit_code}" in
     0)
         ;;

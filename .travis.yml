@@ -3,10 +3,6 @@ language: python
 python:
   - 3.6
 
-env:
-  # for test_functions.sh
-  - PIEMAN_UTILS_DIR=$TRAVIS_BUILD_DIR/pieman/bin PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/pieman
-
 addons:
   apt:
     sources:
@@ -16,6 +12,7 @@ install:
   - sudo apt-get install -y --allow-unauthenticated bash shellcheck shunit2
   - pip install -r pieman/requirements.txt
   - pip install pylint
+  - bash -c 'cd pieman && python setup.py install'
 
 script:
   # Disable duplicate-code since there are some problems related to it. One of
