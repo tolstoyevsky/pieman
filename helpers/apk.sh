@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,8 +16,7 @@
 # Gets the Alpine Package Keeper (APK) version for the specified version of
 # Alpine Linux.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
+#     None
 # Arguments:
 #     Version of Alpine Linux
 # Returns:
@@ -25,7 +24,7 @@
 get_apk_tools_version() {
     local alpine_version=$1
 
-    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/apk_tools_version.py --alpine-version="${alpine_version}"
+    apk_tools_version.py --alpine-version="${alpine_version}"
 }
 
 # Runs apk.static to build a chroot environment.

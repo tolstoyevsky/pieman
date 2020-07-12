@@ -1,5 +1,5 @@
 # Copyright (C) 2019 Denis Gavrilyuk <karpa4o4@gmail.com>
-# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,14 +27,13 @@ do_mkpasswd() {
 
 # Downloads files from the Web non-interactively.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
+#     None
 # Arguments:
 #     wget options (only -O and -q are supported)
 #     URL
 # Returns:
 #     None
 do_wget() {
-    "${PYTHON}" "${PIEMAN_UTILS_DIR}"/wget.py "$@"
+    wget.py "$@"
 }
 

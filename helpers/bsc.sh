@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
 # Pieman parameters.
 # Globals:
 #     ENABLE_BSC_CHANNEL
-#     PIEMAN_UTILS_DIR
-#     PYTHON
 #     REDIS_HOST
 #     REDIS_IS_AVAILABLE
 #     REDIS_PORT
@@ -31,7 +29,7 @@ check_redis() {
         info "checking if it is possible to connect to the Redis server" \
              "${REDIS_HOST}:${REDIS_PORT}"
 
-        if ! "${PYTHON}" "${PIEMAN_UTILS_DIR}"/check_redis.py -H "${REDIS_HOST}" -P "${REDIS_PORT}"; then
+        if ! check_redis.py -H "${REDIS_HOST}" -P "${REDIS_PORT}"; then
             fatal "could not connect to Redis"
 
             REDIS_IS_AVAILABLE=false
@@ -47,9 +45,7 @@ check_redis() {
 # Sends a request to Build Status Codes server.
 # Globals:
 #     ENABLE_BSC_CHANNEL
-#     PIEMAN_UTILS_DIR
 #     PROJECT_NAME
-#     PYTHON
 #     REDIS_IS_AVAILABLE
 # Arguments:
 #     None
@@ -60,18 +56,14 @@ send_request_to_bsc_server() {
         local request=$1
         local unix_socket_path="/var/run/bscd-${PROJECT_NAME}.sock"
 
-        "${PYTHON}" "${PIEMAN_UTILS_DIR}"/bsc.py \
-            --unix-socket-name "${unix_socket_path}" \
-            "${!request}" > /dev/null 2>&1
+        bsc.py --unix-socket-name "${unix_socket_path}" "${!request}" > /dev/null 2>&1
     fi
 }
 
 # Starts the Build Status Codes server.
 # Globals:
 #     ENABLE_BSC_CHANNEL
-#     PIEMAN_UTILS_DIR
 #     PROJECT_NAME
-#     PYTHON
 #     REDIS_HOST
 #     REDIS_IS_AVAILABLE
 #     REDIS_PORT
@@ -87,7 +79,7 @@ start_bscd() {
         local unix_socket_path="/var/run/bscd-${PROJECT_NAME}.sock"
 
         info "starting the Build Status Codes server"
-        "${PYTHON}" "${PIEMAN_UTILS_DIR}"/bscd.py \
+        bscd.py \
             --channel-name "bscd-${PROJECT_NAME}" \
             --daemonize \
             --log-file-prefix "${log_file}" \

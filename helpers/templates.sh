@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
 
 # Renders Jinja2 templates.
 # Globals:
-#     PIEMAN_UTILS_DIR
-#     PYTHON
+#     None
 # Arguments:
 #     Template to be rendered
 #     Result path
@@ -27,7 +26,7 @@ render() {
     local template_path=$1
     local result_path=$2
 
-    { "${PYTHON}" "${PIEMAN_UTILS_DIR}"/render.py "${template_path}" "${result_path}"; exit_code="$?"; } || true
+    { render.py "${template_path}" "${result_path}"; exit_code="$?"; } || true
     case "${exit_code}" in
     0)
         ;;

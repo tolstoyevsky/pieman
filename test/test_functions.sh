@@ -37,8 +37,6 @@ setUp() {
 
     PIEMAN_DIR="."
 
-    PIEMAN_UTILS_DIR="${PIEMAN_UTILS_DIR:=/usr/local/bin}"
-
     PM_OPTIONS=""
 
     PROJECT_NAME="mock_project"
