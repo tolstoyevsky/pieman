@@ -223,16 +223,14 @@ To run the tests for the package, create a virtual environment, activate it and 
 ```
 $ virtualenv -p python3 pieman-env
 $ source ./pieman-env/bin/activate
-$ pip install -r pieman/pieman/requirements.txt
+$ pip install pieman
 ```
 
 Then run the tests from the Pieman source code directory in the following way:
 
 ```
-$ env PYTHONPATH=$(pwd)/pieman python ./pieman/test/runtest.py
+$ python ./pieman/test/runtest.py
 ```
-
-Editing the `PYTHONPATH` environment variable is necessary to run the tests, using the latest version of the package.
 
 To run the tests for the Pieman script, you will need both the above-mentioned virtual environment (because the Pieman script tests depends on the package tests) and [shUnit2](https://github.com/kward/shunit2). Install shUnit2 executing `sudo apt-get install shunit2` on Debian/Ubuntu or `sudo dnf install shunit2` on Fedora. Then, go to the `test` directory and run the tests in the following way:
 
