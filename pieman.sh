@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2020 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,11 @@ if [ "$(id -u)" -ne "0" ]; then
     exit 1
 fi
 
-. ./essentials.sh
+PIEMAN_DIR=${PIEMAN_DIR:=$( dirname "$(readlink -f "$0")" )}
+export PIEMAN_DIR
+
+# shellcheck source=./essentials.sh
+. "${PIEMAN_DIR}"/essentials.sh
 
 set -eE
 
@@ -102,8 +106,6 @@ def_var OS "raspbian-buster-armhf"
 
 def_protected_var PASSWORD "secret"
 
-def_var PIEMAN_DIR "$(pwd)"
-
 def_bool_var PREPARE_ONLY_TOOLSET false
 
 def_var PYTHON "python3"
@@ -166,7 +168,7 @@ def_private_var REDIS_IS_AVAILABLE true
 
 def_private_var TOOLSET_FULL_PATH "${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-def_private_var SOURCE_DIR "devices/${DEVICE}/${OS}"
+def_private_var SOURCE_DIR "${PIEMAN_DIR}/devices/${DEVICE}/${OS}"
 
 def_private_var YML_FILE "${SOURCE_DIR}/pieman.yml"
 
@@ -174,11 +176,13 @@ activate_venv_if_exists
 
 check_dependencies
 
-run_scripts "helpers"
+run_scripts "${PIEMAN_DIR}/helpers"
 
-. ./mutually_exclusive_params.sh
+# shellcheck source=./mutually_exclusive_params.sh
+. "${PIEMAN_DIR}"/mutually_exclusive_params.sh
 
-. ./depend_on.sh
+# shellcheck source=./depend_on.sh
+. "${PIEMAN_DIR}"/depend_on.sh
 
 if [[ -n ${WPA_PSK} ]]; then
     check_if_wpa_psk_is_valid
@@ -214,7 +218,8 @@ info "checking toolset ${TOOLSET_CODENAME}"
 if [ ! -d "${TOOLSET_FULL_PATH}" ]; then
     info "building toolset ${TOOLSET_CODENAME} since it does not exist"
 fi
-. toolset.sh
+# shellcheck source=./toolset.sh
+. "${PIEMAN_DIR}"/toolset.sh
 
 # shellcheck source=./pieman/pieman/build_status_codes
 . "${PIEMAN_DIR}"/pieman/pieman/build_status_codes
@@ -260,7 +265,7 @@ for param in ${params}; do
     eval ${param}=true
 done
 
-run_scripts "bootstrap"
+run_scripts "${PIEMAN_DIR}/bootstrap"
 
 umount_required_filesystems
 

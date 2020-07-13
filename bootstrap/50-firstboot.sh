@@ -25,7 +25,7 @@ info "Preparing ${FIRSTBOOT}"
 touch "${FIRSTBOOT}"
 chmod +x "${FIRSTBOOT}"
 
-for script in files/firstboot/*.sh; do
+for script in "${PIEMAN_DIR}"/files/firstboot/*.sh; do
     cat "${script}" >> "${FIRSTBOOT}"
 done
 

@@ -14,9 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 if ${XFCE4}; then 
-    install_exec files/desktop/06xfce4.desktop "${R}"/usr/share/xsessions/06xfce4.desktop
+    install_exec "${PIEMAN_DIR}"/files/desktop/06xfce4.desktop "${R}"/usr/share/xsessions/06xfce4.desktop
 fi
 
 if ${XFCE4}; then
-    install_exec files/desktop/lxdm.conf "${R}"/etc/lxdm.conf
+    install_exec "${PIEMAN_DIR}"/files/desktop/lxdm.conf "${R}"/etc/lxdm.conf
 fi
