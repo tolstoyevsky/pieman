@@ -199,8 +199,6 @@ check_ownership_format
 
 check_redis # relevant only if ENABLE_BSC_CHANNEL is set to true
 
-check_required_directories
-
 check_required_files
 
 split_os_name_into_pieces

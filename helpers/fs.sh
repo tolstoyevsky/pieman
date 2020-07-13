@@ -33,24 +33,6 @@ calc_size() {
     "${PYTHON}" "${PIEMAN_UTILS_DIR}"/du.py --block-size="${block_size}" ${opts} "${dir}" | grep "Total size" | cut -d':' -f2 | xargs
 }
 
-# Checks if the required directories exist.
-# Globals:
-#     None
-# Arguments:
-#     None
-# Returns:
-#     None
-check_required_directories() {
-    dirs="bootstrap devices"
-
-    for dir in ${dirs}; do
-        if [ ! -d "${dir}" ] ; then
-            fatal "${dir} required directory not found!"
-            do_exit
-        fi
-    done
-}
-
 # Checks if the required files exist.
 # Globals:
 #     YML_FILE
