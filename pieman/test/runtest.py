@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
