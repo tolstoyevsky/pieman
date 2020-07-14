@@ -192,11 +192,20 @@ $ git clone https://github.com/tolstoyevsky/pieman.git
 
 Then, install the Pieman [mandatory dependencies](#mandatary).
 
-Finally, install the required utilities and modules written in Python.
+Finally, install the required utilities and modules written in Python either globally
 
 ```
 $ sudo pip3 install pieman
 ```
+
+or to the virtual environment (recommended)
+
+```
+$ virtualenv -ppython3 venv
+$ ./venv/bin/pip3 install pieman
+```
+
+Note that the virtual environment must be called `venv` and located at the root of the Pieman source tree.
 
 ##### Usage
 

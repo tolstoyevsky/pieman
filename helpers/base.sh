@@ -13,6 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Activates the venv virtual environment if it exists.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     None
+activate_venv_if_exists() {
+    if [[ -d venv ]] && [[ -f venv/bin/python ]]; then
+        info "activating the venv virtual environment"
+        # shellcheck disable=SC1091
+        source ./venv/bin/activate
+    fi
+}
+
 # Adds the specified item to a list. The variable name, which represents the
 # list, and delimiter must be passed as the second and third parameters to the
 # function respectively.
@@ -71,10 +86,7 @@ check_dependencies() {
     fi
 
     if ! check_pieman_version; then
-        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or " \
-              "higher is required." \
-              "Execute 'sudo pip3 install pieman --upgrade' " \
-              "to upgrade the package."
+        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or higher is required. Check the documentation on how to install or upgrade it."
         exit 1
     fi
 
