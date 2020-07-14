@@ -8,5 +8,6 @@ debootstrap
 dist
 pieman.egg-info
 toolset
+venv
 __pycache__
 

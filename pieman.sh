@@ -191,6 +191,8 @@ if ${ENABLE_WIRELESS}; then
     fi
 fi
 
+activate_venv_if_exists
+
 check_dependencies
 
 check_ownership_format
