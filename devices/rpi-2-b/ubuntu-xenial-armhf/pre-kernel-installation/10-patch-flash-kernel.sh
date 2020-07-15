@@ -11,7 +11,7 @@ check_if_variable_is_set R SOURCE_DIR
 #    Press Ctrl-C to abort build, or Enter to continue
 #
 # 2) flash-kernel can't check the platform the system is running on because
-#    flash kernel doesn't not provide for running in a chroot environment.
+#    flash kernel doesn't provide for running in a chroot environment.
 #
 # To workaround it, install flash-kernel and patch it.
 
