@@ -17,12 +17,12 @@ check_if_variable_is_set R SOURCE_DIR
 
 install_packages flash-kernel patch
 
-cp ${SOURCE_DIR}/fix-kernel-installation-in-chroot.patch ${R}
+cp "${SOURCE_DIR}"/fix-kernel-installation-in-chroot.patch "${R}"
 
 chroot_exec_sh "patch -p0 < fix-kernel-installation-in-chroot.patch"
 
 # Clean up
 
-rm ${R}/fix-kernel-installation-in-chroot.patch
+rm "${R}"/fix-kernel-installation-in-chroot.patch
 
 purge_packages patch
