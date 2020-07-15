@@ -26,5 +26,6 @@ script:
   - bash -c 'shellcheck -x pieman.sh'
   - bash -c 'shellcheck -e SC2148 helpers/*.sh'
   - bash -c 'shellcheck -e SC2148,SC2153 bootstrap/*.sh'
+  - bash -c 'find devices/ -name "*.sh" | xargs shellcheck -e SC2148'
   - python pieman/test/runtest.py
 
