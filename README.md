@@ -490,7 +490,7 @@ Specifies the rootfs partition size in megabytes. Beware! Build will fail if roo
 
 #### Pieman-specific
 
-##### PYTHON="$(command -v python3)"
+##### PYTHON="python3"
 
 Specifies the Python 3 interpreter to be used when calling the Pieman-specific utilities.
 
