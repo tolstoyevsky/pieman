@@ -38,60 +38,6 @@ add_item_to_list() {
     fi
 }
 
-# Checks if all required dependencies are installed on the system.
-# Globals:
-#     COMPRESS_WITH_BZIP2
-#     PIEMAN_MAJOR_VER
-#     PIEMAN_MINOR_VER
-#     PYTHON
-# Arguments:
-#     None
-# Returns:
-#     None
-check_dependencies() {
-    if ! command -v dpkg > /dev/null; then
-        # Do not mention Debian or Ubuntu since dpkg is a part of
-        # the base system there.
-        fatal "there is no dpkg. Run dnf install dpkg on Fedora to fix it."
-        exit 1
-    fi
-
-    if ! command -v mkpasswd > /dev/null; then
-        fatal "there is no mkpasswd." \
-              "Run apt-get install whois on Debian/Ubuntu or" \
-              "dnf install expect on Fedora."
-        exit 1
-    fi
-
-    if ! command -v xz > /dev/null; then
-        fatal "there is no xz." \
-              "Run apt-get install xz-utils on Debian/Ubuntu or" \
-              "dnf install xz on Fedora."
-        exit 1
-    fi
-
-    if ! check_pieman_version; then
-        fatal "Pieman package ${PIEMAN_MAJOR_VER}.${PIEMAN_MINOR_VER} or higher is required. Check the documentation on how to install or upgrade it."
-        exit 1
-    fi
-
-    if ! check_python_version; then
-        fatal "Python ${PYTHON_MAJOR_VER}.${PYTHON_MINOR_VER} or "\
-              "higher is required." \
-              "$("${PYTHON}" -V) is used instead."
-        exit 1
-    fi
-
-    if ${COMPRESS_WITH_BZIP2}; then
-        if ! command -v bzip2 > /dev/null; then
-            fatal "there is no bzip2." \
-                  "Run apt-get install bzip2 on Debian/Ubuntu or" \
-                  "dnf install bzip2 on Fedora."
-            exit 1
-        fi
-    fi
-}
-
 # Checks if two or more mutually exclusive parameters are set true or does not
 # contain an empty string.
 # Globals:
@@ -129,53 +75,6 @@ check_ownership_format() {
     if [ "${#ownership[@]}" -ne "2" ] || ! [[ "${ownership[0]}" =~ ${re} ]] || ! [[ "${ownership[1]}" =~ ${re} ]]; then
         fatal "IMAGE_OWNERSHIP must follow the format: \"uid:gid\"."
         exit 1
-    fi
-}
-
-# Checks if the Pieman package version is equal or greater than required.
-# Globals:
-#     PIEMAN_MAJOR_VER
-#     PIEMAN_MINOR_VER
-#     PYTHON
-# Arguments:
-#     None
-# Returns:
-#     Boolean
-check_pieman_version() {
-    local pieman_version=(0 0)
-    local output=""
-
-    # Pieman package 0.1 doesn't have the __version__ module attribute, so we
-    # have to provide for backwards compatibility.
-    if output=$("${PYTHON}" -c "import pieman; print(pieman.__version__)" 2>&1); then
-        IFS='.' read -ra pieman_version <<< "${output}"
-    fi
-
-    if (("${pieman_version[0]}" >= "${PIEMAN_MAJOR_VER}")) && (("${pieman_version[1]}" >= "${PIEMAN_MINOR_VER}")); then
-        true
-    else
-        false
-    fi
-}
-
-# Checks if the current Python version is equal or greater than required.
-# Globals:
-#     PYTHON_MAJOR_VER
-#     PYTHON_MINOR_VER
-#     PYTHON
-# Arguments:
-#     None
-# Returns:
-#     Boolean
-check_python_version() {
-    local current_python_version=()
-
-    IFS='.' read -ra current_python_version <<< "$("${PYTHON}" -V | cut -d' ' -f2)"
-
-    if (("${current_python_version[0]}" >= "${PYTHON_MAJOR_VER}")) && (("${current_python_version[1]}" >= "${PYTHON_MINOR_VER}")); then
-        true
-    else
-        false
     fi
 }
 
