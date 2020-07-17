@@ -170,11 +170,11 @@ def_private_var SOURCE_DIR "devices/${DEVICE}/${OS}"
 
 def_private_var YML_FILE "${SOURCE_DIR}/pieman.yml"
 
-run_scripts "helpers"
-
 activate_venv_if_exists
 
 check_dependencies
+
+run_scripts "helpers"
 
 . ./mutually_exclusive_params.sh
 
