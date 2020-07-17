@@ -172,6 +172,10 @@ def_private_var YML_FILE "${SOURCE_DIR}/pieman.yml"
 
 run_scripts "helpers"
 
+activate_venv_if_exists
+
+check_dependencies
+
 . ./mutually_exclusive_params.sh
 
 . ./depend_on.sh
@@ -190,10 +194,6 @@ if ${ENABLE_WIRELESS}; then
         fi
     fi
 fi
-
-activate_venv_if_exists
-
-check_dependencies
 
 check_ownership_format
 
