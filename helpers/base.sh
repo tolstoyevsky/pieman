@@ -13,21 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Activates the venv virtual environment if it exists.
-# Globals:
-#     None
-# Arguments:
-#     None
-# Returns:
-#     None
-activate_venv_if_exists() {
-    if [[ -d venv ]] && [[ -f venv/bin/python ]]; then
-        info "activating the venv virtual environment"
-        # shellcheck disable=SC1091
-        source ./venv/bin/activate
-    fi
-}
-
 # Adds the specified item to a list. The variable name, which represents the
 # list, and delimiter must be passed as the second and third parameters to the
 # function respectively.

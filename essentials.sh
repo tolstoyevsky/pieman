@@ -57,6 +57,21 @@ IMAGE_WITH_MENDER_CLIENT=2
 
 IMAGE_MENDER_ARTIFACT=3
 
+# Activates the venv virtual environment if it exists.
+# Globals:
+#     None
+# Arguments:
+#     None
+# Returns:
+#     None
+activate_venv_if_exists() {
+    if [[ -d venv ]] && [[ -f venv/bin/python ]]; then
+        info "activating the venv virtual environment"
+        # shellcheck disable=SC1091
+        source ./venv/bin/activate
+    fi
+}
+
 # Checks if the specified variable is set.
 # Globals:
 #     None
