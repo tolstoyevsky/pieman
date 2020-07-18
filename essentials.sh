@@ -151,6 +151,9 @@ check_pieman_version() {
     # have to provide for backwards compatibility.
     if output=$("${PYTHON}" -c "import pieman; print(pieman.__version__)" 2>&1); then
         IFS='.' read -ra pieman_version <<< "${output}"
+    else
+        fatal "${output}"
+        exit 1
     fi
 
     if (("${pieman_version[0]}" >= "${PIEMAN_MAJOR_VER}")) && (("${pieman_version[1]}" >= "${PIEMAN_MINOR_VER}")); then
