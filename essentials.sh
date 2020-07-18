@@ -151,6 +151,20 @@ check_pieman_version() {
     # have to provide for backwards compatibility.
     if output=$("${PYTHON}" -c "import pieman; print(pieman.__version__)" 2>&1); then
         IFS='.' read -ra pieman_version <<< "${output}"
+    else
+        case "${output}" in
+        # When the script is run from the root of the source directory, it
+        # considers the pieman directory as a package. In turn, if the pieman
+        # package is not installed either globally or to a virtual environment,
+        # AttributeError will be raised.
+        *"AttributeError:"*)
+            ;;
+        *"ModuleNotFoundError:"*)
+            ;;
+        *)
+            fatal "${output}"
+            exit 1
+        esac
     fi
 
     if (("${pieman_version[0]}" >= "${PIEMAN_MAJOR_VER}")) && (("${pieman_version[1]}" >= "${PIEMAN_MINOR_VER}")); then
