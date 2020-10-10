@@ -1,0 +1,8 @@
+meta:
+  name: Alpine
+  codename:
+  version: 3.12
+  port: armhf
+  packages_url: "https://pkgs.alpinelinux.org/package/v3.12/"
+  build_types:
+  - classic

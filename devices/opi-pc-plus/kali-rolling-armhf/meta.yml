@@ -1,0 +1,8 @@
+meta:
+  name: "Kali Rolling"
+  codename:
+  version:
+  port: armhf
+  packages_url:
+  build_types:
+  - classic
