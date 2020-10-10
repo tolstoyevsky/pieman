@@ -1,0 +1,8 @@
+meta:
+  name: Raspbian
+  codename: Buster
+  version: 10
+  port: armhf
+  packages_url:
+  build_types:
+  - classic

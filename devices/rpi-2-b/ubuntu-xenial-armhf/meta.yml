@@ -1,0 +1,8 @@
+meta:
+  name: Ubuntu
+  codename: Xenial
+  version: 16.04
+  port: armhf
+  packages_url: "https://packages.ubuntu.com/xenial/"
+  build_types:
+  - classic

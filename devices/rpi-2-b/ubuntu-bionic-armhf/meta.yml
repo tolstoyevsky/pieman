@@ -1,0 +1,8 @@
+meta:
+  name: Ubuntu
+  codename: Bionic
+  version: 18.04
+  port: armhf
+  packages_url: "https://packages.ubuntu.com/bionic/"
+  build_types:
+  - classic

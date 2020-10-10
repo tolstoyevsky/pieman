@@ -1,0 +1,8 @@
+meta:
+  name: Debian
+  codename: Buster
+  version: 10
+  port: armhf
+  packages_url: "https://packages.debian.org/buster/"
+  build_types:
+  - classic
