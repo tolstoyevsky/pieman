@@ -63,40 +63,41 @@ class CustomHTMLParser(HTMLParser):  # pylint: disable=abstract-method
 
 
 def run(**kwargs):
-    arch = kwargs['arch']
-    version = kwargs['version']
-    dst = os.path.join(os.environ['TOOLSET_FULL_PATH'], kwargs['dst'])
-
-    util.mkdir(os.path.dirname(dst))
-
-    address = urljoin(MIRROR, os.path.join('alpine', 'v' + version, 'main', arch))
-
-    content = b''
-    for attempt in range(1, RETRIES_NUMBER + 1):
-        try:
-            content = urlopen(address).read()
-            break
-        except HTTPError as exc:
-            util.fatal('{}: request failed '
-                       '(error code {})'.format(sys.argv[0], exc.code))
-        except URLError as exc:
-            util.fatal('{}: {}'.format(sys.argv[0], exc.reason))
-
-        if attempt != RETRIES_NUMBER:
-            util.info('{}: retrying in 1 second...'.format(sys.argv[0]))
-            time.sleep(1)
-
-    if content == b'' and attempt == RETRIES_NUMBER:
-        util.fatal('{}: could not request {} after {} '
-                   'attempts'.format(sys.argv[0], address, RETRIES_NUMBER))
-        sys.exit(1)
-
-    parser = CustomHTMLParser(content.decode('utf8'))
-    apk_tools_version = parser.get_apk_tools_version()
-    if not apk_tools_version:
-        util.fatal('{}: could not get apk tools version'.format(sys.argv[0]))
-        sys.exit(1)
-
-    download_link = urljoin(address + '/', 'apk-tools-static-{}.apk'.format(apk_tools_version))
-    util.info('Downloading {}'.format(download_link))
-    util.download(download_link, dst)
+    pass
+    # arch = kwargs['arch']
+    # version = kwargs['version']
+    # dst = os.path.join(os.environ['TOOLSET_FULL_PATH'], kwargs['dst'])
+    #
+    # util.mkdir(os.path.dirname(dst))
+    #
+    # address = urljoin(MIRROR, os.path.join('alpine', 'v' + version, 'main', arch))
+    #
+    # content = b''
+    # for attempt in range(1, RETRIES_NUMBER + 1):
+    #     try:
+    #         content = urlopen(address).read()
+    #         break
+    #     except HTTPError as exc:
+    #         util.fatal('{}: request failed '
+    #                    '(error code {})'.format(sys.argv[0], exc.code))
+    #     except URLError as exc:
+    #         util.fatal('{}: {}'.format(sys.argv[0], exc.reason))
+    #
+    #     if attempt != RETRIES_NUMBER:
+    #         util.info('{}: retrying in 1 second...'.format(sys.argv[0]))
+    #         time.sleep(1)
+    #
+    # if content == b'' and attempt == RETRIES_NUMBER:
+    #     util.fatal('{}: could not request {} after {} '
+    #                'attempts'.format(sys.argv[0], address, RETRIES_NUMBER))
+    #     sys.exit(1)
+    #
+    # parser = CustomHTMLParser(content.decode('utf8'))
+    # apk_tools_version = parser.get_apk_tools_version()
+    # if not apk_tools_version:
+    #     util.fatal('{}: could not get apk tools version'.format(sys.argv[0]))
+    #     sys.exit(1)
+    #
+    # download_link = urljoin(address + '/', 'apk-tools-static-{}.apk'.format(apk_tools_version))
+    # util.info('Downloading {}'.format(download_link))
+    # util.download(download_link, dst)

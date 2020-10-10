@@ -21,7 +21,7 @@ import sys
 from curses import tparm, tigetstr, setupterm
 from urllib.request import urlretrieve
 
-import redis
+#import redis
 
 
 setupterm()
@@ -116,3 +116,14 @@ def mkdir(dir_name):
 
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
+
+
+def run_program(args):
+    """Runs the executable file (which is searched for along $PATH) with argument list args. """
+
+    pid = os.fork()
+    if pid == 0:  # child
+        os.execvp(args[0], args)
+    else:  # parent
+        _, status = os.wait()
+        return status >> 8

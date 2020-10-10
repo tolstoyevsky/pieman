@@ -15,10 +15,16 @@
 
 """Toolset module intended for fetching qemu-user-static the Ubuntu archive. """
 
+from pieman import util
+
+
 FLAVOURS_ENABLED = True
 
 REQUIRED_FIELDS = ('arch', 'codename', 'dst', )
 
+UBUNTU_CODENAME = 'focal'
+
 
 def run(*args, **kwargs):
-    pass
+    exit_code = util.run_program(['get-qemu-user-static.sh', UBUNTU_CODENAME])
+    print(f'----- {exit_code}')

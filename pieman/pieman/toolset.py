@@ -148,8 +148,7 @@ class ToolsetProcessor:
                 required_fields = set(module['imported'].REQUIRED_FIELDS)
                 missing_fields = required_fields - got_fields
                 if missing_fields:
-                    raise MissingRequiredFields(
-                        module_name, flavour_name, missing_fields)
+                    raise MissingRequiredFields(module_name, flavour_name, missing_fields)
 
     def __iter__(self):
         return iter(self._modules.items())
