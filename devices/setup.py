@@ -95,7 +95,7 @@ def main():
 
     mkdir(PIEMAN_DEVICES_PATH)
 
-    touch(INIT_PATH)
+    copy(get_abs_path(f'{BASE_DIR}/__init__.py'), INIT_PATH)
 
     for dev_name in os.listdir(BASE_DIR):
         path_to_dev = get_abs_path(dev_name)
