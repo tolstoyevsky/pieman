@@ -1,0 +1,2 @@
+PyYAML==5.1
+pypandoc  # only for converting README.md
