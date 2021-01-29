@@ -29,7 +29,7 @@ except (ImportError, OSError):
     # OSError is raised when pandoc is not installed.
     LONG_DESCRIPTION = ('')
 
-DATA_FILES = []
+DATA_FILES = [('', ['requirements.txt'])]
 
 PACKAGE_NAME = 'pieman_devices'
 
@@ -38,6 +38,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PIEMAN_DEVICES_PATH = os.path.join(BASE_DIR, PACKAGE_NAME)
 
 INIT_PATH = os.path.join(PIEMAN_DEVICES_PATH, '__init__.py')
+
+with open('requirements.txt') as outfile:
+    REQUIREMENTS_LIST = outfile.read().splitlines()
 
 
 def copy(src, dst):
@@ -147,7 +150,8 @@ def main():
           license='https://gnu.org/licenses/gpl-3.0.txt',
           packages=[PACKAGE_NAME],
           include_package_data=True,
-          data_files=DATA_FILES)
+          data_files=DATA_FILES,
+          install_requires=REQUIREMENTS_LIST)
 
 
 if __name__ == '__main__':
