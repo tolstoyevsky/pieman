@@ -28,7 +28,7 @@ class AttrsTestCase(unittest.TestCase):
     """Tests related to the attrs.py module. """
 
     def __init__(self, *args, **kwargs):
-        super(AttrsTestCase, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         current_mod = sys.modules[__name__]
         test_path = dirname(abspath(current_mod.__file__))
