@@ -2,6 +2,8 @@ FROM alpine:3.10
 
 ENV BRANCH master
 
+ENV PATH "/root/pieman/pieman/bin:${PATH}"
+
 ENV PYTHONPATH "/root/pieman/pieman"
 
 ENV TERM linux
