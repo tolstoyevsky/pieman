@@ -143,7 +143,7 @@ def main():
           version='0.1',
           description='Pieman devices package',
           long_description=LONG_DESCRIPTION,
-          url='https://github.com/tolstoyevsky/pieman',
+          url='https://github.com/tolstoyevsky/pieman/tree/master/devices',
           author='Evgeny Golyshev',
           maintainer='Evgeny Golyshev',
           maintainer_email='eugulixes@gmail.com',
