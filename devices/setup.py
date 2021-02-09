@@ -20,6 +20,7 @@ import shutil
 import sys
 from pathlib import Path
 
+import setuptools.command.sdist
 from setuptools import setup
 
 try:
@@ -33,111 +34,123 @@ DATA_FILES = [('', ['requirements.txt'])]
 
 PACKAGE_NAME = 'pieman_devices'
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-PIEMAN_DEVICES_PATH = os.path.join(BASE_DIR, PACKAGE_NAME)
-
-INIT_PATH = os.path.join(PIEMAN_DEVICES_PATH, '__init__.py')
 
 with open('requirements.txt') as outfile:
     REQUIREMENTS_LIST = outfile.read().splitlines()
 
 
-def copy(src, dst):
-    """Copies the specified files handling FileNotFoundError and IsADirectoryError. """
+class SdistPyCommand(setuptools.command.sdist.sdist):
+    """Custom sdist command. """
 
-    try:
-        shutil.copy(src, dst)
-    except FileNotFoundError:
-        fail(f'{src} does not exist')
-    except IsADirectoryError:
-        fail(f'{src} cannot be a directory')
+    def __init__(self, dist):
+        self._base_dir = os.path.dirname(os.path.abspath(__file__))
+        self._pieman_devices_path = os.path.join(self._base_dir, PACKAGE_NAME)
+        self._init_path = os.path.join(self._pieman_devices_path, '__init__.py')
 
+        super().__init__(dist)
 
-def expand_data_files(item):
-    """Shortcut for adding the YML files to the pieman_devices package. """
+    @staticmethod
+    def _copy(src, dst):
+        """Copies the specified files handling FileNotFoundError and IsADirectoryError. """
 
-    DATA_FILES.append((os.path.dirname(item), [item]))
+        try:
+            shutil.copy(src, dst)
+        except FileNotFoundError:
+            SdistPyCommand._fail(f'{src} does not exist')
+        except IsADirectoryError:
+            SdistPyCommand._fail(f'{src} cannot be a directory')
 
+    @staticmethod
+    def _expand_data_files(item):
+        """Shortcut for adding the YML files to the pieman_devices package. """
 
-def fail(message):
-    """Prints the specified message to stderr and exits. """
+        DATA_FILES.append((os.path.dirname(item), [item]))
 
-    sys.stderr.write(f'Error: {message}\n')
-    sys.exit(1)
+    @staticmethod
+    def _fail(message):
+        """Prints the specified message to stderr and exits. """
 
+        sys.stderr.write(f'Error: {message}\n')
+        sys.exit(1)
 
-def get_abs_path(rel_path):
-    """Returns the full path which is the result of concatenation of BASE_DIR and the specified
-    relative path.
-    """
+    def _get_abs_path(self, rel_path):
+        """Returns the full path which is the result of concatenation of self._base_dir and
+        the specified relative path.
+        """
 
-    return os.path.join(BASE_DIR, rel_path)
+        return os.path.join(self._base_dir, rel_path)
 
+    @staticmethod
+    def _mkdir(dir_name):
+        """Creates a directory with the specified name with no error if existing. """
 
-def mkdir(dir_name):
-    """Creates a directory with the specified name with no error if existing. """
+        try:
+            Path(dir_name).mkdir()
+        except FileExistsError:
+            pass
 
-    try:
-        Path(dir_name).mkdir()
-    except FileExistsError:
-        pass
+    @staticmethod
+    def _touch(file_name):
+        """Creates an empty file with the specified name with no error if existing. """
 
+        try:
+            Path(file_name).touch()
+        except FileExistsError:
+            pass
 
-def touch(file_name):
-    """Creates an empty file with the specified name with no error if existing. """
+    def run(self):
+        SdistPyCommand._mkdir(self._pieman_devices_path)
 
-    try:
-        Path(file_name).touch()
-    except FileExistsError:
-        pass
+        SdistPyCommand._copy(self._get_abs_path(f'{self._base_dir}/__init__.py'), self._init_path)
+
+        for dev_name in os.listdir(self._base_dir):
+            path_to_dev = self._get_abs_path(dev_name)
+            if not Path(path_to_dev).is_dir():
+                continue  # skip setup.py and other regular files
+
+            if dev_name in ['build', 'dist', f'{PACKAGE_NAME}.egg-info', PACKAGE_NAME]:
+                # skip the dirs produced as a result of 'setup.py sdist' or 'setup.py build'
+                continue
+
+            SdistPyCommand._mkdir(self._get_abs_path(f'{PACKAGE_NAME}/{dev_name}'))
+
+            SdistPyCommand._copy(
+                self._get_abs_path(f'{dev_name}/meta.yml'),
+                self._get_abs_path(f'{PACKAGE_NAME}/{dev_name}/meta.yml'))
+
+            SdistPyCommand._expand_data_files(f'{PACKAGE_NAME}/{dev_name}/meta.yml')
+
+            for os_name in os.listdir(path_to_dev):
+                path_to_os = self._get_abs_path(f'{dev_name}/{os_name}')
+
+                if not Path(path_to_os).is_file():
+                    SdistPyCommand._mkdir(
+                        self._get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}'))
+
+                    dst_meta = self._get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}/meta.yml')
+                    if Path(path_to_os).is_symlink():
+                        src_meta = self._get_abs_path(f'{dev_name}/meta_{os_name}.yml')
+                        if not Path(src_meta).exists():
+                            src_meta = self._get_abs_path(f'{dev_name}/{os_name}/meta.yml')
+
+                        SdistPyCommand._copy(src_meta, dst_meta)
+                    elif Path(path_to_os).is_dir():
+                        src_meta = self._get_abs_path(f'{dev_name}/{os_name}/meta.yml')
+                        SdistPyCommand._copy(src_meta, dst_meta)
+
+                    SdistPyCommand._expand_data_files(
+                        f'{PACKAGE_NAME}/{dev_name}/{os_name}/meta.yml')
+                elif os_name.startswith('meta_'):
+                    dst_meta = self._get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}')
+                    SdistPyCommand._copy(path_to_os, dst_meta)
+                else:
+                    continue  # skip regular files on the second level too
+
+        setuptools.command.sdist.sdist.run(self)
 
 
 def main():
     """The main entry point. """
-
-    mkdir(PIEMAN_DEVICES_PATH)
-
-    copy(get_abs_path(f'{BASE_DIR}/__init__.py'), INIT_PATH)
-
-    for dev_name in os.listdir(BASE_DIR):
-        path_to_dev = get_abs_path(dev_name)
-        if not Path(path_to_dev).is_dir():
-            continue  # skip setup.py and other regular files
-
-        if dev_name in ['build', 'dist', f'{PACKAGE_NAME}.egg-info', PACKAGE_NAME]:
-            continue  # skip the dirs produced as a result of 'setup.py sdist' or 'setup.py build'
-
-        mkdir(get_abs_path(f'{PACKAGE_NAME}/{dev_name}'))
-
-        copy(get_abs_path(f'{dev_name}/meta.yml'),
-             get_abs_path(f'{PACKAGE_NAME}/{dev_name}/meta.yml'))
-
-        expand_data_files(f'{PACKAGE_NAME}/{dev_name}/meta.yml')
-
-        for os_name in os.listdir(path_to_dev):
-            path_to_os = get_abs_path(f'{dev_name}/{os_name}')
-
-            if not Path(path_to_os).is_file():
-                mkdir(get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}'))
-
-                dst_meta = get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}/meta.yml')
-                if Path(path_to_os).is_symlink():
-                    src_meta = get_abs_path(f'{dev_name}/meta_{os_name}.yml')
-                    if not Path(src_meta).exists():
-                        src_meta = get_abs_path(f'{dev_name}/{os_name}/meta.yml')
-
-                    copy(src_meta, dst_meta)
-                elif Path(path_to_os).is_dir():
-                    src_meta = get_abs_path(f'{dev_name}/{os_name}/meta.yml')
-                    copy(src_meta, dst_meta)
-
-                expand_data_files(f'{PACKAGE_NAME}/{dev_name}/{os_name}/meta.yml')
-            elif os_name.startswith('meta_'):
-                dst_meta = get_abs_path(f'{PACKAGE_NAME}/{dev_name}/{os_name}')
-                copy(path_to_os, dst_meta)
-            else:
-                continue  # skip regular files on the second level too
 
     setup(name=PACKAGE_NAME,
           version='0.1',
@@ -151,7 +164,8 @@ def main():
           packages=[PACKAGE_NAME],
           include_package_data=True,
           data_files=DATA_FILES,
-          install_requires=REQUIREMENTS_LIST)
+          install_requires=REQUIREMENTS_LIST,
+          cmdclass={'sdist': SdistPyCommand})
 
 
 if __name__ == '__main__':
