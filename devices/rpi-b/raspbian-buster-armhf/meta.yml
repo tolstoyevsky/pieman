@@ -3,6 +3,6 @@ meta:
   codename: Buster
   version: 10
   port: armhf
-  packages_url:
+  packages_url: "https://packages.debian.org/buster/"
   build_types:
   - classic
