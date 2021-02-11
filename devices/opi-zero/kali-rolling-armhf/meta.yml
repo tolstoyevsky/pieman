@@ -3,6 +3,6 @@ meta:
   codename:
   version:
   port: armhf
-  packages_url:
+  packages_url: "https://pkg.kali.org/pkg/"
   build_types:
   - classic
