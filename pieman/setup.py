@@ -17,7 +17,7 @@ with open('requirements.txt') as outfile:
 
 
 setup(name='pieman',
-      version='0.18.0',
+      version='0.19.0',
       description='Pieman package',
       long_description=LONG_DESCRIPTION,
       url='https://github.com/tolstoyevsky/pieman',
