@@ -24,6 +24,7 @@ TYPES_SCHEME = {
     'base': (list, str),
     'includes': (list, str),
     'boot': (list, str),
+    'spl_bin': (str, ),
     'params': (list, ),
     'kernel': {
         'package': (str, ),

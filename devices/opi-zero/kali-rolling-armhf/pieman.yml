@@ -8,6 +8,7 @@ kali-rolling-armhf:
   - /boot/initrd.img-*-armmp:initrd.img
   - /boot/vmlinuz-*-armmp:zImage
   - /usr/lib/linux-image-*-armmp/sun8i-h2-plus-orangepi-zero.dtb
+  spl_bin: ${TOOLSET_DIR}/${TOOLSET_CODENAME}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin
   base:
   - gnupg
   includes: systemd

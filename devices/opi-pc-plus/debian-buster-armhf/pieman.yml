@@ -7,6 +7,7 @@ debian-buster-armhf:
   - /boot/initrd.img-4.19.0-*-armmp:initrd.img
   - /boot/vmlinuz-4.19.0-*-armmp:zImage
   - /usr/lib/linux-image-4.19.0-*-armmp/sun8i-h3-orangepi-pc-plus.dtb
+  spl_bin: ${TOOLSET_DIR}/${TOOLSET_CODENAME}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin
   base:
   - gnupg
   includes: systemd
