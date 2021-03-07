@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ check_if_variable_is_set SOURCE_DIR
 
 # Get the files, which must present on the boot partition, from different
 # sources and put them in the directory specified via BOOT.
-boot="$(get_attr "${OS}" boot)"
+boot="$(get_attr boot)"
 for f in ${boot}; do
     if echo "${f}" | grep -Eq "^https://|^http://|^ftp://"; then
         info "downloading ${f} to ${BOOT}"

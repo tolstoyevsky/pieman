@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ elif is_ubuntu; then
 fi
 
 if is_alpine; then
-    primary_repo="$(get_attr "${OS}" repos | head -n1)"
+    primary_repo="$(get_attr repos | head -n1)"
     echo "${primary_repo}/v${PIECES[1]}/main" > "${ETC}"/apk/repositories
 
     if [[ -n ${additional_sections} ]]; then
@@ -86,7 +86,7 @@ elif is_debian_based; then
     echo "" > "${ETC}"/apt/sources.list
 
     # Form the content of /etc/apt/sources.list.
-    for source in $(get_attr "${OS}" repos); do
+    for source in $(get_attr repos); do
         codename=${PIECES[1]}
         echo "deb ${source} ${codename} main${additional_sections}" >> "${ETC}"/apt/sources.list
     done
@@ -129,7 +129,7 @@ done
 # Install the packages recommended by the maintainer of the image, specified by
 # the user and required by some parameters.
 
-includes="$(get_attr_or_nothing "${OS}" includes)"
+includes="$(get_attr_or_nothing includes)"
 if [[ -n ${includes} ]]; then
     for i in ${includes}; do
         add_package_to_includes "${i}"

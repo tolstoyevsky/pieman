@@ -1,4 +1,4 @@
-# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 # exit code is different from 0, interrupt the execution of the script and
 # exit.
 # Globals:
+#     OS
 #     YML_FILE
 # Arguments:
 #     Image attribute
@@ -25,7 +26,7 @@
 get_attr() {
     local output=""
 
-    if ! output=$(image_attrs.py --file="${YML_FILE}" "$@" 2>&1); then
+    if ! output=$(preprocessor.py "${YML_FILE}" "${OS}" | image_attrs.py "${OS}" "$@" 2>&1); then
         fatal "while getting the specified attribute from ${YML_FILE}" \
               "occurred the following error: ${output}."
         do_exit
@@ -37,11 +38,12 @@ get_attr() {
 # Gets the values the specified image attribute using image_attrs.py.
 # If image_attrs.py could not succeed, the function does nothing.
 # Globals:
+#     OS
 #     YML_FILE
 # Arguments:
 #     Image attribute
 # Returns:
 #     Image attribute value
 get_attr_or_nothing() {
-    image_attrs.py --file="${YML_FILE}" "$@" 2> /dev/null || /bin/true
+    preprocessor.py "${YML_FILE}" "${OS}" | image_attrs.py "${OS}" "$@" 2> /dev/null || /bin/true
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,11 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Utility intended to fetch the image attributes from the specified pieman.yml
-file.
-"""
+"""A utility that reads pieman.yml from stdin and fetches the specified attribute from it. """
 
-import os
 import sys
 from argparse import ArgumentParser
 
@@ -35,16 +32,10 @@ def fail(message):
 def main():
     """The main entry point. """
     parser = ArgumentParser()
-    parser.add_argument('-f', '--file', dest='file', default='pieman.yaml',
-                        help='path to a YAML file which describes the target '
-                             'image')
     parser.add_argument('root', nargs='*')
     args = parser.parse_args()
 
-    if not os.path.isfile(args.file):
-        fail('{} does not exist'.format(args.file))
-
-    attributes_list = attrs.AttributesList(args.file)
+    attributes_list = attrs.AttributesList(sys.stdin)
 
     try:
         attr = attributes_list.get_attribute(args.root)
