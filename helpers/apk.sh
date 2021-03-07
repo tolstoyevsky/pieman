@@ -1,4 +1,4 @@
-# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ get_apk_tools_version() {
 run_apk_static() {
     local primary_repo
 
-    primary_repo="$(get_attr "${OS}" repos | head -n1)"
+    primary_repo="$(get_attr repos | head -n1)"
 
     mkdir -p "${R}"/usr/bin
 

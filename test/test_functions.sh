@@ -256,11 +256,11 @@ test_getting_attr() {
 
     YML_FILE="${TEST_DIR}/assets/${OS}_pieman.yml"
 
-    output="$(get_attr "${OS}" kernel package)"
+    output="$(get_attr kernel package)"
     assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
     assertEquals "linux-image-raspi2" "${output}"
 
-    { output="$(get_attr "${OS}" some_attr 2>&1)"; exit_code="$?"; } || true
+    { output="$(get_attr some_attr 2>&1)"; exit_code="$?"; } || true
     assertTrue "[[ ${exit_code} -eq ${SHUNIT_FALSE} ]]"
 
     [[ "${output}" == *"${OS} does not have attribute some_attr."* ]]

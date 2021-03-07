@@ -254,7 +254,7 @@ if ${ENABLE_MENDER}; then
 fi
 
 # Set to true the parameters recommended by the maintainer of the image.
-params="$(get_attr_or_nothing "${OS}" params)"
+params="$(get_attr_or_nothing params)"
 for param in ${params}; do
     # shellcheck disable=SC2086
     eval ${param}=true

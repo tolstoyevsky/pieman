@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ if is_debian_based; then
     add_package_to_base_packages locales
 fi
 
-base_packages="$(get_attr_or_nothing "${OS}" base)"
+base_packages="$(get_attr_or_nothing base)"
 if [[ -n ${base_packages} ]]; then
     for package in ${base_packages}; do
         add_package_to_base_packages "${package}"

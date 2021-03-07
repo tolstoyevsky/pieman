@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2017-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@ for var in OS SOURCE_DIR; do
     check_if_variable_is_set ${var}
 done
 
-kernel_package="$(get_attr "${OS}" kernel package)"
+kernel_package="$(get_attr kernel package)"
 
 info "installing kernel package"
 

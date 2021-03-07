@@ -1,4 +1,4 @@
-# Copyright (C) 2018-2020 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -482,7 +482,7 @@ set_traps() {
 split_os_name_into_pieces() {
     # shellcheck disable=SC2034
     IFS='-' read -ra PIECES <<< "${OS}"
-    codename="$(get_attr_or_nothing "${OS}" codename)"
+    codename="$(get_attr_or_nothing codename)"
     if [ -n "${codename}" ]; then
         PIECES[1]="${codename}"
     fi

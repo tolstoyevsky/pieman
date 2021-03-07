@@ -34,7 +34,9 @@ class AttrsTestCase(unittest.TestCase):
         test_path = dirname(abspath(current_mod.__file__))
         pieman_yml = '{}/{}'.format(test_path, 'pieman.yml')
 
-        self._attrs_list = attrs.AttributesList(pieman_yml)
+        with open(pieman_yml) as infile:
+            self._attrs_list = attrs.AttributesList(infile)
+
         self._old_stdout = sys.stdout
         self._new_stdout = StringIO()
 

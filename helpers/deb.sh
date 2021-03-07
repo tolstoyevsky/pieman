@@ -1,4 +1,4 @@
-# Copyright (C) 2018 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2018-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ run_first_stage() {
 
     arch=${PIECES[2]}
     codename=${PIECES[1]}
-    primary_repo=$(get_attr "${OS}" repos | head -n1)
+    primary_repo=$(get_attr repos | head -n1)
     # shellcheck disable=SC2086
     ${DEBOOTSTRAP_EXEC} --arch="${arch}" --foreign --variant=minbase --keyring="${KEYRING}" ${additional_opts} ${codename} "${R}" "${primary_repo}" 1>&2
 
