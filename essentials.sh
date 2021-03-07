@@ -33,7 +33,7 @@ PYTHON_MAJOR_VER=3
 
 PYTHON_MINOR_VER=5
 
-UBOOT_VER="2019.01"
+export UBOOT_VER="2019.01"
 
 UBOOT_URL="ftp://ftp.denx.de/pub/u-boot/"
 

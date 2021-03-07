@@ -53,3 +53,18 @@ are_uboot_dependencies_satisfied() {
 
     return "${ret}"
 }
+
+# Installs SPL (secondary program loader) if it's specified in pieman.yml.
+# Globals:
+#     LOOP_DEV
+# Arguments:
+#     None
+# Returns:
+#     None
+install_spl() {
+    spl_bin="$(get_attr_or_nothing spl_bin)"
+    if [[ -n ${spl_bin} ]]; then
+        dd if="${spl_bin}" of="${LOOP_DEV}" bs=1024 seek=8
+        sync
+    fi
+}

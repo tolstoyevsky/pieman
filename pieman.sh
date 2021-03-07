@@ -300,15 +300,7 @@ case "${BUILD_TYPE}" in
 
     send_request_to_bsc_server FORMATTED_PARTITION_CODE
 
-    if [[ "${DEVICE}" == "opi-pc-plus" ]]; then
-        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-pc-plus.bin" of="${LOOP_DEV}" bs=1024 seek=8
-        sync
-    fi
-
-    if [[ "${DEVICE}" == "opi-zero" ]]; then
-        dd if="${TOOLSET_FULL_PATH}/uboot-${UBOOT_VER}/u-boot-sunxi-with-spl-for-opi-zero.bin" of="${LOOP_DEV}" bs=1024 seek=8
-        sync
-    fi
+    install_spl
 
     mount "${LOOP_DEV}p1" "${MOUNT_POINT}"
 
