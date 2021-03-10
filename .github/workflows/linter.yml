@@ -1,0 +1,63 @@
+name: Linter and Tests Runners
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Run shellcheck
+        run: |
+          shellcheck -x pieman.sh
+          shellcheck -e SC2148 helpers/*.sh
+          shellcheck -e SC2148,SC2153 bootstrap/*.sh
+          find devices/ -name "*.sh" | xargs shellcheck -e SC2148
+
+      - name: Install pylint
+        run: pip install pylint
+
+      - name: Install pieman package
+        run: cd pieman && python3 setup.py install
+
+      - name: Run pylint
+        run: find -name "*.py" -not -path "./.git/*" | xargs pylint --disable=R0801
+
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      TERM: xterm
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install shunit2
+        run: sudo apt install shunit2
+
+      - name: Install pieman package
+        run: cd pieman && python3 setup.py install
+
+      - name: Run tests
+        run: |
+          python3 pieman/test/runtest.py
+          cd test
+          ./test_essentials.sh
+          ./test_functions.sh
+
