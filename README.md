@@ -41,7 +41,6 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
     + [Extra](#extra)
   * [Storing parameters in .env file](#storing-parameters-in-env-file)
 - [Running images in emulator](#running-images-in-emulator)
-- [Daily image builds](#daily-image-builds)
 - [FAQ](#faq)
 - [Authors](#authors)
 - [Licensing](#licensing)
@@ -569,10 +568,6 @@ You can also specify the parameters in the `.env` file. In this case they will h
 ## Running images in emulator
 
 It's possible to run the images built by Pieman in QEMU. The nearby project [MMB](https://github.com/tolstoyevsky/mmb) simplifies the process. The project is the set of Dockerfiles and assets for building Docker images with different services. Now [QEMU](https://github.com/tolstoyevsky/mmb/tree/master/qemu), which is one of the services, helps running the images based on Ubuntu 18.04 «Bionic Beaver» (64-bit) for Raspberry Pi 3.
-
-## Daily image builds
-
-You can find the images of all supported operating systems for all supported devices [here](https://cusdeb.com/images-built-by-pieman). Login username is `cusdeb`, password is `secret`.
 
 ## FAQ
 
