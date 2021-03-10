@@ -1,4 +1,4 @@
-[![build](https://travis-ci.org/tolstoyevsky/pieman.svg?branch=master)](https://travis-ci.org/tolstoyevsky/pieman) [![](https://images.microbadger.com/badges/image/cusdeb/pieman.svg)](https://hub.docker.com/r/cusdeb/pieman/) [![](https://images.microbadger.com/badges/commit/cusdeb/pieman.svg)](https://hub.docker.com/r/cusdeb/pieman/)
+[![Linter and Tests](https://github.com/tolstoyevsky/pieman/actions/workflows/linter.yml/badge.svg)](https://github.com/tolstoyevsky/pieman/actions/workflows/linter.yml) [![](https://images.microbadger.com/badges/image/cusdeb/pieman.svg)](https://hub.docker.com/r/cusdeb/pieman/) [![](https://images.microbadger.com/badges/commit/cusdeb/pieman.svg)](https://hub.docker.com/r/cusdeb/pieman/)
 
 # Pieman [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Create%20a%20custom%20OS%20image%20for%20for%20your%20Raspberry%20Pi&url=https://github.com/tolstoyevsky/pieman&via=CusDeb&hashtags=RaspberryPi,Raspbian,Ubuntu)
 
