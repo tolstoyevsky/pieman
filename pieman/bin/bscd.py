@@ -212,7 +212,7 @@ def main():
         preserved_fds = []
         for handler in LOGGER.handlers:
             if hasattr(handler, 'stream'):
-                preserved_fds.append(handler.stream.fileno())
+                preserved_fds.append(handler.stream.fileno())  # pylint: disable=no-member
 
         with DaemonContext(files_preserve=preserved_fds,
                            pidfile=pidfile.TimeoutPIDLockFile(args.pid),
