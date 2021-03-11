@@ -37,8 +37,6 @@ setUp() {
 
     PIEMAN_DIR="."
 
-    PM_OPTIONS=""
-
     PROJECT_NAME="mock_project"
 
     PYTHON="$(command -v python3)"
