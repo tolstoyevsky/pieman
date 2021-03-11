@@ -47,8 +47,6 @@ setUp() {
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-    USR_BIN="chroot/usr/bin"
-
     YML_FILE="${SOURCE_DIR}/pieman.yml"
 
     FATAL="${text_in_red_color}Fatal${reset}"
