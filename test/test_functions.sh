@@ -259,6 +259,8 @@ test_creating_dependent_params() {
 }
 
 test_getting_attr() {
+    local output=""
+
     output="$(get_attr "${OS}" kernel package)"
     assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
     assertEquals "raspberrypi-kernel" "${output}"
