@@ -47,8 +47,6 @@ setUp() {
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-    YML_FILE="${SOURCE_DIR}/pieman.yml"
-
     FATAL="${text_in_red_color}Fatal${reset}"
 
     . ../essentials.sh
@@ -249,6 +247,8 @@ test_creating_dependent_params() {
 
 test_getting_attr() {
     local output=""
+
+    YML_FILE="${SOURCE_DIR}/pieman.yml"
 
     output="$(get_attr "${OS}" kernel package)"
     assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
