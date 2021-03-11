@@ -246,7 +246,6 @@ test_creating_dependent_params() {
     # Check the case when the dependency param is set to false. It must be
     # considered as not specified.
     assertEquals "${error_msg}" "${result}"
-    #assertNull "${result}"
 
     export A="value1"
     export B="value2"
