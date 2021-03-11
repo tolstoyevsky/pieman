@@ -57,6 +57,8 @@ setUp() {
 
     YML_FILE="${SOURCE_DIR}/pieman.yml"
 
+    FATAL="${text_in_red_color}Fatal${reset}"
+
     . ../essentials.sh
 
     for script in ../helpers/*.sh; do
@@ -95,23 +97,17 @@ test_checking_if_wpa_psk_is_valid() {
     export WPA_PSK="secret"
     result=$((check_if_wpa_psk_is_valid) 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: passphrase must be 8..63 characters" \
-        "${result}"
+    assertEquals "${FATAL}: WPA_PSK is not valid: passphrase must be 8..63 characters" "${result}"
 
     export WPA_PSK="42 is the answer to the Ultimate Question of Life, the Universe and Everything"
     result=$((check_if_wpa_psk_is_valid) 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: passphrase must be 8..63 characters" \
-        "${result}"
+    assertEquals "${FATAL}: WPA_PSK is not valid: passphrase must be 8..63 characters" "${result}"
 
     export WPA_PSK="$(printf "42 is the\nanswer")"
     result=$((check_if_wpa_psk_is_valid) 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: WPA_PSK is not valid: invalid passphrase character" \
-        "${result}"
+    assertEquals "${FATAL}: WPA_PSK is not valid: invalid passphrase character" "${result}"
 
     export WPA_PSK="42 is the answer"
     result=$((check_if_wpa_psk_is_valid) 2>&1)
@@ -131,9 +127,7 @@ test_checking_mutually_exclusive_params() {
 
     local result=$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: PARAM1 and PARAM2 conflict with each other." \
-        "${result}"
+    assertEquals "${FATAL}: PARAM1 and PARAM2 conflict with each other." "${result}"
 }
 
 test_checking_if_variable_is_set() {
@@ -226,14 +220,12 @@ test_choosing_user_mode_emulation_binary() {
 
     local result=$((choose_user_mode_emulation_binary) 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: Unknown architecture mock." \
-        "${result}"
+    assertEquals "${FATAL}: Unknown architecture mock." "${result}"
 }
 
 test_creating_dependent_params() {
     local result=""
-    local error_msg="${text_in_red_color}Fatal${reset}: A depends on B, so the latter must be set to true (if bool) or simply specified (in other cases)."
+    local error_msg="${FATAL}: A depends on B, so the latter must be set to true (if bool) or simply specified (in other cases)."
 
     export A="value1"
     result=$((depend_on A B) 2>&1)
@@ -292,15 +284,11 @@ test_rendering() {
 
     result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/some-non-existent-path/hosts") 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: rendering error: ./some-non-existent-path does not exist" \
-        "${result}"
+    assertEquals "${FATAL}: rendering error: ./some-non-existent-path does not exist" "${result}"
 
     result=$((render "${PIEMAN_DIR}/stub.j2" "${PIEMAN_DIR}/stub") 2>&1)
 
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: rendering error: ./stub.j2 does not exist" \
-        "${result}"
+    assertEquals "${FATAL}: rendering error: ./stub.j2 does not exist" "${result}"
 }
 
 test_running_first_stage() {

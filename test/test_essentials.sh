@@ -19,6 +19,8 @@
 #
 
 setUp() {
+    FATAL="${text_in_red_color}Fatal${reset}"
+
     . ../essentials.sh
 }
 
@@ -61,14 +63,12 @@ test_defining_bool_variables() {
     local result=$((def_bool_var V1 "test") 2>&1)
     local output="+ V1=test"
     local len=$((${#output} + 1)) # plus a new line character
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: V1 must be a boolean" "${result:len}"
+    assertEquals "${FATAL}: V1 must be a boolean" "${result:len}"
 
     result=$((def_bool_var V2 "") 2>&1)
     output="+ V2="
     len=$((${#output} + 1))
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: V2 must be a boolean" "${result:len}"
+    assertEquals "${FATAL}: V2 must be a boolean" "${result:len}"
 
     def_bool_var V3 "true"
     assertTrue "${V3}"
@@ -81,8 +81,7 @@ test_defining_int_variables() {
     local result=$((def_int_var N1 hello) 2>&1)
     local output="+ N1=hello"
     local len=$((${#output} + 1)) # plus a new line character
-    assertEquals \
-        "${text_in_red_color}Fatal${reset}: N1 must be an integer" "${result:len}"
+    assertEquals "${FATAL}: N1 must be an integer" "${result:len}"
 
     def_int_var N2 1337
     assertEquals 1337 "${N2}"
