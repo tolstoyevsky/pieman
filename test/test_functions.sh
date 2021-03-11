@@ -33,8 +33,6 @@ setUp() {
 
     OS="raspbian-buster-armhf"
 
-    PIECES=(raspbian buster armhf)
-
     PIEMAN_DIR="."
 
     PROJECT_NAME="mock_project"
@@ -290,6 +288,8 @@ test_rendering() {
 }
 
 test_running_first_stage() {
+    PIECES=(raspbian buster armhf)
+
     run_first_stage
 
     assertEquals \
@@ -305,6 +305,8 @@ test_running_first_stage() {
 }
 
 test_splitting_os_name_into_pieces() {
+    PIECES=(raspbian buster armhf)
+
     split_os_name_into_pieces
 
     YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
