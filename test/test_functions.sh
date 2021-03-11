@@ -116,18 +116,22 @@ test_checking_if_wpa_psk_is_valid() {
 }
 
 test_checking_mutually_exclusive_params() {
+    local output=""
+
     export PARAM1="true"
 
-    local result=$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)
+    { output="$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)"; exit_code="$?"; } || true
 
-    assertNull "${result}"
+    assertNull "${output}"
+    assertTrue "[[ ${exit_code} -eq ${SHUNIT_TRUE} ]]"
 
     export PARAM2="true"
     export PARAM3="true"
 
-    local result=$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)
+    { output="$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)"; exit_code="$?"; } || true
 
-    assertEquals "${FATAL}: PARAM1 and PARAM2 conflict with each other." "${result}"
+    assertEquals "${FATAL}: PARAM1 and PARAM2 conflict with each other." "${output}"
+    assertTrue "[[ ${exit_code} -eq ${SHUNIT_FALSE} ]]"
 }
 
 test_checking_if_variable_is_set() {
