@@ -39,8 +39,6 @@ setUp() {
 
     PYTHON="$(command -v python3)"
 
-    R=${BUILD_DIR}/${PROJECT_NAME}/chroot
-
     SOURCE_DIR="${ROOT_DIR}/devices/rpi-3-b/${OS}"
 
     TOOLSET_CODENAME="mock_toolset"
@@ -49,7 +47,7 @@ setUp() {
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-    USR_BIN="${R}/usr/bin"
+    USR_BIN="chroot/usr/bin"
 
     YML_FILE="${SOURCE_DIR}/pieman.yml"
 
@@ -131,6 +129,8 @@ test_checking_mutually_exclusive_params() {
 }
 
 test_checking_if_variable_is_set() {
+    R=chroot
+
     assertFalse "check_if_variable_is_set NON_EXISTING_VAR"
 
     assertTrue "check_if_variable_is_set R"
@@ -290,18 +290,20 @@ test_rendering() {
 test_running_first_stage() {
     PIECES=(raspbian buster armhf)
 
+    R=chroot
+
     run_first_stage
 
     assertEquals \
         "${DEBOOTSTRAP_CMD_LINE}" \
-        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} ${PIECES[1]} build/${PROJECT_NAME}/chroot http://archive.raspbian.org/raspbian"
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} ${PIECES[1]} ${R} http://archive.raspbian.org/raspbian"
 
     BASE_PACKAGES=mc,htop
     run_first_stage
 
     assertEquals \
         "${DEBOOTSTRAP_CMD_LINE}" \
-        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} --include=${BASE_PACKAGES} ${PIECES[1]} build/${PROJECT_NAME}/chroot http://archive.raspbian.org/raspbian"
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} --include=${BASE_PACKAGES} ${PIECES[1]} ${R} http://archive.raspbian.org/raspbian"
 }
 
 test_splitting_os_name_into_pieces() {
