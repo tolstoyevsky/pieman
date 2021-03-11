@@ -192,14 +192,14 @@ test_checking_if_debootstrap_is_uptodate() {
     # There must be an error because the version of debootstrap is less than
     # required
     is_debootstrap_uptodate
-    assertTrue "[ $? -eq ${SHUNIT_FALSE} ]"
+    assertTrue "[[ $? -eq ${SHUNIT_FALSE} ]]"
 
     echo "debootstrap (${DEBOOTSTRAP_VER}) unstable; " \
          "urgency=medium" > "${TOOLSET_FULL_PATH}"/debootstrap/debian/changelog
 
     # Everything must me fine
     is_debootstrap_uptodate
-    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
+    assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
 }
 
 test_choosing_user_mode_emulation_binary() {
@@ -257,13 +257,13 @@ test_getting_attr() {
     local output=""
 
     output="$(get_attr "${OS}" kernel package)"
-    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
+    assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
     assertEquals "raspberrypi-kernel" "${output}"
 
     { output="$(get_attr "${OS}" some_attr 2>&1)"; exit_code="$?"; } || true
-    assertTrue "[ ${exit_code} -eq ${SHUNIT_FALSE} ]"
+    assertTrue "[[ ${exit_code} -eq ${SHUNIT_FALSE} ]]"
     [[ "${output}" =~ "raspbian-buster-armhf does not have attribute some_attr." ]]
-    assertTrue "[ $? -eq ${SHUNIT_TRUE} ]"
+    assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
 }
 
 test_rendering() {
