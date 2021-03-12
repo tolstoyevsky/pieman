@@ -23,8 +23,6 @@ setUp() {
 
     BUILD_DIR="build"
 
-    DEBOOTSTRAP_EXEC="debootstrap_mock"
-
     IMAGE="${BUILD_DIR}/mock_image.img"
 
     KEYRING="mock_keyring.gpg"
@@ -166,6 +164,8 @@ test_choosing_compressor() {
 }
 
 test_checking_if_debootstrap_is_uptodate() {
+    DEBOOTSTRAP_EXEC="debootstrap_mock"
+
     mkdir -p "${TOOLSET_FULL_PATH}"/debootstrap/debian
     touch "${TOOLSET_FULL_PATH}"/debootstrap/debootstrap
 
