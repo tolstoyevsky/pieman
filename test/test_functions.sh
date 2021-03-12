@@ -23,8 +23,10 @@ setUp() {
 
     PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
 
+    # appears unused
+    # shellcheck disable=SC2034
     MOUNT_POINT=mount_point
-
+    # shellcheck disable=SC2034
     PYTHON="$(command -v python3)"
 
     TOOLSET_CODENAME="mock_toolset"
@@ -36,6 +38,8 @@ setUp() {
     # shellcheck source=/dev/null
     . "${PIEMAN_DIR}"/essentials.sh
 
+    # referenced but not assigned
+    # shellcheck disable=SC2154
     FATAL="${text_in_red_color}Fatal${reset}"
 
     for script in "${PIEMAN_DIR}"/helpers/*.sh; do
@@ -149,8 +153,12 @@ test_choosing_compressor() {
 
     assertEquals "xz .xz" "${compressor}"
 
+    # appears unused
+    # shellcheck disable=SC2034
     COMPRESS_WITH_BZIP2=false
+    # shellcheck disable=SC2034
     COMPRESS_WITH_GZIP=false
+    # shellcheck disable=SC2034
     COMPRESS_WITH_XZ=false
 
     compressor="$(choose_compressor)"
@@ -160,6 +168,8 @@ test_choosing_compressor() {
 }
 
 test_checking_if_debootstrap_is_uptodate() {
+    # appears unused
+    # shellcheck disable=SC2034
     DEBOOTSTRAP_EXEC="debootstrap_mock"
 
     mkdir -p "${TOOLSET_FULL_PATH}"/debootstrap/debian
@@ -315,6 +325,8 @@ test_splitting_os_name_into_pieces() {
 
     OS="kali-rolling-armhf"
 
+    # appears unused
+    # shellcheck disable=SC2034
     YML_FILE="${TEST_DIR}/assets/${OS}_pieman.yml"
 
     split_os_name_into_pieces
