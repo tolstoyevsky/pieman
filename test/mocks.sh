@@ -22,6 +22,8 @@
 # Returns:
 #     None
 debootstrap_mock() {
+    # appears unused
+    # shellcheck disable=SC2034
     DEBOOTSTRAP_CMD_LINE=$*
 }
 

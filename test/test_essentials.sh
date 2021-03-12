@@ -24,6 +24,8 @@ setUp() {
     # shellcheck source=/dev/null
     . "${PIEMAN_DIR}"/essentials.sh
 
+    # referenced but not assigned
+    # shellcheck disable=SC2154
     FATAL="${text_in_red_color}Fatal${reset}"
 }
 
@@ -38,6 +40,8 @@ test_defining_private_variables() {
     assertEquals "default" "${priv}"
 
     def_private_var priv2 "default"
+    # referenced but not assigned
+    # shellcheck disable=SC2154
     assertEquals "default" "${priv2}"
 
     def_private_var EMPTY ""
