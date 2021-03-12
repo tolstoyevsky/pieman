@@ -243,8 +243,8 @@ $ ./pieman/test/runtest.py
 To run the tests for the Pieman script, you will need both the above-mentioned virtual environment (because the Pieman script tests depends on the package tests) and [shUnit2](https://github.com/kward/shunit2). Install shUnit2 executing `sudo apt-get install shunit2` on Debian/Ubuntu or `sudo dnf install shunit2` on Fedora. Then, go to the `test` directory and run the tests in the following way:
 
 ```
-$ ./test_essentials.sh
-$ ./test_functions.sh
+$ ./test/test_essentials.sh
+$ ./test/test_functions.sh
 ```
 
 ## Documentation
