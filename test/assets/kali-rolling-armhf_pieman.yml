@@ -1,0 +1,7 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+kali-rolling-armhf:
+  codename: kali-rolling
+  repos:
+  - http://http.kali.org/kali/
+
