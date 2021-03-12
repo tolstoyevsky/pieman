@@ -19,11 +19,11 @@
 #
 
 setUp() {
-    FATAL="${text_in_red_color}Fatal${reset}"
-
     PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
 
     . "${PIEMAN_DIR}"/essentials.sh
+
+    FATAL="${text_in_red_color}Fatal${reset}"
 }
 
 #
