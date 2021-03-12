@@ -80,7 +80,8 @@ test_checking_if_wpa_psk_is_valid() {
 
     assertEquals "${FATAL}: WPA_PSK is not valid: passphrase must be 8..63 characters" "${result}"
 
-    export WPA_PSK="$(printf "42 is the\nanswer")"
+    WPA_PSK="$(printf "42 is the\nanswer")"
+    export WPA_PSK
     result=$( (check_if_wpa_psk_is_valid) 2>&1 )
 
     assertEquals "${FATAL}: WPA_PSK is not valid: invalid passphrase character" "${result}"
@@ -183,6 +184,8 @@ test_checking_if_debootstrap_is_uptodate() {
 }
 
 test_choosing_user_mode_emulation_binary() {
+    local output=""
+
     PIECES=(raspbian buster armhf)
 
     choose_user_mode_emulation_binary
@@ -197,9 +200,9 @@ test_choosing_user_mode_emulation_binary() {
 
     PIECES=(raspbian buster mock)
 
-    local result=$( (choose_user_mode_emulation_binary) 2>&1 )
+    output=$( (choose_user_mode_emulation_binary) 2>&1 )
 
-    assertEquals "${FATAL}: Unknown architecture mock." "${result}"
+    assertEquals "${FATAL}: Unknown architecture mock." "${output}"
 }
 
 test_creating_dependent_params() {
