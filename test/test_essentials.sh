@@ -21,6 +21,7 @@
 setUp() {
     PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
 
+    # shellcheck source=/dev/null
     . "${PIEMAN_DIR}"/essentials.sh
 
     FATAL="${text_in_red_color}Fatal${reset}"
@@ -117,4 +118,5 @@ EOF
     assertNull "${EMPTY}"
 }
 
-. $(command -v shunit2)
+# shellcheck source=/dev/null
+. "$(command -v shunit2)"
