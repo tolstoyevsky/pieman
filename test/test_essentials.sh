@@ -21,7 +21,9 @@
 setUp() {
     FATAL="${text_in_red_color}Fatal${reset}"
 
-    . ../essentials.sh
+    PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
+
+    . "${PIEMAN_DIR}"/essentials.sh
 }
 
 #

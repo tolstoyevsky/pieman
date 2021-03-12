@@ -19,7 +19,9 @@
 #
 
 setUp() {
-    ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)/.."
+    TEST_DIR="$( dirname "$(readlink -f "$0")" )"
+
+    PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
 
     BUILD_DIR="build"
 
@@ -29,28 +31,26 @@ setUp() {
 
     MOUNT_POINT=${BUILD_DIR}/mount_point
 
-    PIEMAN_DIR="."
-
     PROJECT_NAME="mock_project"
 
     PYTHON="$(command -v python3)"
 
     TOOLSET_CODENAME="mock_toolset"
 
-    TOOLSET_DIR="${PIEMAN_DIR}/toolset"
+    TOOLSET_DIR="${TEST_DIR}/toolset"
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
     FATAL="${text_in_red_color}Fatal${reset}"
 
-    . ../essentials.sh
+    . "${PIEMAN_DIR}"/essentials.sh
 
-    for script in ../helpers/*.sh; do
+    for script in "${PIEMAN_DIR}"/helpers/*.sh; do
         . ${script}
     done
 
     # Mock some of the helpers loaded above.
-    . ./mocks.sh
+    . "${TEST_DIR}"/mocks.sh
 }
 
 tearDown() {
@@ -246,7 +246,7 @@ test_getting_attr() {
 
     OS="ubuntu-focal-armhf"
 
-    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
+    YML_FILE="${TEST_DIR}/assets/${OS}_pieman.yml"
 
     output="$(get_attr "${OS}" kernel package)"
     assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
@@ -262,26 +262,26 @@ test_getting_attr() {
 test_rendering() {
     local result=""
 
-    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/assets/hosts") 2>&1)
+    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1)
 
     assertNull "${result}"
 
-    assertEquals "$(<"${PIEMAN_DIR}"/assets/hosts)" "127.0.1.1 default"
+    assertEquals "$(<"${TEST_DIR}"/assets/hosts)" "127.0.1.1 default"
 
     export HOST_NAME="pieman"
-    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/assets/hosts") 2>&1)
+    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1)
 
     assertNull "${result}"
 
-    assertEquals "$(<"${PIEMAN_DIR}"/assets/hosts)" "127.0.1.1 ${HOST_NAME}"
+    assertEquals "$(<"${TEST_DIR}"/assets/hosts)" "127.0.1.1 ${HOST_NAME}"
 
-    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/some-non-existent-path/hosts") 2>&1)
+    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/some-non-existent-path/hosts") 2>&1)
 
-    assertEquals "${FATAL}: rendering error: ./some-non-existent-path does not exist" "${result}"
+    assertEquals "${FATAL}: rendering error: ${TEST_DIR}/some-non-existent-path does not exist" "${result}"
 
-    result=$((render "${PIEMAN_DIR}/stub.j2" "${PIEMAN_DIR}/stub") 2>&1)
+    result=$((render "${TEST_DIR}/stub.j2" "${TEST_DIR}/stub") 2>&1)
 
-    assertEquals "${FATAL}: rendering error: ./stub.j2 does not exist" "${result}"
+    assertEquals "${FATAL}: rendering error: ${TEST_DIR}/stub.j2 does not exist" "${result}"
 }
 
 test_running_first_stage() {
@@ -308,14 +308,14 @@ test_running_first_stage() {
 test_splitting_os_name_into_pieces() {
     OS="ubuntu-focal-armhf"
 
-    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
+    YML_FILE="${TEST_DIR}/assets/${OS}_pieman.yml"
 
     split_os_name_into_pieces
     assertEquals "ubuntu focal armhf" "${PIECES[*]}"
 
     OS="kali-rolling-armhf"
 
-    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
+    YML_FILE="${TEST_DIR}/assets/${OS}_pieman.yml"
 
     split_os_name_into_pieces
     assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
