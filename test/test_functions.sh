@@ -248,15 +248,18 @@ test_creating_dependent_params() {
 test_getting_attr() {
     local output=""
 
-    YML_FILE="${SOURCE_DIR}/pieman.yml"
+    OS="ubuntu-focal-armhf"
+
+    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
 
     output="$(get_attr "${OS}" kernel package)"
     assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
-    assertEquals "raspberrypi-kernel" "${output}"
+    assertEquals "linux-image-raspi2" "${output}"
 
     { output="$(get_attr "${OS}" some_attr 2>&1)"; exit_code="$?"; } || true
     assertTrue "[[ ${exit_code} -eq ${SHUNIT_FALSE} ]]"
-    [[ "${output}" =~ "raspbian-buster-armhf does not have attribute some_attr." ]]
+
+    [[ "${output}" =~ "${OS} does not have attribute some_attr." ]]
     assertTrue "[[ $? -eq ${SHUNIT_TRUE} ]]"
 }
 
@@ -286,6 +289,8 @@ test_rendering() {
 }
 
 test_running_first_stage() {
+    OS="ubuntu-focal-armhf"
+
     PIECES=(raspbian buster armhf)
 
     R=chroot
@@ -294,14 +299,14 @@ test_running_first_stage() {
 
     assertEquals \
         "${DEBOOTSTRAP_CMD_LINE}" \
-        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} ${PIECES[1]} ${R} http://archive.raspbian.org/raspbian"
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} ${PIECES[1]} ${R} http://ports.ubuntu.com/ubuntu-ports/"
 
     BASE_PACKAGES=mc,htop
     run_first_stage
 
     assertEquals \
         "${DEBOOTSTRAP_CMD_LINE}" \
-        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} --include=${BASE_PACKAGES} ${PIECES[1]} ${R} http://archive.raspbian.org/raspbian"
+        "--arch=${PIECES[2]} --foreign --variant=minbase --keyring=${KEYRING} --include=${BASE_PACKAGES} ${PIECES[1]} ${R} http://ports.ubuntu.com/ubuntu-ports/"
 }
 
 test_splitting_os_name_into_pieces() {

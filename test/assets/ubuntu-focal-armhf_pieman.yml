@@ -1,0 +1,8 @@
+# Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
+
+ubuntu-focal-armhf:
+  repos:
+  - http://ports.ubuntu.com/ubuntu-ports/
+  kernel:
+    package: linux-image-raspi2
+
