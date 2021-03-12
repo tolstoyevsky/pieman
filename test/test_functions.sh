@@ -38,7 +38,7 @@ setUp() {
     FATAL="${text_in_red_color}Fatal${reset}"
 
     for script in "${PIEMAN_DIR}"/helpers/*.sh; do
-        . ${script}
+        . "${script}"
     done
 
     # Mock some of the helpers loaded above.
@@ -57,7 +57,7 @@ test_adding_package_to_includes() {
     add_package_to_includes parted
     add_package_to_includes ifupdown
 
-    assertEquals ",parted,ifupdown" ${INCLUDES}
+    assertEquals ",parted,ifupdown" "${INCLUDES}"
 }
 
 test_adding_package_pm_options() {
@@ -165,7 +165,7 @@ test_checking_if_debootstrap_is_uptodate() {
     result=$( (is_debootstrap_uptodate) 2>&1 )
 
     # There must be an error because there is no changelog
-    assertNotNull "$(echo ${result} | grep "Could not get its version")"
+    assertNotNull "$(echo "${result}" | grep "Could not get its version")"
 
     echo "debootstrap (1.0.90) unstable; " \
          "urgency=medium" > "${TOOLSET_FULL_PATH}"/debootstrap/debian/changelog
@@ -190,13 +190,13 @@ test_choosing_user_mode_emulation_binary() {
 
     choose_user_mode_emulation_binary
 
-    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static ${EMULATOR}
+    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static "${EMULATOR}"
 
     PIECES=(raspbian buster arm64)
 
     choose_user_mode_emulation_binary
 
-    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static ${EMULATOR}
+    assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static "${EMULATOR}"
 
     PIECES=(raspbian buster mock)
 
