@@ -37,8 +37,6 @@ setUp() {
 
     PYTHON="$(command -v python3)"
 
-    SOURCE_DIR="${ROOT_DIR}/devices/rpi-3-b/${OS}"
-
     TOOLSET_CODENAME="mock_toolset"
 
     TOOLSET_DIR="${PIEMAN_DIR}/toolset"
