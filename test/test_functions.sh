@@ -71,22 +71,22 @@ test_checking_if_wpa_psk_is_valid() {
     local result=""
 
     export WPA_PSK="secret"
-    result=$((check_if_wpa_psk_is_valid) 2>&1)
+    result=$( (check_if_wpa_psk_is_valid) 2>&1 )
 
     assertEquals "${FATAL}: WPA_PSK is not valid: passphrase must be 8..63 characters" "${result}"
 
     export WPA_PSK="42 is the answer to the Ultimate Question of Life, the Universe and Everything"
-    result=$((check_if_wpa_psk_is_valid) 2>&1)
+    result=$( (check_if_wpa_psk_is_valid) 2>&1 )
 
     assertEquals "${FATAL}: WPA_PSK is not valid: passphrase must be 8..63 characters" "${result}"
 
     export WPA_PSK="$(printf "42 is the\nanswer")"
-    result=$((check_if_wpa_psk_is_valid) 2>&1)
+    result=$( (check_if_wpa_psk_is_valid) 2>&1 )
 
     assertEquals "${FATAL}: WPA_PSK is not valid: invalid passphrase character" "${result}"
 
     export WPA_PSK="42 is the answer"
-    result=$((check_if_wpa_psk_is_valid) 2>&1)
+    result=$( (check_if_wpa_psk_is_valid) 2>&1 )
 
     assertNull "${result}"
 }
@@ -96,7 +96,7 @@ test_checking_mutually_exclusive_params() {
 
     export PARAM1="true"
 
-    { output="$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)"; exit_code="$?"; } || true
+    { output="$( (check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1 )"; exit_code="$?"; } || true
 
     assertNull "${output}"
     assertTrue "[[ ${exit_code} -eq ${SHUNIT_TRUE} ]]"
@@ -104,7 +104,7 @@ test_checking_mutually_exclusive_params() {
     export PARAM2="true"
     export PARAM3="true"
 
-    { output="$((check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1)"; exit_code="$?"; } || true
+    { output="$( (check_mutually_exclusive_params PARAM1 PARAM2 PARAM3) 2>&1 )"; exit_code="$?"; } || true
 
     assertEquals "${FATAL}: PARAM1 and PARAM2 conflict with each other." "${output}"
     assertTrue "[[ ${exit_code} -eq ${SHUNIT_FALSE} ]]"
@@ -161,7 +161,7 @@ test_checking_if_debootstrap_is_uptodate() {
     mkdir -p "${TOOLSET_FULL_PATH}"/debootstrap/debian
     touch "${TOOLSET_FULL_PATH}"/debootstrap/debootstrap
 
-    result=$((is_debootstrap_uptodate) 2>&1)
+    result=$( (is_debootstrap_uptodate) 2>&1 )
 
     # There must be an error because there is no changelog
     assertNotNull "$(echo ${result} | grep "Could not get its version")"
@@ -197,7 +197,7 @@ test_choosing_user_mode_emulation_binary() {
 
     PIECES=(raspbian buster mock)
 
-    local result=$((choose_user_mode_emulation_binary) 2>&1)
+    local result=$( (choose_user_mode_emulation_binary) 2>&1 )
 
     assertEquals "${FATAL}: Unknown architecture mock." "${result}"
 }
@@ -207,12 +207,12 @@ test_creating_dependent_params() {
     local error_msg="${FATAL}: A depends on B, so the latter must be set to true (if bool) or simply specified (in other cases)."
 
     export A="value1"
-    result=$((depend_on A B) 2>&1)
+    result=$( (depend_on A B) 2>&1 )
 
     assertEquals "${error_msg}" "${result}"
 
     export A=false
-    result=$((depend_on A B) 2>&1)
+    result=$( (depend_on A B) 2>&1 )
 
     # There is no need to check the dependency param if the dependent param is
     # set to false or not simply specified.
@@ -220,7 +220,7 @@ test_creating_dependent_params() {
 
     export A="value1"
     export B=false
-    result=$((depend_on A B) 2>&1)
+    result=$( (depend_on A B) 2>&1 )
 
     # Check the case when the dependency param is set to false. It must be
     # considered as not specified.
@@ -228,7 +228,7 @@ test_creating_dependent_params() {
 
     export A="value1"
     export B="value2"
-    result=$((depend_on A B) 2>&1)
+    result=$( (depend_on A B) 2>&1 )
 
     assertNull "${result}"
 }
@@ -254,24 +254,24 @@ test_getting_attr() {
 test_rendering() {
     local result=""
 
-    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1)
+    result=$( (render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1 )
 
     assertNull "${result}"
 
     assertEquals "$(<"${TEST_DIR}"/assets/hosts)" "127.0.1.1 default"
 
     export HOST_NAME="pieman"
-    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1)
+    result=$( (render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/assets/hosts") 2>&1 )
 
     assertNull "${result}"
 
     assertEquals "$(<"${TEST_DIR}"/assets/hosts)" "127.0.1.1 ${HOST_NAME}"
 
-    result=$((render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/some-non-existent-path/hosts") 2>&1)
+    result=$( (render "${TEST_DIR}/assets/hosts.j2" "${TEST_DIR}/some-non-existent-path/hosts") 2>&1 )
 
     assertEquals "${FATAL}: rendering error: ${TEST_DIR}/some-non-existent-path does not exist" "${result}"
 
-    result=$((render "${TEST_DIR}/stub.j2" "${TEST_DIR}/stub") 2>&1)
+    result=$( (render "${TEST_DIR}/stub.j2" "${TEST_DIR}/stub") 2>&1 )
 
     assertEquals "${FATAL}: rendering error: ${TEST_DIR}/stub.j2 does not exist" "${result}"
 }

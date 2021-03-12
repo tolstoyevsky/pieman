@@ -62,12 +62,12 @@ test_defining_variables() {
 }
 
 test_defining_bool_variables() {
-    local result=$((def_bool_var V1 "test") 2>&1)
+    local result=$( (def_bool_var V1 "test") 2>&1 )
     local output="+ V1=test"
     local len=$((${#output} + 1)) # plus a new line character
     assertEquals "${FATAL}: V1 must be a boolean" "${result:len}"
 
-    result=$((def_bool_var V2 "") 2>&1)
+    result=$( (def_bool_var V2 "") 2>&1 )
     output="+ V2="
     len=$((${#output} + 1))
     assertEquals "${FATAL}: V2 must be a boolean" "${result:len}"
@@ -80,7 +80,7 @@ test_defining_bool_variables() {
 }
 
 test_defining_int_variables() {
-    local result=$((def_int_var N1 hello) 2>&1)
+    local result=$( (def_int_var N1 hello) 2>&1 )
     local output="+ N1=hello"
     local len=$((${#output} + 1)) # plus a new line character
     assertEquals "${FATAL}: N1 must be an integer" "${result:len}"
