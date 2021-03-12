@@ -27,8 +27,6 @@ setUp() {
 
     IMAGE="${BUILD_DIR}/mock_image.img"
 
-    KEYRING="mock_keyring.gpg"
-
     MOUNT_POINT=${BUILD_DIR}/mount_point
 
     PROJECT_NAME="mock_project"
@@ -285,6 +283,8 @@ test_rendering() {
 }
 
 test_running_first_stage() {
+    KEYRING="mock_keyring.gpg"
+
     OS="ubuntu-focal-armhf"
 
     PIECES=(raspbian buster armhf)
