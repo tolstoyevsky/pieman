@@ -24,6 +24,7 @@ jobs:
           shellcheck -e SC2148 helpers/*.sh
           shellcheck -e SC2148,SC2153 bootstrap/*.sh
           find devices/ -name "*.sh" | xargs shellcheck -e SC2148
+          find test/ -name "*.sh" | xargs shellcheck -x -e SC2148
 
       - name: Install pylint
         run: pip install pylint
