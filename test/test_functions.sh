@@ -263,20 +263,20 @@ test_getting_attr() {
 test_rendering() {
     local result=""
 
-    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/files/hosts") 2>&1)
+    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/assets/hosts") 2>&1)
 
     assertNull "${result}"
 
-    assertEquals "$(<"${PIEMAN_DIR}"/files/hosts)" "127.0.1.1 default"
+    assertEquals "$(<"${PIEMAN_DIR}"/assets/hosts)" "127.0.1.1 default"
 
     export HOST_NAME="pieman"
-    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/files/hosts") 2>&1)
+    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/assets/hosts") 2>&1)
 
     assertNull "${result}"
 
-    assertEquals "$(<"${PIEMAN_DIR}"/files/hosts)" "127.0.1.1 ${HOST_NAME}"
+    assertEquals "$(<"${PIEMAN_DIR}"/assets/hosts)" "127.0.1.1 ${HOST_NAME}"
 
-    result=$((render "${PIEMAN_DIR}/files/hosts.j2" "${PIEMAN_DIR}/some-non-existent-path/hosts") 2>&1)
+    result=$((render "${PIEMAN_DIR}/assets/hosts.j2" "${PIEMAN_DIR}/some-non-existent-path/hosts") 2>&1)
 
     assertEquals "${FATAL}: rendering error: ./some-non-existent-path does not exist" "${result}"
 
