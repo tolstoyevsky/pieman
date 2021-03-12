@@ -33,15 +33,18 @@ setUp() {
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
+    # shellcheck source=/dev/null
     . "${PIEMAN_DIR}"/essentials.sh
 
     FATAL="${text_in_red_color}Fatal${reset}"
 
     for script in "${PIEMAN_DIR}"/helpers/*.sh; do
+        # shellcheck source=/dev/null
         . "${script}"
     done
 
     # Mock some of the helpers loaded above.
+    # shellcheck source=/dev/null
     . "${TEST_DIR}"/mocks.sh
 }
 
@@ -318,5 +321,6 @@ test_splitting_os_name_into_pieces() {
     assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
 }
 
-. $(command -v shunit2)
+# shellcheck source=/dev/null
+. "$(command -v shunit2)"
 
