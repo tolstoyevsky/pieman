@@ -33,9 +33,9 @@ setUp() {
 
     TOOLSET_FULL_PATH="${TOOLSET_DIR}/${TOOLSET_CODENAME}"
 
-    FATAL="${text_in_red_color}Fatal${reset}"
-
     . "${PIEMAN_DIR}"/essentials.sh
+
+    FATAL="${text_in_red_color}Fatal${reset}"
 
     for script in "${PIEMAN_DIR}"/helpers/*.sh; do
         . ${script}
