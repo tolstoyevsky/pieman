@@ -54,7 +54,7 @@ setUp() {
 }
 
 tearDown() {
-    rm -rf "${TOOLSET_FULL_PATH}"
+    rm -rf "${TOOLSET_DIR}"
 }
 
 #
