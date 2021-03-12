@@ -308,22 +308,17 @@ test_running_first_stage() {
 }
 
 test_splitting_os_name_into_pieces() {
-    OS="raspbian-buster-armhf"
+    OS="ubuntu-focal-armhf"
 
-    PIECES=(raspbian buster armhf)
+    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
 
     split_os_name_into_pieces
-
-    YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
-    assertEquals "raspbian buster armhf" "${PIECES[*]}"
-
-    OS="ubuntu-bionic-arm64"
-    YML_FILE="${ROOT_DIR}/devices/rpi-3-b/${OS}/pieman.yml"
-    split_os_name_into_pieces
-    assertEquals "ubuntu bionic arm64" "${PIECES[*]}"
+    assertEquals "ubuntu focal armhf" "${PIECES[*]}"
 
     OS="kali-rolling-armhf"
-    YML_FILE="${ROOT_DIR}/devices/opi-pc-plus/${OS}/pieman.yml"
+
+    YML_FILE="${PIEMAN_DIR}/assets/${OS}_pieman.yml"
+
     split_os_name_into_pieces
     assertEquals "kali kali-rolling armhf" "${PIECES[*]}"
 }
