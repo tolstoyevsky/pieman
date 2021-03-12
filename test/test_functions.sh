@@ -23,13 +23,7 @@ setUp() {
 
     PIEMAN_DIR="${PIEMAN_DIR:=$(pwd)}"
 
-    BUILD_DIR="build"
-
-    IMAGE="${BUILD_DIR}/mock_image.img"
-
-    MOUNT_POINT=${BUILD_DIR}/mount_point
-
-    PROJECT_NAME="mock_project"
+    MOUNT_POINT=mount_point
 
     PYTHON="$(command -v python3)"
 
