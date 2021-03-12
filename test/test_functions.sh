@@ -31,8 +31,6 @@ setUp() {
 
     MOUNT_POINT=${BUILD_DIR}/mount_point
 
-    OS="raspbian-buster-armhf"
-
     PIEMAN_DIR="."
 
     PROJECT_NAME="mock_project"
@@ -310,6 +308,8 @@ test_running_first_stage() {
 }
 
 test_splitting_os_name_into_pieces() {
+    OS="raspbian-buster-armhf"
+
     PIECES=(raspbian buster armhf)
 
     split_os_name_into_pieces
