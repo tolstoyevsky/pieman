@@ -1,4 +1,4 @@
-Jinja2==2.10.1
+Jinja2==2.11.3
 PyYAML==5.1
 pypandoc  # only for converting README.md
 python-daemon==2.2.*
