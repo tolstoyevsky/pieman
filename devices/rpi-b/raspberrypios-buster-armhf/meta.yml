@@ -1,5 +1,5 @@
 meta:
-  name: Raspbian
+  name: Raspberry Pi OS
   codename: Buster
   version: 10
   port: armhf
