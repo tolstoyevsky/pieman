@@ -98,7 +98,7 @@ def_var MENDER_TENANT_TOKEN ""
 
 def_int_var MENDER_UPDATE_POLL_INTERVAL 1800
 
-def_var OS "raspbian-buster-armhf"
+def_var OS "raspberrypios-buster-armhf"
 
 def_protected_var PASSWORD "secret"
 
