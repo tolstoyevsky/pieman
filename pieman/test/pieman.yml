@@ -1,6 +1,6 @@
 # Maintainer: Evgeny Golyshev <eugulixes@gmail.com>
 
-raspbian-buster-armhf:
+raspberrypios-buster-armhf:
   repos:
   - http://archive.raspbian.org/raspbian
   - http://archive.raspberrypi.org/debian
