@@ -28,7 +28,7 @@ if is_debian_based; then
     fi
 fi
 
-if is_debian || is_devuan || is_raspbian; then
+if is_debian || is_devuan || is_raspberrypios; then
     sed -i "s/^# *\($LOCALE\)/\1/" "${ETC}"/locale.gen
 
     chroot_exec locale-gen

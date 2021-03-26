@@ -332,7 +332,7 @@ is_alpine() {
 # Returns:
 #     Boolean
 is_debian_based() {
-    if is_debian || is_devuan || is_kali || is_raspbian || is_ubuntu; then
+    if is_debian || is_devuan || is_kali || is_raspberrypios || is_ubuntu; then
         true
     else
         false
@@ -384,15 +384,15 @@ is_kali() {
     fi
 }
 
-# Checks if the specified OS is Raspbian.
+# Checks if the specified OS is Raspberry Pi OS.
 # Globals:
 #     PIECES
 # Arguments:
 #     None
 # Returns:
 #     Boolean
-is_raspbian() {
-    if [ "${PIECES[0]}" = "raspbian" ]; then
+is_raspberrypios() {
+    if [ "${PIECES[0]}" = "raspberrypios" ]; then
         true
     else
         false
