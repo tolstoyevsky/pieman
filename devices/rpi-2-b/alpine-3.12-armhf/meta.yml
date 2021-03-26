@@ -3,6 +3,7 @@ meta:
   codename:
   version: 3.12
   port: armhf
+  bits: 32
   packages_url: "https://pkgs.alpinelinux.org/package/v3.12/main/armhf/"
   build_types:
   - classic

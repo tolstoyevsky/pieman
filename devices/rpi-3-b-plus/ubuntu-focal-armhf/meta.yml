@@ -3,6 +3,7 @@ meta:
   codename: Focal
   version: 20.04
   port: armhf
+  bits: 32
   packages_url: "https://packages.ubuntu.com/focal/"
   build_types:
   - classic
