@@ -1,4 +1,4 @@
-Raspbian is an official operating system for Raspberry Pi. It's based on Debian GNU/Linux and supports all models of the single-board computer. `rpi-b/raspbian-buster-armhf` allows building custom 32-bit Raspbian [Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/) images for
+Raspberry Pi OS (formerly Raspbian) is an official operating system for Raspberry Pi. It's based on Debian GNU/Linux and supports all models of the single-board computer. `rpi-b/raspberrypios-buster-armhf` allows building custom 32-bit Raspberry Pi OS [Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/) images for
 
 * [Raspberry Pi B and B+](https://raspberrypi.org/products/raspberry-pi-1-model-b/)
 * [Raspberry Pi 2 B](https://raspberrypi.org/products/raspberry-pi-2-model-b/)
