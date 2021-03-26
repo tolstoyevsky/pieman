@@ -227,9 +227,9 @@ if ${ENABLE_MENDER}; then
         exit 1
     fi
 
-    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspbian-buster-armhf" ]; then
+    if [ "${DEVICE}" != "rpi-3-b" ] || [ "${OS}" != "raspberrypios-buster-armhf" ]; then
         fatal "cannot create Mender compatible image for the specified" \
-              "device and operating system. OS=raspbian-buster-armhf and" \
+              "device and operating system. OS=raspberrypios-buster-armhf and" \
               "DEVICE=rpi-3-b is supported only."
         exit 1
     fi
