@@ -199,19 +199,19 @@ test_checking_if_debootstrap_is_uptodate() {
 test_choosing_user_mode_emulation_binary() {
     local output=""
 
-    PIECES=(raspbian buster armhf)
+    PIECES=(raspberrypios buster armhf)
 
     choose_user_mode_emulation_binary
 
     assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-arm-static "${EMULATOR}"
 
-    PIECES=(raspbian buster arm64)
+    PIECES=(raspberrypios buster arm64)
 
     choose_user_mode_emulation_binary
 
     assertEquals "${TOOLSET_FULL_PATH}"/qemu-user-static/qemu-aarch64-static "${EMULATOR}"
 
-    PIECES=(raspbian buster mock)
+    PIECES=(raspberrypios buster mock)
 
     output=$( (choose_user_mode_emulation_binary) 2>&1 )
 
@@ -297,7 +297,7 @@ test_running_first_stage() {
 
     OS="ubuntu-focal-armhf"
 
-    PIECES=(raspbian buster armhf)
+    PIECES=(raspberrypios buster armhf)
 
     R=chroot
 
