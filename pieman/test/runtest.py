@@ -52,8 +52,8 @@ class AttrsTestCase(unittest.TestCase):
     def test_existent_root(self):
         """Tests if it's possible to find the root in an attributes chain. """
 
-        raspbian = self._attrs_list.get_attribute(('raspbian-buster-armhf', ))
-        self.assertIsInstance(raspbian, attrs.Attribute)
+        raspberrypios = self._attrs_list.get_attribute(('raspberrypios-buster-armhf', ))
+        self.assertIsInstance(raspberrypios, attrs.Attribute)
 
     def test_nonexistent_root(self):
         """Tests raising RootDoesNotExist in case of trying to find the root
@@ -67,7 +67,7 @@ class AttrsTestCase(unittest.TestCase):
         """Tests if it's possible to fetch the value of the specified attribute. """
 
         includes = self._attrs_list.get_attribute(
-            ('raspbian-buster-armhf', 'includes')
+            ('raspberrypios-buster-armhf', 'includes')
         )
         self.assertEqual(includes.attribute, 'systemd-sysv')
 
@@ -78,7 +78,7 @@ class AttrsTestCase(unittest.TestCase):
 
         with self.assertRaises(attrs.AttributeDoesNotExist):
             self._attrs_list.get_attribute(
-                ('raspbian-buster-armhf', 'nonexistent_attribute')
+                ('raspberrypios-buster-armhf', 'nonexistent_attribute')
             )
 
     def test_unknown_attribute(self):
@@ -88,14 +88,14 @@ class AttrsTestCase(unittest.TestCase):
 
         with self.assertRaises(attrs.UnknownAttribute):
             self._attrs_list.get_attribute(
-                ('raspbian-buster-armhf', 'unknown')
+                ('raspberrypios-buster-armhf', 'unknown')
             )
 
     def test_printing_printable_attribute(self):
         """Tests if it's possible to print the value of the specified printable attribute. """
 
         includes = self._attrs_list.get_attribute(
-            ('raspbian-buster-armhf', 'includes')
+            ('raspberrypios-buster-armhf', 'includes')
         )
         # The includes type is list or str which are printable.
         includes.echo()
@@ -106,7 +106,7 @@ class AttrsTestCase(unittest.TestCase):
         """Tests if it's possible to print the value of the specified unprintable attribute. """
 
         kernel = self._attrs_list.get_attribute(
-            ('raspbian-buster-armhf', 'kernel')
+            ('raspberrypios-buster-armhf', 'kernel')
         )
         with self.assertRaises(attrs.UnprintableType):
             # The kernel type is dict, so that's why UnprintableType must be
