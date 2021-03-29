@@ -14,7 +14,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Features
 
-* The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Kali](https://kali.org), [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) and [Ubuntu](https://ubuntu.com/).
+* The images can be based on [Alpine](https://alpinelinux.org) and Debian-based distributions such as [Kali](https://kali.org), [Raspberry Pi OS](https://raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit) (formerly Raspbian) and [Ubuntu](https://ubuntu.com/).
 * 64-bit images based on Ubuntu.
 * OTA updates via [Mender](https://mender.io/).
 
@@ -48,7 +48,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 
 ## Supported Devices and OSes
 
-|                                                                                                                     | <sub>Alpine 3.12</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspbian 10 «Buster»</sub>  | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> | <sub>Ubuntu 20.04 «Focal Fossa»</sub> |
+|                                                                                                                     | <sub>Alpine 3.12</sub> | <sub>Debian 10 «Buster»</sub> | <sub>Kali Linux Rolling</sub>   |<sub>Raspberry Pi OS 10 «Buster»</sub>  | <sub>Ubuntu 16.04 «Xenial Xerus»</sub> | <sub>Ubuntu 18.04 «Bionic Beaver»</sub> | <sub>Ubuntu 20.04 «Focal Fossa»</sub> |
 |---------------------------------------------------------------------------------------------------------------------|:---------------------:|:-----------------------------:|:-------------------------------:|:-------------------------------:|:--------------------------------------:|:---------------------------------------:|:-------------------------------------:|
 | <sub>Orange Pi <a href="http://orangepi.org/orangepipcplus/">PC Plus</a></sub>                                      |                       | <sub>32bit</sub>              | <sub>32bit</sub>                |                                 |                                        |                                         |                                       |
 | <sub>Orange Pi <a href="http://www.orangepi.org/orangepizero/">Zero</a></sub>                                       |                       | <sub>32bit</sub>              | <sub>32bit</sub>                |                                 |                                        |                                         |                                       |
@@ -158,7 +158,7 @@ Finally, go to the next section to know how to use the script.
 
 ##### Usage
 
-Simply run `docker-pieman.sh` to create an image based on Raspbian Buster for Raspberry Pi 3.
+Simply run `docker-pieman.sh` to create an image based on Raspberry Pi OS Buster for Raspberry Pi 3.
 
 ```
 $ chmod +x docker-pieman.sh
@@ -208,7 +208,7 @@ Note that the virtual environment must be called `venv` and located at the root 
 
 ##### Usage
 
-Go to the project directory and execute the following command to create an image based on Raspbian Buster for Raspberry Pi 3:
+Go to the project directory and execute the following command to create an image based on Raspberry Pi OS Buster for Raspberry Pi 3:
 
 ```
 $ sudo ./pieman.sh
@@ -256,7 +256,7 @@ The operating system of the target image is specified via the `OS` environment v
 | Alpine [3.12](https://alpinelinux.org/posts/Alpine-3.12.0-released.html) (32-bit)                                    | alpine-3.12-armhf      |
 | Debian 10 «[Buster](https://debian.org/releases/buster/)» (32-bit)                                                   | debian-buster-armhf    |
 | Kali Linux Rolling (32-bit)                                                                                          | kali-rolling-armhf     |
-| Raspbian 10 «[Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/)» (32-bit)                | raspbian-buster-armhf  |
+| Raspberry Pi OS 10 «[Buster](https://raspberrypi.org/blog/buster-the-new-version-of-raspbian/)» (32-bit)             | raspberrypios-buster-armhf  |
 | Ubuntu 16.04 «[Xenial Xerus](https://wiki.ubuntu.com/XenialXerus/ReleaseNotes)» (32-bit)                             | ubuntu-xenial-armhf    |
 | Ubuntu 18.04 «[Bionic Beaver](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)» (32-bit)                           | ubuntu-bionic-armhf    |
 | Ubuntu 18.04 «[Bionic Beaver](https://wiki.ubuntu.com/BionicBeaver/ReleaseNotes)» (64-bit)                           | ubuntu-bionic-arm64    |
@@ -280,7 +280,7 @@ The device the target image is created for is specified via the `DEVICE` environ
 
 #### General
 
-##### OS="raspbian-buster-armhf"
+##### OS="raspberrypios-buster-armhf"
 
 Specifies the operating system to be used as a base for the target image. You can find all the possible values for the parameter in the table above (see the "Short name" column).
 
@@ -379,7 +379,7 @@ Note, that the parameter conflicts with `ENABLE_GOOGLE_DNS`, `ENABLE_BASIC_YANDE
 
 ##### ENABLE_WIRELESS=false
 
-Enables built-in WiFi (only for Raspbian Buster on Raspberry Pi 3 and Raspberry Pi Zero W so far).
+Enables built-in WiFi (only for Raspberry Pi OS Buster on Raspberry Pi 3 and Raspberry Pi Zero W so far).
 
 ##### HOST_NAME="pieman-${DEVICE}"
 
@@ -519,7 +519,7 @@ See the documentation page devoted to the [build status codes server and client]
 
 Specifies whether to install the Mender client to provide for OTA updates.
 
-Note that the OTA updates support is currently limited to 32-bit Raspbian for Raspberry Pi 3 Model B.
+Note that the OTA updates support is currently limited to 32-bit Raspberry Pi OS for Raspberry Pi 3 Model B.
 
 ##### MENDER_ARTIFACT_NAME="release-1_1.7.0"
 
