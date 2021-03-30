@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Copyright (C) 2019 Evgeny Golyshev <eugulixes@gmail.com>
+# Copyright (C) 2019-2021 Evgeny Golyshev <eugulixes@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,12 +16,15 @@
 
 """Test module for the pieman package. """
 
+import os
 import sys
 import unittest
 from io import StringIO
 from os.path import abspath, dirname
 
-from pieman import attrs
+import yaml
+
+from pieman import attrs, preprocessor
 
 
 class AttrsTestCase(unittest.TestCase):
@@ -114,6 +117,58 @@ class AttrsTestCase(unittest.TestCase):
             # The kernel type is dict, so that's why UnprintableType must be
             # raised when trying to print the value of the attribute.
             kernel.echo()
+
+
+class PreporcessorTestCase(unittest.TestCase):
+    """A class that implements the tests related to the preprocessor.py module. """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._toolset_yml = os.path.dirname(os.path.abspath(__file__)) + '/toolset.yml'
+
+        self._old_stdout = sys.stdout
+        self._new_stdout = StringIO()
+
+    def setUp(self):
+        sys.stdout = self._new_stdout
+
+    def tearDown(self):
+        sys.stdout.close()
+        sys.stdout = self._old_stdout
+
+        try:
+            del os.environ['TOOLSET_DIR']
+        except KeyError:
+            pass
+
+    def test_wrong_root_name(self):
+        """Tests if RootNameCouldNotBeFound is raised if a wrong root name was passed
+        to the preprocessor.
+        """
+
+        with self.assertRaises(preprocessor.RootNameCouldNotBeFound):
+            preprocessor.Preprocessor(self._toolset_yml, sys.stdout, 'toolset1')
+
+    def test_undefined_variable(self):
+        """Tests if UndefinedVariable is raised when the preprocessor meets
+        an undefined variable.
+        """
+
+        with self.assertRaises(preprocessor.UndefinedVariable):
+            preprocessor.Preprocessor(self._toolset_yml, sys.stdout, 'toolset')
+
+    def test_variable_substitution(self):
+        """Tests variable substitution, i.e. referencing (retrieving) variables values. """
+
+        os.environ['TOOLSET_DIR'] = toolset_dir = 'path/to/toolset'
+        preprocessor.Preprocessor(self._toolset_yml, sys.stdout, 'toolset')
+        parsed = yaml.load(sys.stdout.getvalue(), Loader=yaml.FullLoader)
+
+        arch = 'armhf'
+        version = parsed['toolset']['apk'][arch]['version']
+        dst = parsed['toolset']['apk'][arch]['dst']
+        self.assertEqual(dst, f"{toolset_dir}/apk/{version}/apk-{arch}.static")
 
 
 if __name__ == '__main__':
