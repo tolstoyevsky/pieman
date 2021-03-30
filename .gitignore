@@ -1,4 +1,5 @@
 .env
+.toolset.yml
 .idea
 .PKGINFO
 .SIGN.RSA.alpine-*
