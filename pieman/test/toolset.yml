@@ -1,0 +1,7 @@
+toolset:
+  apk:
+    armhf:
+      arch: ${parent_node_name}
+      version: '3.13'
+      dst: ${TOOLSET_DIR}/apk/${version}/apk-${parent_node_name}.static
+
