@@ -95,7 +95,7 @@ install_packages() {
 #     None
 configure_keyboard_configuration() {
     if is_debian_based; then
-        echo "keyboard-configuration keyboard-configuration/layout select English" | chroot_exec debconf-set-selections
+        echo "keyboard-configuration keyboard-configuration/layout select English (US)" | chroot_exec debconf-set-selections
     fi
 }
 
