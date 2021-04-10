@@ -25,7 +25,7 @@ info "Preparing ${FIRSTBOOT}"
 touch "${FIRSTBOOT}"
 chmod +x "${FIRSTBOOT}"
 
-for script in files/firstboot/*.sh; do
+for script in "${PIEMAN_DIR}"/files/firstboot/*.sh; do
     cat "${script}" >> "${FIRSTBOOT}"
 done
 
@@ -34,7 +34,7 @@ if is_alpine; then
     echo "rm -f /etc/local.d/90-firstboot.start" >> "${ETC}"/local.d/90-firstboot.start
 elif is_debian_based; then
     install_exec "${FIRSTBOOT}" "${ETC}"/rc.firstboot
-    install_exec files/etc/rc.local "${ETC}"/rc.local
+    install_exec "${PIEMAN_DIR}"/files/etc/rc.local "${ETC}"/rc.local
 
     # /etc/rc.firstboot has to destroy itself and its traces after first run.
     cat <<EOT >> "${ETC}"/rc.firstboot

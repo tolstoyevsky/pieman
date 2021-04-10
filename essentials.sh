@@ -65,10 +65,10 @@ IMAGE_MENDER_ARTIFACT=3
 # Returns:
 #     None
 activate_venv_if_exists() {
-    if [[ -d venv ]] && [[ -f venv/bin/python ]]; then
+    if [[ -d "${PIEMAN_DIR}"/venv ]] && [[ -f "${PIEMAN_DIR}"/venv/bin/python ]]; then
         info "activating the venv virtual environment"
         # shellcheck disable=SC1091
-        source ./venv/bin/activate
+        source "${PIEMAN_DIR}"/venv/bin/activate
     fi
 }
 

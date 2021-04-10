@@ -55,10 +55,10 @@ elif is_debian_based; then
     fi
 fi
 
-install_readonly files/etc/hostname.template "${ETC}"/hostname
+install_readonly "${PIEMAN_DIR}"/files/etc/hostname.template "${ETC}"/hostname
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hostname"
 
-install_readonly files/etc/hosts.template "${ETC}"/hosts
+install_readonly "${PIEMAN_DIR}"/files/etc/hosts.template "${ETC}"/hosts
 sed -i "s/{HOSTNAME}/${HOST_NAME}/" "${ETC}/hosts"
 
 render "${PIEMAN_DIR}"/files/network/interfaces.j2 "${ETC}"/network/interfaces
@@ -72,7 +72,7 @@ if ${ENABLE_WIRELESS}; then
         wget https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/86e88fbf0345da49555d0ec34c80b4fbae7d0cd3/brcm/brcmfmac43430-sdio.bin -O "${R}"/lib/firmware/brcm/brcmfmac43430-sdio.bin
         wget https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/86e88fbf0345da49555d0ec34c80b4fbae7d0cd3/brcm/brcmfmac43430-sdio.txt -O "${R}"/lib/firmware/brcm/brcmfmac43430-sdio.txt
 
-        install_readonly files/network/wpa_supplicant.conf "${ETC}"/wpa_supplicant/wpa_supplicant.conf
+        install_readonly "${PIEMAN_DIR}"/files/network/wpa_supplicant.conf "${ETC}"/wpa_supplicant/wpa_supplicant.conf
 
         if [[ -n ${WPA_SSID} ]]; then
             do_wpa_passphrase >> "${ETC}"/wpa_supplicant/wpa_supplicant.conf
@@ -87,7 +87,7 @@ if is_alpine; then
     info "Adding the networking service to the default runlevel"
     chroot_exec rc-update add networking default
 
-    install_exec files/etc/local.d/11-up_eth0.start "${ETC}"/local.d/11-up_eth0.start
+    install_exec "${PIEMAN_DIR}"/files/etc/local.d/11-up_eth0.start "${ETC}"/local.d/11-up_eth0.start
 
     # The networking service should depend on the local service since one of
     # the scripts from /etc/local.d raises the network interface.

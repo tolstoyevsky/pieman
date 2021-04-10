@@ -310,9 +310,9 @@ Restricts Pieman to only creating a chroot environment based on the operating sy
 
 Specifies the locale.
 
-##### PIEMAN_DIR="$(pwd)"
+##### PIEMAN_DIR="$( dirname "$(readlink -f "$0")" )"
 
-Specifies the directory into which Pieman is installed.
+Specifies the directory into which Pieman is installed. See [this](https://stackoverflow.com/a/1482133) answer on StackOverflow to know how the default value works.
 
 ##### PREPARE_ONLY_TOOLSET=false
 

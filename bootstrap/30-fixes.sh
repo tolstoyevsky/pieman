@@ -16,7 +16,7 @@
 if is_alpine; then
     # For some reason the rw parameter in cmdline.txt is ignored, so the rootfs
     # should be remounted at startup.
-    install_exec files/etc/local.d/10-remount_root.start "${ETC}"/local.d/10-remount_root.start
+    install_exec "${PIEMAN_DIR}"/files/etc/local.d/10-remount_root.start "${ETC}"/local.d/10-remount_root.start
 
     # Since the system is already installed, the message may confuse users.
     sed -i '/You can setup the system/,+1d' "${ETC}/motd"
