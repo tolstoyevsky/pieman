@@ -509,6 +509,9 @@ Restricts Pieman to only creating an artifact (a file with the `.mender` extensi
 
 Note, that the parameter conflicts with `CREATE_ONLY_CHROOT` and `ENABLE_MENDER`.
 
+##### CUSTOM_CONFIG_TXT=""
+Specifies the path to a custom config.txt file to be used instead of the default config.txt file. It makes sense for Raspberry Pi boards only.
+
 ##### ENABLE_BSC_CHANNEL=false
 
 Specifies whether to run the build status codes server (also known as bscd). If the parameter is set to `true`, Pieman will check the connection to the Redis server (specified via `REDIS_HOST` and `REDIS_PORT`) and, in case there is no problem with that, it will be pushing the build status codes to the channel named `bscd-${PROJECT_NAME}`.
