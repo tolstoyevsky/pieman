@@ -153,7 +153,7 @@ def main():
     """The main entry point. """
 
     setup(name=PACKAGE_NAME,
-          version='0.4',
+          version='0.5',
           description='Pieman devices package',
           long_description=LONG_DESCRIPTION,
           url='https://github.com/tolstoyevsky/pieman/tree/master/devices',
