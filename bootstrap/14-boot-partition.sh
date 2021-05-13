@@ -18,8 +18,6 @@
 # requires some of the files which are available only after installation all
 # of the specified packages, including the kernel package.
 
-check_if_variable_is_set SOURCE_DIR
-
 # Get the files, which must present on the boot partition, from different
 # sources and put them in the directory specified via BOOT.
 boot="$(get_attr boot)"

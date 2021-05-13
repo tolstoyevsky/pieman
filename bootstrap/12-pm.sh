@@ -13,10 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-for var in CREATE_ONLY_CHROOT ENABLE_NONFREE ENABLE_UNIVERSE ETC PIECES; do
-    check_if_variable_is_set ${var}
-done
-
 if ${ALLOW_UNAUTHENTICATED}; then
     if is_alpine; then
         add_option_to_pm_options --allow-untrusted
