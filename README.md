@@ -76,7 +76,7 @@ Pieman is a core component of [CusDeb](https://cusdeb.com).
 * Python
   * Development libraries and header files related to Python 2.7
   * Python 2.7
-  * Python 3 (3.5 or higher)
+  * Python 3 (3.7 or higher)
   * Setuptools
 * Utils
   * dosfstools
