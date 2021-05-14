@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-check_if_variable_is_set ETC
-
 if is_alpine; then
     info "Adding the local service to the default runlevel"
     chroot_exec rc-update add local default

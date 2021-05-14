@@ -13,13 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-check_if_variable_is_set \
-    ENABLE_CUSTOM_DNS \
-    ENABLE_BASIC_YANDEX_DNS \
-    ENABLE_FAMILY_YANDEX_DNS \
-    ENABLE_GOOGLE_DNS \
-    ETC
-
 dns_addr1=""
 dns_addr2=""
 dns_is_set=false

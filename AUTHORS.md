@@ -14,3 +14,4 @@ We thank all the contributors to the project. Here is the full list of the peopl
 * [Anton Maksimovich](https://github.com/ABSLord)
 * [Dmitriy Ivanko](https://github.com/Themanwhosmellslikesugar)
 * [Vladislav Iarovoy](https://github.com/IrovoyVlad)
+* [Artem Lavruhin](https://github.com/Artem4590)

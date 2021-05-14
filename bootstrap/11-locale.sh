@@ -14,11 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-if ! check_if_variable_is_set TIME_ZONE; then
-    >&2 echo "TIME_ZONE is not specified"
-    exit 1
-fi
-
 info "setting up locale"
 
 if is_debian_based; then
